@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 <meta name="theme-color" content="#2d7a68" />
-<title>Imparo Ingester v3.1 — مع الأفعال والبرومبت الذكي</title>
+<title>Imparo Ingester v3.2 — إدارة ذكية للأفعال</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%232d7a68'/><text x='50' y='68' font-size='60' text-anchor='middle' fill='white' font-family='Georgia'>I</text></svg>">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -31,7 +31,6 @@ html, body {
 body { min-height: 100vh; }
 .app { max-width: 720px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; background: var(--bg); }
 
-/* Header */
 .app-header {
   position: sticky; top: 0; z-index: 20;
   display: flex; align-items: center; justify-content: space-between;
@@ -61,7 +60,6 @@ body { min-height: 100vh; }
 
 .app-main { flex: 1; padding: 16px; padding-bottom: 40px; display: flex; flex-direction: column; gap: 14px; }
 
-/* Tab Navigation */
 .tab-nav {
   display: flex; gap: 4px;
   background: var(--surface); padding: 5px;
@@ -145,6 +143,9 @@ body { min-height: 100vh; }
 .btn-primary:disabled { background: #b9c7c3; box-shadow: none; }
 .btn-ghost { background: var(--surface-2); color: var(--text); box-shadow: none; border: 1px solid var(--border); }
 .btn-ghost:hover:not(:disabled) { background: var(--border); }
+.btn-purple { background: var(--purple); color: #fff; box-shadow: 0 6px 16px rgba(124,77,204,.28); }
+.btn-purple:hover:not(:disabled) { background: #6938b8; }
+.btn-purple:disabled { background: #b9c7c3; box-shadow: none; }
 
 .btn.loading::after {
   content: ''; width: 14px; height: 14px;
@@ -154,7 +155,6 @@ body { min-height: 100vh; }
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* Form */
 .form-label { display: block; font-size: 12px; font-weight: 700; color: var(--text-soft); margin-bottom: 4px; }
 .form-input {
   width: 100%; padding: 10px 12px;
@@ -181,7 +181,6 @@ body { min-height: 100vh; }
 .reflexive-block .form-label { color: #7c4dcc; }
 .reflexive-block h4 { font-size: 13px; margin: 0 0 10px; color: #7c4dcc; font-weight: 800; }
 
-/* Verbs list */
 .verb-item {
   display: flex; align-items: flex-start; gap: 10px;
   padding: 12px 14px; background: var(--surface-2);
@@ -215,7 +214,6 @@ body { min-height: 100vh; }
 .verb-item-actions button:hover { background: var(--border); }
 .verb-item-actions .danger { color: var(--danger); }
 
-/* Results / History */
 .results-card { background: linear-gradient(135deg, #fff, #f1faf6); border-color: #c7e8db; }
 .results-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
 .result-item { padding: 12px; background: var(--surface); border-radius: var(--radius-sm); border: 1px solid var(--border); text-align: center; }
@@ -251,7 +249,6 @@ body { min-height: 100vh; }
 .toast.err { background: var(--danger); }
 .toast.warn { background: var(--warn); color: #3a2c05; }
 
-/* Modals */
 .prompt-overlay, .preview-overlay, .verb-prompt-overlay {
   position: fixed; inset: 0; z-index: 100;
   background: rgba(20,30,28,.55); backdrop-filter: blur(4px);
@@ -293,7 +290,6 @@ body { min-height: 100vh; }
   flex: 1; padding: 11px 14px; font-size: 13.5px;
 }
 
-/* Verb prompt modal — options */
 .tense-options {
   background: var(--purple-soft);
   border: 1px solid #e0d5f5;
@@ -302,10 +298,8 @@ body { min-height: 100vh; }
   margin-bottom: 14px;
 }
 .tense-options-title {
-  font-size: 13px;
-  font-weight: 800;
-  color: var(--purple);
-  margin-bottom: 10px;
+  font-size: 13px; font-weight: 800;
+  color: var(--purple); margin-bottom: 10px;
   display: flex; align-items: center; gap: 6px;
 }
 .tense-checkbox {
@@ -313,8 +307,7 @@ body { min-height: 100vh; }
   padding: 10px 12px;
   background: var(--surface);
   border: 1.5px solid var(--border);
-  border-radius: 10px;
-  cursor: pointer;
+  border-radius: 10px; cursor: pointer;
   margin-bottom: 8px;
   transition: border-color .15s ease, background .15s ease;
 }
@@ -339,8 +332,7 @@ body { min-height: 100vh; }
 .tense-checkbox .lock-badge {
   font-size: 9.5px; padding: 1px 6px;
   background: var(--success-soft); color: var(--success);
-  border-radius: 4px; font-weight: 800;
-  letter-spacing: .2px;
+  border-radius: 4px; font-weight: 800; letter-spacing: .2px;
 }
 .verb-prompt-preview-label {
   font-size: 12.5px; font-weight: 800;
@@ -348,21 +340,17 @@ body { min-height: 100vh; }
   display: flex; align-items: center; gap: 6px;
 }
 .verb-prompt-preview {
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 12px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 12px;
   font-family: "Consolas", "Monaco", "Courier New", monospace;
   font-size: 11.5px; line-height: 1.6;
   white-space: pre-wrap; color: var(--text);
-  direction: rtl;
-  max-height: 220px; overflow-y: auto;
+  direction: rtl; max-height: 220px; overflow-y: auto;
 }
 
-/* Preview modal (JSON) */
 .preview-modal {
   background: var(--surface); border-radius: var(--radius-lg);
-  width: 100%; max-width: 720px; max-height: 92vh;
+  width: 100%; max-width: 760px; max-height: 92vh;
   display: flex; flex-direction: column;
   box-shadow: var(--shadow-lg); animation: slideUp .25s ease;
   overflow: hidden;
@@ -380,6 +368,8 @@ body { min-height: 100vh; }
 .preview-stat.success .stat-value { color: var(--success); }
 .preview-stat.added .stat-value { color: var(--info); }
 .preview-stat.skipped .stat-value { color: var(--warn); }
+.preview-stat.collision { border-color: var(--warn); background: var(--warn-soft); }
+.preview-stat.collision .stat-value { color: #a76b0f; }
 .preview-tabs { display: flex; gap: 4px; padding: 10px 12px 0; border-bottom: 1px solid var(--border); background: var(--surface); overflow-x: auto; flex-shrink: 0; }
 .preview-tab-btn {
   border: none; background: transparent;
@@ -393,6 +383,8 @@ body { min-height: 100vh; }
 .preview-tab-btn.active { color: var(--primary-dark); border-bottom-color: var(--primary); background: var(--surface-2); }
 .preview-tab-btn .tab-count { background: var(--primary-soft); color: var(--primary-dark); padding: 1px 7px; border-radius: 999px; font-size: 10.5px; font-weight: 800; }
 .preview-tab-btn.active .tab-count { background: var(--primary); color: #fff; }
+.preview-tab-btn.collision-tab .tab-count { background: var(--warn-soft); color: #a76b0f; }
+.preview-tab-btn.collision-tab.active .tab-count { background: var(--warn); color: #fff; }
 .preview-modal-body { flex: 1; overflow-y: auto; padding: 12px 16px; min-height: 180px; max-height: 55vh; }
 .preview-tab-content { display: flex; flex-direction: column; gap: 8px; }
 .preview-list-item { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; display: flex; gap: 10px; }
@@ -418,6 +410,172 @@ body { min-height: 100vh; }
 .preview-modal-footer .btn-primary { flex: 2; }
 .preview-modal-footer .btn-ghost { flex: 1; }
 
+/* ============ Collision UI ============ */
+.collision-card {
+  background: #fffbf2;
+  border: 1.5px solid #f0d8a0;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+.collision-card:last-child { margin-bottom: 0; }
+.collision-header {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.collision-word {
+  font-family: "Georgia", serif;
+  font-weight: 800; font-size: 16px;
+  color: #a76b0f;
+  direction: ltr;
+  display: flex; align-items: center; gap: 8px;
+}
+.collision-badge {
+  font-size: 10px; font-weight: 800;
+  padding: 2px 8px; border-radius: 5px;
+  background: var(--warn); color: #fff;
+}
+.collision-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.collision-side {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  min-height: 80px;
+}
+.collision-side.new-side {
+  background: #f0f9f4;
+  border-color: #b8e6d2;
+}
+.collision-side-label {
+  font-size: 10.5px; font-weight: 800;
+  color: var(--text-soft);
+  margin-bottom: 4px;
+  display: flex; align-items: center; gap: 4px;
+}
+.collision-side.new-side .collision-side-label { color: #2c8159; }
+.collision-side-meaning {
+  font-size: 12.5px;
+  color: var(--text);
+  margin-bottom: 4px;
+  word-break: break-word;
+}
+.collision-side-summary {
+  font-size: 10.5px;
+  color: var(--text-soft);
+  line-height: 1.5;
+  padding: 5px 7px;
+  background: var(--surface-2);
+  border-radius: 5px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 80px;
+  overflow-y: auto;
+  margin-top: 4px;
+}
+.collision-actions-title {
+  font-size: 11px; font-weight: 800;
+  color: var(--text-soft);
+  margin-bottom: 6px;
+}
+.collision-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+.collision-action-btn {
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 8px 6px;
+  font-family: inherit;
+  font-size: 11.5px; font-weight: 700;
+  color: var(--text-soft);
+  cursor: pointer;
+  transition: all .15s ease;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.collision-action-btn .icon { font-size: 16px; }
+.collision-action-btn:hover { border-color: var(--primary); color: var(--primary-dark); }
+.collision-action-btn.active {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+}
+.collision-action-btn.active[data-action="ignore"] {
+  border-color: var(--text-soft);
+  background: #f0f0f0;
+  color: var(--text);
+}
+.collision-action-btn.active[data-action="replace"] {
+  border-color: var(--danger);
+  background: var(--danger-soft);
+  color: #a94633;
+}
+.collision-action-btn.active[data-action="merge-tenses"] {
+  border-color: var(--info);
+  background: var(--info-soft);
+  color: #2a4cb5;
+}
+.collision-preview {
+  margin-top: 8px;
+  padding: 6px 9px;
+  background: var(--info-soft);
+  border: 1px dashed var(--info);
+  border-radius: 6px;
+  font-size: 11px;
+  color: #2a4cb5;
+  line-height: 1.5;
+  display: none;
+}
+.collision-preview.show { display: block; }
+.collision-preview strong { font-weight: 800; }
+
+.collision-bulk {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  padding: 10px 12px;
+  background: var(--surface-2);
+  border-radius: 10px;
+  margin-bottom: 12px;
+  align-items: center;
+}
+.collision-bulk-label {
+  font-size: 11.5px; font-weight: 800;
+  color: var(--text-soft);
+  margin-inline-end: auto;
+}
+.collision-bulk-btn {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 11px; font-weight: 700;
+  color: var(--text-soft);
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.collision-bulk-btn:hover { background: var(--primary-soft); color: var(--primary-dark); border-color: var(--primary); }
+
+.collision-new-tenses-hint {
+  font-size: 10.5px;
+  color: var(--info);
+  font-weight: 700;
+  margin-top: 4px;
+}
+
 .btn-icon {
   background: transparent; border: none;
   width: 34px; height: 34px; border-radius: 50%;
@@ -439,6 +597,8 @@ body { min-height: 100vh; }
   .tab-btn { font-size: 12.5px; padding: 9px 10px; }
   .form-row-2 { grid-template-columns: 1fr; }
   .verb-prompt-modal { max-height: 94vh; }
+  .collision-compare { grid-template-columns: 1fr; }
+  .collision-actions { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -449,7 +609,7 @@ body { min-height: 100vh; }
     <div class="brand">
       <span class="brand-dot"></span>
       <div>
-        <h1>Imparo <span class="subtitle">INGESTER v3.1</span></h1>
+        <h1>Imparo <span class="subtitle">INGESTER v3.2</span></h1>
       </div>
     </div>
     <div class="header-actions">
@@ -480,7 +640,7 @@ body { min-height: 100vh; }
         <ol>
           <li>اضغط <strong>"برومبت الجمل"</strong> أو <strong>"برومبت الأفعال"</strong> أعلى الصفحة.</li>
           <li>الصق البرومبت في ChatGPT/Claude مع بياناتك.</li>
-          <li>الصق ناتج JSON في المربع أدناه.</li>
+          <li>الصق ناتج JSON في المربع أدناه (أو في حقل الأفعال بتبويب "الأفعال").</li>
           <li>اضغط <strong>"تحليل ومعاينة"</strong> → راجع → <strong>"رفع"</strong>.</li>
         </ol>
       </div>
@@ -515,11 +675,30 @@ body { min-height: 100vh; }
 
     <!-- ============ TAB 2: VERBS ============ -->
     <div id="tab-verbs" hidden>
+
+      <!-- ⭐ حقل أفعال AI -->
+      <div class="card" style="background: linear-gradient(135deg, #fff, #faf6ff); border-color: #e0d5f5;">
+        <h3 class="section-title" style="color: var(--purple);">🤖 إدخال أفعال من AI</h3>
+        <p style="font-size: 12.5px; color: var(--text-soft); margin-bottom: 10px; line-height: 1.6;">
+          اضغط <strong>"🔤 برومبت الأفعال"</strong> أعلى الصفحة → اختر الأزمنة → انسخ → الصق ناتج AI هنا مباشرة.
+          يقبل الأفعال بالمضارع فقط أو مع أي أزمنة إضافية (انعكاسي، ماضي، مستقبل).
+        </p>
+        <textarea id="verbAiInput" class="json-input" placeholder='الصق هنا ناتج AI للأفعال (JSON)…' style="min-height: 140px;" spellcheck="false"></textarea>
+        <div class="input-meta">
+          <span id="verbAiStatus" class="input-status">بانتظار النص…</span>
+          <div class="input-meta-actions">
+            <button class="mini-btn" id="btnVerbAiClear">🗑️ مسح</button>
+          </div>
+        </div>
+        <button class="btn btn-purple" id="btnAnalyzeVerbAI" disabled>
+          🔍 معاينة ورفع الأفعال
+        </button>
+      </div>
+
       <div class="card instructions" style="background: linear-gradient(135deg, #fff, #fff8e6); border-color: #f0d8a0;">
-        <h3 style="color: #a76b0f;">💡 إضافة فعل يدويًا</h3>
+        <h3 style="color: #a76b0f;">💡 أو أضف فعلًا يدويًا</h3>
         <p style="font-size: 13px; color: var(--text-soft); line-height: 1.7;">
-          للاستخدام اليدوي: أضف الفعل بمصدره وتصريفاته. للاستخدام السريع من AI:
-          استخدم <strong>"برومبت الأفعال"</strong> أعلى الصفحة، ثم الصق الناتج في تبويب JSON.
+          استخدم النموذج أدناه للتحكم الكامل: الإدخال اليدوي، التعديل، الحذف، والتصريفات المنفصلة للمنعكس.
         </p>
       </div>
 
@@ -577,7 +756,7 @@ body { min-height: 100vh; }
   </main>
 </div>
 
-<!-- Preview Modal (JSON) -->
+<!-- Preview Modal -->
 <div class="preview-overlay" id="previewOverlay">
   <div class="preview-modal">
     <div class="preview-modal-header">
@@ -586,11 +765,13 @@ body { min-height: 100vh; }
     </div>
     <div class="preview-summary" id="previewSummary"></div>
     <div class="preview-tabs" id="previewTabs">
-      <button class="preview-tab-btn active" data-tab="sentences">📅 الجمل</button>
-      <button class="preview-tab-btn" data-tab="dictionary">📖 القاموس</button>
-      <button class="preview-tab-btn" data-tab="skipped">⏭️ متجاهَل</button>
+      <button class="preview-tab-btn collision-tab" data-tab="collisions" id="previewTabBtnCollisions" hidden>⚠️ تعارضات <span class="tab-count" id="collisionsTabCount">0</span></button>
+      <button class="preview-tab-btn active" data-tab="sentences" id="previewTabBtnSentences">📅 الجمل</button>
+      <button class="preview-tab-btn" data-tab="dictionary" id="previewTabBtnDictionary">📖 القاموس</button>
+      <button class="preview-tab-btn" data-tab="skipped" id="previewTabBtnSkipped">⏭️ متجاهَل</button>
     </div>
     <div class="preview-modal-body">
+      <div class="preview-tab-content" data-tab-content="collisions" id="previewTabCollisions" hidden></div>
       <div class="preview-tab-content" data-tab-content="sentences" id="previewTabSentences"></div>
       <div class="preview-tab-content" data-tab-content="dictionary" id="previewTabDictionary" hidden></div>
       <div class="preview-tab-content" data-tab-content="skipped" id="previewTabSkipped" hidden></div>
@@ -602,7 +783,7 @@ body { min-height: 100vh; }
   </div>
 </div>
 
-<!-- Prompt Modal (Sentences) -->
+<!-- Prompt Modal -->
 <div class="prompt-overlay" id="promptOverlay">
   <div class="prompt-modal">
     <div class="prompt-modal-header">
@@ -619,7 +800,7 @@ body { min-height: 100vh; }
   </div>
 </div>
 
-<!-- Verb Prompt Modal (اختيار الأزمنة قبل النسخ) -->
+<!-- Verb Prompt Modal -->
 <div class="verb-prompt-overlay" id="verbPromptOverlay">
   <div class="verb-prompt-modal">
     <div class="verb-prompt-modal-header">
@@ -627,7 +808,6 @@ body { min-height: 100vh; }
       <button class="btn-icon" id="btnCloseVerbPrompt">✕</button>
     </div>
     <div class="verb-prompt-modal-body">
-
       <div class="tense-options">
         <div class="tense-options-title">
           <span>⚙️ اختر الأزمنة التي تريد أن يستخرجها الذكاء الاصطناعي:</span>
@@ -640,9 +820,7 @@ body { min-height: 100vh; }
               <span>📝 المضارع (Presente)</span>
               <span class="lock-badge">أساسي دائمًا</span>
             </div>
-            <div class="tense-checkbox-desc">
-              io, tu, lui/lei, noi, voi, loro — مضمّن بشكل إلزامي.
-            </div>
+            <div class="tense-checkbox-desc">io, tu, lui/lei, noi, voi, loro — مضمّن بشكل إلزامي.</div>
           </div>
         </label>
 
@@ -650,9 +828,7 @@ body { min-height: 100vh; }
           <input type="checkbox" id="chkRiflessivo" />
           <div class="tense-checkbox-content">
             <div class="tense-checkbox-label">🔄 الانعكاسي (Forma Riflessiva)</div>
-            <div class="tense-checkbox-desc">
-              mi, ti, si, ci, vi, si — أضفه إذا كان الفعل يقبل الصيغة الانعكاسية.
-            </div>
+            <div class="tense-checkbox-desc">mi, ti, si, ci, vi, si — أضفه إذا كان الفعل يقبل الصيغة الانعكاسية.</div>
           </div>
         </label>
 
@@ -660,9 +836,7 @@ body { min-height: 100vh; }
           <input type="checkbox" id="chkPassato" />
           <div class="tense-checkbox-content">
             <div class="tense-checkbox-label">⏳ الماضي القريب (Passato Prossimo)</div>
-            <div class="tense-checkbox-desc">
-              مع تحديد الفعل المساعد essere / avere لكل تصريف.
-            </div>
+            <div class="tense-checkbox-desc">مع تحديد الفعل المساعد essere / avere لكل تصريف.</div>
           </div>
         </label>
 
@@ -670,9 +844,7 @@ body { min-height: 100vh; }
           <input type="checkbox" id="chkFuturo" />
           <div class="tense-checkbox-content">
             <div class="tense-checkbox-label">⏭️ المستقبل البسيط (Futuro Semplice)</div>
-            <div class="tense-checkbox-desc">
-              io ...erò / ...irò — حسب مجموعة الفعل.
-            </div>
+            <div class="tense-checkbox-desc">io ...erò / ...irò — حسب مجموعة الفعل.</div>
           </div>
         </label>
       </div>
@@ -681,10 +853,9 @@ body { min-height: 100vh; }
         <span>👁️ معاينة البرومبت (يتحدّث تلقائيًا)</span>
       </div>
       <div class="verb-prompt-preview" id="verbPromptPreview"></div>
-
     </div>
     <div class="verb-prompt-modal-footer">
-      <button class="btn btn-primary" id="btnCopyVerbFromModal" style="background: var(--purple);">📋 نسخ البرومبت المخصّص</button>
+      <button class="btn btn-purple" id="btnCopyVerbFromModal">📋 نسخ البرومبت المخصّص</button>
       <button class="btn btn-ghost" id="btnCloseVerbPromptBottom">إغلاق</button>
     </div>
   </div>
@@ -716,7 +887,6 @@ body { min-height: 100vh; }
   const PRONOUN_KEYS = ['io', 'tu', 'lui', 'noi', 'voi', 'loro'];
   const PRONOUN_INPUTS = ['Io', 'Tu', 'Lui', 'Noi', 'Voi', 'Loro'];
 
-  /* ============ AI PROMPT — الجمل ============ */
   const AI_PROMPT = `أنا أتعلم اللغة الإيطالية. سأعطيك قائمة بالجمل الإيطالية التي دونتها أثناء المذاكرة.
 المطلوب منك بدقة عالية تحليلياً ولغوياً:
 
@@ -732,10 +902,7 @@ body { min-height: 100vh; }
 
 {
   "sentences": [
-    {
-      "italian": "الجملة الإيطالية كاملة",
-      "arabic": "الترجمة العربية للجملة"
-    }
+    { "italian": "الجملة الإيطالية كاملة", "arabic": "الترجمة العربية للجملة" }
   ],
   "dictionary": [
     {
@@ -751,23 +918,13 @@ body { min-height: 100vh; }
 إليك الجمل:
 [ضع جملك الإيطالية هنا]`;
 
-  /* ============ دالة توليد برومبت الأفعال ديناميكياً ============ */
   function buildVerbPrompt(opts) {
     const lines = [];
-
-    // 3. قائمة الأزمنة (المضارع دائمًا + الخيارات)
     lines.push('- تصريفات الفعل في زمن المضارع (Presente) [أساسي دائمًا].');
-    if (opts.riflessivo) {
-      lines.push('- تصريفات الفعل الانعكاسي (Forma Riflessiva / Verbi Riflessivi) إن وُجد أو ينطبق.');
-    }
-    if (opts.passato) {
-      lines.push('- تصريفات زمن الماضي القريب (Passato Prossimo) مع تحديد الفعل المساعد (essere / avere).');
-    }
-    if (opts.futuro) {
-      lines.push('- تصريفات زمن المستقبل البسيط (Futuro Semplice).');
-    }
+    if (opts.riflessivo) lines.push('- تصريفات الفعل الانعكاسي (Forma Riflessiva / Verbi Riflessivi) إن وُجد أو ينطبق.');
+    if (opts.passato) lines.push('- تصريفات زمن الماضي القريب (Passato Prossimo) مع تحديد الفعل المساعد (essere / avere).');
+    if (opts.futuro) lines.push('- تصريفات زمن المستقبل البسيط (Futuro Semplice).');
 
-    // بناء حقل summary النموذجي حسب الخيارات
     const summaryParts = ['المضارع: (io ..., tu ..., lui/lei ..., noi ..., voi ..., loro ...)'];
     if (opts.riflessivo) summaryParts.push('الانعكاسي: (mi ..., ti ..., si ..., ci ..., vi ..., si ...)');
     if (opts.passato) summaryParts.push('الماضي القريب: (io ho/sono ..., tu hai/sei ..., ...)');
@@ -801,7 +958,6 @@ ${lines.join('\n')}
 [ضع أفعالك هنا]`;
   }
 
-  /* ============ State ============ */
   const state = {
     db: null,
     ready: false,
@@ -811,7 +967,6 @@ ${lines.join('\n')}
     verbPromptOptions: { riflessivo: false, passato: false, futuro: false }
   };
 
-  /* ============ Helpers ============ */
   const $ = sel => document.querySelector(sel);
   const $$ = sel => Array.from(document.querySelectorAll(sel));
 
@@ -828,6 +983,10 @@ ${lines.join('\n')}
   }
   function setStatus(text, type = '') {
     const el = $('#inputStatus'); if (!el) return;
+    el.textContent = text; el.className = 'input-status ' + type;
+  }
+  function setVerbAiStatus(text, type = '') {
+    const el = $('#verbAiStatus'); if (!el) return;
     el.textContent = text; el.className = 'input-status ' + type;
   }
   function normalizeKey(word) {
@@ -852,6 +1011,50 @@ ${lines.join('\n')}
   function compareMeanings(oldM, newM) {
     const merged = mergeMeanings(oldM, newM);
     return { merged, added: merged !== String(oldM || '').trim(), same: merged === String(oldM || '').trim() };
+  }
+
+  /* =========================================================
+     Tense parsing/merging — لدمج الأزمنة الجديدة فقط
+     ========================================================= */
+  function parseTenseSections(summary) {
+    const sections = {};
+    if (!summary) return sections;
+    const parts = String(summary).split(/\s*\|\s*|\n+/).map(s => s.trim()).filter(Boolean);
+    parts.forEach(part => {
+      const lower = part.toLowerCase();
+      let key = null;
+      if (/المضارع|presente/.test(lower)) key = 'presente';
+      else if (/انعكاس|riflessiv/.test(lower)) key = 'riflessivo';
+      else if (/ماضي قريب|passato prossimo/.test(lower)) key = 'passato';
+      else if (/مستقبل|futuro/.test(lower)) key = 'futuro';
+      else {
+        const m = part.match(/^([^:]+):/);
+        key = m ? m[1].trim().toLowerCase() : 'section_' + part.substring(0, 15).toLowerCase().replace(/\s+/g, '_');
+      }
+      if (!sections[key]) sections[key] = part;
+    });
+    return sections;
+  }
+
+  function mergeTenses(oldSummary, newSummary) {
+    const oldSections = parseTenseSections(oldSummary);
+    const newSections = parseTenseSections(newSummary);
+    const merged = {};
+    Object.keys(oldSections).forEach(k => { merged[k] = oldSections[k]; });
+    Object.keys(newSections).forEach(k => {
+      if (!merged[k]) merged[k] = newSections[k];
+    });
+    return Object.values(merged).join(' | ');
+  }
+
+  function getNewTenseSections(oldSummary, newSummary) {
+    const oldSections = parseTenseSections(oldSummary);
+    const newSections = parseTenseSections(newSummary);
+    const newKeys = [];
+    Object.keys(newSections).forEach(k => {
+      if (!oldSections[k]) newKeys.push({ key: k, text: newSections[k] });
+    });
+    return newKeys;
   }
 
   /* ============ Firebase Init ============ */
@@ -1031,7 +1234,7 @@ ${lines.join('\n')}
     wrap.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', () => deleteVerb(b.dataset.del)));
   }
 
-  /* ============ Parse JSON ============ */
+  /* ============ Parsing ============ */
   function stripCodeFences(text) {
     return String(text)
       .replace(/^\s*```json\s*/i, '')
@@ -1088,6 +1291,52 @@ ${lines.join('\n')}
     return map;
   }
 
+  /* ============ Verb AI Input ============ */
+  function parseVerbAIInput(raw) {
+    const text = stripCodeFences(raw);
+    if (!text) throw new Error('الصق JSON أولاً');
+    let data; try { data = JSON.parse(text); } catch (e) { throw new Error('JSON غير صالح — ' + e.message); }
+    let list = [];
+    if (Array.isArray(data)) list = data;
+    else if (data && typeof data === 'object') {
+      if (Array.isArray(data.dictionary)) list = data.dictionary;
+      else if (Array.isArray(data.verbs)) list = data.verbs;
+      else if (data.word || data.lemma) list = [data];
+    }
+    const verbs = list.map(d => {
+      if (!d || typeof d !== 'object') return null;
+      const word = String(d.word || '').trim();
+      const lemma = String(d.lemma || '').trim();
+      if (!word && !lemma) return null;
+      return {
+        word: word || lemma,
+        lemma: lemma || word,
+        type: 'verb',
+        meaning: String(d.meaning || '').trim(),
+        summary: String(d.summary || '').trim()
+      };
+    }).filter(Boolean);
+    if (!verbs.length) throw new Error('لم يُعثر على أفعال صالحة (تحقق من word/lemma و meaning)');
+    return { dictionary: verbs };
+  }
+
+  function previewVerbAIInput() {
+    const text = $('#verbAiInput').value.trim();
+    const btn = $('#btnAnalyzeVerbAI');
+    const ta = $('#verbAiInput');
+    if (!text) { setVerbAiStatus('بانتظار النص…'); btn.disabled = true; ta.classList.remove('valid','invalid'); return; }
+    try {
+      const parsed = parseVerbAIInput(text);
+      setVerbAiStatus(`✅ ${parsed.dictionary.length} فعل جاهز للمعاينة`, 'ok');
+      btn.disabled = false;
+      ta.classList.add('valid'); ta.classList.remove('invalid');
+    } catch (e) {
+      setVerbAiStatus('⚠️ ' + e.message, 'err');
+      btn.disabled = true;
+      ta.classList.add('invalid'); ta.classList.remove('valid');
+    }
+  }
+
   function previewInput() {
     const text = $('#jsonInput').value.trim();
     const btn = $('#btnAnalyze'); const ta = $('#jsonInput');
@@ -1115,16 +1364,47 @@ ${lines.join('\n')}
   }
 
   function renderPreviewModal(p) {
+    const collisions = p._collisions || [];
+    const hasCollisions = collisions.length > 0;
+
+    // Summary
     $('#previewSummary').innerHTML = `
+      ${hasCollisions ? `
+      <div class="preview-stat collision">
+        <span class="stat-value">${collisions.length}</span>
+        <span class="stat-label">⚠️ تعارضات</span>
+      </div>` : ''}
       <div class="preview-stat success"><span class="stat-value">${p.sentNew}</span><span class="stat-label">جمل جديدة</span></div>
       <div class="preview-stat success"><span class="stat-value">${p.dictNew}</span><span class="stat-label">كلمات جديدة</span></div>
       <div class="preview-stat added"><span class="stat-value">${p.dictAdded}</span><span class="stat-label">معانٍ إضافية</span></div>
       <div class="preview-stat skipped"><span class="stat-value">${p.sentDup + p.dictSame}</span><span class="stat-label">سيُتجاهل</span></div>
     `;
+
+    // Tabs
+    const collTabBtn = $('#previewTabBtnCollisions');
+    collTabBtn.hidden = !hasCollisions;
+    $('#collisionsTabCount').textContent = collisions.length;
+
     document.querySelector('[data-tab="sentences"]').innerHTML = `📅 الجمل <span class="tab-count">${p.sentNew}</span>`;
     document.querySelector('[data-tab="dictionary"]').innerHTML = `📖 القاموس <span class="tab-count">${p.dictNew + p.dictAdded}</span>`;
     document.querySelector('[data-tab="skipped"]').innerHTML = `⏭️ متجاهَل <span class="tab-count">${p.sentDup + p.dictSame}</span>`;
 
+    // Collisions tab
+    if (hasCollisions) {
+      const collWrap = $('#previewTabCollisions');
+      collWrap.innerHTML = `
+        <div class="collision-bulk">
+          <span class="collision-bulk-label">⚡ تطبيق على الكل:</span>
+          <button class="collision-bulk-btn" data-bulk="ignore">⏭️ تجاهل</button>
+          <button class="collision-bulk-btn" data-bulk="replace">🔄 استبدال</button>
+          <button class="collision-bulk-btn" data-bulk="merge-tenses">➕ إضافة الأزمنة الجديدة</button>
+        </div>
+        ${collisions.map((c, idx) => renderCollisionCard(c, idx)).join('')}
+      `;
+      bindCollisionEvents();
+    }
+
+    // Sentences tab
     $('#previewTabSentences').innerHTML = p._freshSentences.length === 0
       ? '<div class="empty-state">لا توجد جمل جديدة</div>'
       : p._freshSentences.map((s, i) => `
@@ -1136,8 +1416,9 @@ ${lines.join('\n')}
             </div>
           </div>`).join('');
 
+    // Dictionary tab
     $('#previewTabDictionary').innerHTML = p._dictOps.length === 0
-      ? '<div class="empty-state">لا توجد كلمات جديدة</div>'
+      ? '<div class="empty-state">لا توجد عناصر جديدة</div>'
       : p._dictOps.map(op => {
           const kind = op.kind === 'meaning-added'
             ? '<span class="preview-badge added">+ معنى</span>'
@@ -1157,6 +1438,7 @@ ${lines.join('\n')}
             </div>`;
         }).join('');
 
+    // Skipped tab
     const allSkipped = [
       ...p._dupSentences.map(d => ({ main: d.sentence.italian, sub: d.sentence.arabic, reason: d.reason })),
       ...p._dictSkipped.map(d => ({ main: d.word, sub: d.oldMeaning, reason: d.reason }))
@@ -1174,17 +1456,124 @@ ${lines.join('\n')}
             </div>
           </div>`).join('');
 
-    const total = p.sentNew + p.dictNew + p.dictAdded;
-    const btn = $('#btnConfirmUpload');
-    btn.disabled = total === 0;
-    btn.innerHTML = total === 0 ? '🚫 لا يوجد جديد' : `🚀 رفع ${total} عملية`;
+    updateConfirmButton();
 
-    if (p.sentNew > 0) switchPreviewTab('sentences');
+    // Default tab
+    if (hasCollisions) switchPreviewTab('collisions');
+    else if (p.sentNew > 0) switchPreviewTab('sentences');
     else if (p.dictNew + p.dictAdded > 0) switchPreviewTab('dictionary');
     else switchPreviewTab('skipped');
   }
 
-  /* ============ Analyze ============ */
+  function renderCollisionCard(c, idx) {
+    const newTenses = getNewTenseSections(c.existing.summary, c.incoming.summary);
+    const mergedSummary = mergeTenses(c.existing.summary, c.incoming.summary);
+    const newMeaningDifferent = compareMeanings(c.existing.meaning, c.incoming.meaning).added;
+
+    return `
+      <div class="collision-card" data-collision-idx="${idx}">
+        <div class="collision-header">
+          <div class="collision-word" dir="ltr">
+            ${escapeHtml(c.incoming.word || c.key)}
+            <span class="collision-badge">⚠️ موجود مسبقاً</span>
+          </div>
+        </div>
+
+        <div class="collision-compare">
+          <div class="collision-side">
+            <div class="collision-side-label">📌 الموجود حالياً</div>
+            <div class="collision-side-meaning">${escapeHtml(c.existing.meaning || '—')}</div>
+            ${c.existing.summary ? `<div class="collision-side-summary">${escapeHtml(c.existing.summary)}</div>` : ''}
+          </div>
+          <div class="collision-side new-side">
+            <div class="collision-side-label">✨ الجديد (من AI)</div>
+            <div class="collision-side-meaning">${escapeHtml(c.incoming.meaning || '—')}</div>
+            ${c.incoming.summary ? `<div class="collision-side-summary">${escapeHtml(c.incoming.summary)}</div>` : ''}
+          </div>
+        </div>
+
+        <div class="collision-actions-title">اختر الإجراء:</div>
+        <div class="collision-actions">
+          <button class="collision-action-btn${c.action === 'ignore' ? ' active' : ''}" data-action="ignore" data-idx="${idx}">
+            <span class="icon">⏭️</span>
+            <span>تجاهل</span>
+          </button>
+          <button class="collision-action-btn${c.action === 'replace' ? ' active' : ''}" data-action="replace" data-idx="${idx}">
+            <span class="icon">🔄</span>
+            <span>استبدال</span>
+          </button>
+          <button class="collision-action-btn${c.action === 'merge-tenses' ? ' active' : ''}" data-action="merge-tenses" data-idx="${idx}">
+            <span class="icon">➕</span>
+            <span>الأزمنة الجديدة فقط</span>
+          </button>
+        </div>
+
+        <div class="collision-preview${c.action === 'merge-tenses' ? ' show' : ''}" data-preview-idx="${idx}">
+          ${newTenses.length === 0 ? `
+            <div style="color: var(--warn); font-weight: 700;">⚠️ لا توجد أزمنة جديدة — لن يتم تحديث الملخص</div>
+            ${newMeaningDifferent ? `<div style="margin-top: 4px; color: #a76b0f;">💡 يوجد معنى إضافي في الجديد (${escapeHtml(c.incoming.meaning)})، لكن هذا الخيار لا يضيف معاني — استخدم "استبدال" أو أضف يدويًا.</div>` : ''}
+          ` : `
+            <div style="margin-bottom: 4px;"><strong>✅ سيتم إضافة ${newTenses.length} قسم جديد:</strong></div>
+            ${newTenses.map(t => `<div style="margin-top: 3px;">• ${escapeHtml(t.text.substring(0, 100))}${t.text.length > 100 ? '…' : ''}</div>`).join('')}
+            ${newMeaningDifferent ? `<div style="margin-top: 4px; color: #a76b0f; font-weight: 700;">⚠️ ملاحظة: المعنى في النسخة الجديدة مختلف، لكن هذا الخيار يحافظ على المعنى القديم فقط.</div>` : ''}
+          `}
+        </div>
+      </div>
+    `;
+  }
+
+  function bindCollisionEvents() {
+    $$('.collision-action-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.idx, 10);
+        const action = btn.dataset.action;
+        if (!state.pendingPreview || !state.pendingPreview._collisions) return;
+        state.pendingPreview._collisions[idx].action = action;
+        // Update visual
+        const card = btn.closest('.collision-card');
+        card.querySelectorAll('.collision-action-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        // Update preview
+        const preview = card.querySelector('.collision-preview');
+        if (preview) preview.classList.toggle('show', action === 'merge-tenses');
+        updateConfirmButton();
+      });
+    });
+
+    $$('.collision-bulk-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const action = btn.dataset.bulk;
+        if (!state.pendingPreview || !state.pendingPreview._collisions) return;
+        state.pendingPreview._collisions.forEach(c => { c.action = action; });
+        // Re-render collisions tab only
+        const collWrap = $('#previewTabCollisions');
+        collWrap.innerHTML = `
+          <div class="collision-bulk">
+            <span class="collision-bulk-label">⚡ تطبيق على الكل:</span>
+            <button class="collision-bulk-btn" data-bulk="ignore">⏭️ تجاهل</button>
+            <button class="collision-bulk-btn" data-bulk="replace">🔄 استبدال</button>
+            <button class="collision-bulk-btn" data-bulk="merge-tenses">➕ إضافة الأزمنة الجديدة</button>
+          </div>
+          ${state.pendingPreview._collisions.map((c, idx) => renderCollisionCard(c, idx)).join('')}
+        `;
+        bindCollisionEvents();
+        updateConfirmButton();
+        toast(`تم تطبيق "${action === 'ignore' ? 'تجاهل' : action === 'replace' ? 'استبدال' : 'دمج الأزمنة'}" على ${state.pendingPreview._collisions.length} تعارض`, 'ok');
+      });
+    });
+  }
+
+  function updateConfirmButton() {
+    const p = state.pendingPreview;
+    if (!p) return;
+    const collisions = p._collisions || [];
+    const total = p.sentNew + p.dictNew + p.dictAdded + collisions.filter(c => c.action !== 'ignore').length;
+    const btn = $('#btnConfirmUpload');
+    btn.disabled = total === 0;
+    btn.innerHTML = total === 0 ? '🚫 لا يوجد جديد للرفع' : `🚀 رفع ${total} عملية`;
+  }
+
+  /* ============ Analyze — JSON ============ */
   async function analyze() {
     if (state.processing) return;
     if (!state.ready) { toast('القاعدة غير جاهزة', 'err'); return; }
@@ -1201,60 +1590,7 @@ ${lines.join('\n')}
     btn.classList.add('loading'); btn.disabled = true; btn.textContent = 'جارٍ التحليل…';
 
     try {
-      const [sentSnap, dictSnap] = await Promise.all([
-        state.db.collection('users').doc(USER_ID).collection('sentences').get(),
-        state.db.collection('users').doc(USER_ID).collection('dictionary').get()
-      ]);
-
-      const existingItalian = new Set();
-      sentSnap.docs.forEach(doc => { const d = doc.data() || {}; const it = String(d.italian || '').trim().toLowerCase(); if (it) existingItalian.add(it); });
-
-      const freshSentences = [], dupSentences = [], batchSeen = new Set();
-      sentences.forEach(s => {
-        const key = s.italian.trim().toLowerCase();
-        if (existingItalian.has(key)) dupSentences.push({ sentence: s, reason: 'موجودة مسبقًا' });
-        else if (batchSeen.has(key)) dupSentences.push({ sentence: s, reason: 'مكررة في نفس الدفعة' });
-        else { freshSentences.push(s); batchSeen.add(key); }
-      });
-
-      const existingDict = new Map();
-      dictSnap.docs.forEach(doc => existingDict.set(doc.id, doc.data() || {}));
-
-      const dictOps = [], dictSkipped = [];
-      dictMap.forEach((entry, key) => {
-        const old = existingDict.get(key);
-        if (!old) {
-          dictOps.push({ key, kind: 'new', data: { word: entry.word, lemma: entry.lemma, type: entry.type, meaning: entry.meaning, summary: entry.summary, updated_at: Date.now() } });
-          return;
-        }
-        const oldM = String(old.meaning || '').trim();
-        const cmp = compareMeanings(oldM, entry.meaning);
-        if (cmp.same) { dictSkipped.push({ word: entry.word, key, reason: 'نفس المعنى', oldMeaning: oldM }); return; }
-        dictOps.push({
-          key, kind: cmp.added ? 'meaning-added' : 'new',
-          data: {
-            word: entry.word || old.word || '',
-            lemma: old.lemma || entry.lemma || entry.word,
-            type: (old.type && old.type !== 'word') ? old.type : (entry.type || 'word'),
-            meaning: cmp.merged,
-            summary: old.summary || entry.summary || '',
-            updated_at: Date.now()
-          }
-        });
-      });
-
-      const p = {
-        sentNew: freshSentences.length, sentDup: dupSentences.length,
-        dictNew: dictOps.filter(o => o.kind === 'new').length,
-        dictAdded: dictOps.filter(o => o.kind === 'meaning-added').length,
-        dictSame: dictSkipped.length,
-        _freshSentences: freshSentences, _dupSentences: dupSentences,
-        _dictOps: dictOps, _dictSkipped: dictSkipped
-      };
-      state.pendingPreview = p;
-      renderPreviewModal(p);
-      openPreviewModal();
-      setSync('online', 'متصل — راجع المعاينة');
+      await runAnalysis(sentences, dictMap, 'json');
     } catch (err) {
       console.error(err); toast('فشل التحليل', 'err');
       setSync('offline', 'خطأ');
@@ -1265,13 +1601,132 @@ ${lines.join('\n')}
     }
   }
 
+  /* ============ Analyze — Verb AI ============ */
+  async function analyzeVerbAI() {
+    if (state.processing) return;
+    if (!state.ready) { toast('القاعدة غير جاهزة', 'err'); return; }
+    const text = $('#verbAiInput').value.trim();
+    if (!text) { toast('الصق JSON أولاً', 'err'); return; }
+    let parsed; try { parsed = parseVerbAIInput(text); } catch (e) { toast(e.message, 'err'); return; }
+
+    state.processing = true;
+    setSync('syncing', 'جارٍ تحليل الأفعال…');
+    const btn = $('#btnAnalyzeVerbAI');
+    btn.classList.add('loading'); btn.disabled = true; btn.textContent = 'جارٍ التحليل…';
+
+    try {
+      const dictMap = buildDictMap(parsed.dictionary);
+      await runAnalysis([], dictMap, 'verb-ai');
+    } catch (err) {
+      console.error(err); toast('فشل التحليل', 'err');
+      setSync('offline', 'خطأ');
+    } finally {
+      state.processing = false;
+      btn.classList.remove('loading'); btn.textContent = '🔍 معاينة ورفع الأفعال';
+      previewVerbAIInput();
+    }
+  }
+
+  /* ============ Shared analysis logic ============ */
+  async function runAnalysis(sentences, dictMap, source) {
+    const [sentSnap, dictSnap] = await Promise.all([
+      state.db.collection('users').doc(USER_ID).collection('sentences').get(),
+      state.db.collection('users').doc(USER_ID).collection('dictionary').get()
+    ]);
+
+    const existingItalian = new Set();
+    sentSnap.docs.forEach(doc => { const d = doc.data() || {}; const it = String(d.italian || '').trim().toLowerCase(); if (it) existingItalian.add(it); });
+
+    const freshSentences = [], dupSentences = [], batchSeen = new Set();
+    sentences.forEach(s => {
+      const key = s.italian.trim().toLowerCase();
+      if (existingItalian.has(key)) dupSentences.push({ sentence: s, reason: 'موجودة مسبقًا' });
+      else if (batchSeen.has(key)) dupSentences.push({ sentence: s, reason: 'مكررة في نفس الدفعة' });
+      else { freshSentences.push(s); batchSeen.add(key); }
+    });
+
+    const existingDict = new Map();
+    dictSnap.docs.forEach(doc => existingDict.set(doc.id, doc.data() || {}));
+
+    const dictOps = [], dictSkipped = [], collisions = [];
+
+    dictMap.forEach((entry, key) => {
+      const old = existingDict.get(key);
+
+      if (!old) {
+        dictOps.push({ key, kind: 'new', data: { word: entry.word, lemma: entry.lemma, type: entry.type, meaning: entry.meaning, summary: entry.summary, updated_at: Date.now() } });
+        return;
+      }
+
+      // If it's a verb collision → add to interactive collisions
+      if (entry.type === 'verb' && old.type === 'verb') {
+        collisions.push({
+          key,
+          existing: {
+            word: old.word || key,
+            lemma: old.lemma || key,
+            type: 'verb',
+            meaning: String(old.meaning || '').trim(),
+            summary: String(old.summary || '').trim()
+          },
+          incoming: {
+            word: entry.word,
+            lemma: entry.lemma,
+            type: 'verb',
+            meaning: entry.meaning,
+            summary: entry.summary
+          },
+          action: 'merge-tenses'
+        });
+        return;
+      }
+
+      // Non-verb collision → old logic
+      const oldM = String(old.meaning || '').trim();
+      const cmp = compareMeanings(oldM, entry.meaning);
+      if (cmp.same) {
+        dictSkipped.push({ word: entry.word, key, reason: 'نفس المعنى', oldMeaning: oldM });
+        return;
+      }
+      dictOps.push({
+        key, kind: 'meaning-added',
+        data: {
+          word: entry.word || old.word || '',
+          lemma: old.lemma || entry.lemma || entry.word,
+          type: (old.type && old.type !== 'word') ? old.type : (entry.type || 'word'),
+          meaning: cmp.merged,
+          summary: old.summary || entry.summary || '',
+          updated_at: Date.now()
+        }
+      });
+    });
+
+    const p = {
+      sentNew: freshSentences.length, sentDup: dupSentences.length,
+      dictNew: dictOps.filter(o => o.kind === 'new').length,
+      dictAdded: dictOps.filter(o => o.kind === 'meaning-added').length,
+      dictSame: dictSkipped.length,
+      _freshSentences: freshSentences, _dupSentences: dupSentences,
+      _dictOps: dictOps, _dictSkipped: dictSkipped,
+      _collisions: collisions,
+      _source: source
+    };
+
+    state.pendingPreview = p;
+    renderPreviewModal(p);
+    openPreviewModal();
+    setSync('online', 'متصل — راجع المعاينة');
+  }
+
   /* ============ Commit ============ */
   async function commitUpload() {
     if (state.processing) return;
     const p = state.pendingPreview;
     if (!p) return;
-    const total = p.sentNew + p.dictNew + p.dictAdded;
-    if (total === 0) { toast('لا يوجد جديد', 'warn'); return; }
+    const collisions = p._collisions || [];
+    const activeCollisions = collisions.filter(c => c.action !== 'ignore');
+    const total = p.sentNew + p.dictNew + p.dictAdded + activeCollisions.length;
+    if (total === 0) { toast('لا يوجد جديد للرفع', 'warn'); return; }
 
     state.processing = true;
     const btn = $('#btnConfirmUpload');
@@ -1279,6 +1734,7 @@ ${lines.join('\n')}
     setSync('syncing', 'جارٍ الرفع…');
     const startedAt = Date.now();
     let failed = 0;
+    let collisionsApplied = 0;
 
     try {
       const userRef = state.db.collection('users').doc(USER_ID);
@@ -1298,6 +1754,43 @@ ${lines.join('\n')}
         ops.push({ ref: dictCol.doc(op.key), data: op.data, merge: true });
       });
 
+      // Collisions — apply each action
+      activeCollisions.forEach(c => {
+        if (c.action === 'replace') {
+          // Overwrite fully with incoming
+          ops.push({
+            ref: dictCol.doc(c.key),
+            data: {
+              word: c.incoming.word,
+              lemma: c.incoming.lemma,
+              type: 'verb',
+              meaning: c.incoming.meaning,
+              summary: c.incoming.summary,
+              updated_at: now
+            },
+            merge: false
+          });
+          collisionsApplied++;
+        } else if (c.action === 'merge-tenses') {
+          const merged = mergeTenses(c.existing.summary, c.incoming.summary);
+          if (merged !== c.existing.summary) {
+            ops.push({
+              ref: dictCol.doc(c.key),
+              data: {
+                word: c.existing.word,
+                lemma: c.existing.lemma,
+                type: 'verb',
+                meaning: c.existing.meaning,
+                summary: merged,
+                updated_at: now
+              },
+              merge: true
+            });
+            collisionsApplied++;
+          }
+        }
+      });
+
       for (let i = 0; i < ops.length; i += BATCH_LIMIT) {
         const chunk = ops.slice(i, i + BATCH_LIMIT);
         try {
@@ -1308,26 +1801,44 @@ ${lines.join('\n')}
       }
 
       const elapsed = ((Date.now() - startedAt) / 1000).toFixed(1);
-      renderResults({ sentNew: p.sentNew, sentDup: p.sentDup, dictNew: p.dictNew, dictAdded: p.dictAdded, dictSame: p.dictSame, failed, elapsed, details: {
-        duplicateSentences: p._dupSentences.map(d => ({ italian: d.sentence.italian, reason: d.reason })),
-        skippedDict: p._dictSkipped.map(d => ({ word: d.word, reason: d.reason, oldMeaning: d.oldMeaning })),
-        meaningAddedList: p._dictOps.filter(o => o.kind === 'meaning-added').map(o => ({ word: o.data.word, meaning: o.data.meaning }))
-      }});
-      addHistoryEntry({ timestamp: now, sentNew: p.sentNew, sentDup: p.sentDup, dictNew: p.dictNew, dictAdded: p.dictAdded, dictSame: p.dictSame, failed });
+      renderResults({
+        sentNew: p.sentNew, sentDup: p.sentDup,
+        dictNew: p.dictNew, dictAdded: p.dictAdded,
+        dictSame: p.dictSame, failed, elapsed,
+        collisionsApplied,
+        collisionsIgnored: collisions.length - activeCollisions.length,
+        details: {
+          duplicateSentences: p._dupSentences.map(d => ({ italian: d.sentence.italian, reason: d.reason })),
+          skippedDict: p._dictSkipped.map(d => ({ word: d.word, reason: d.reason, oldMeaning: d.oldMeaning })),
+          meaningAddedList: p._dictOps.filter(o => o.kind === 'meaning-added').map(o => ({ word: o.data.word, meaning: o.data.meaning }))
+        }
+      });
+      addHistoryEntry({ timestamp: now, sentNew: p.sentNew, sentDup: p.sentDup, dictNew: p.dictNew, dictAdded: p.dictAdded + collisionsApplied, dictSame: p.dictSame, failed });
       closePreviewModal();
 
       if (failed === 0) {
-        toast(`✅ ${p.sentNew} جملة · ${p.dictNew + p.dictAdded} كلمة`, 'ok');
+        const parts = [];
+        if (p.sentNew) parts.push(`${p.sentNew} جملة`);
+        if (p.dictNew + p.dictAdded) parts.push(`${p.dictNew + p.dictAdded} كلمة`);
+        if (collisionsApplied) parts.push(`${collisionsApplied} فعل محدَّث`);
+        toast(`✅ ${parts.join(' · ') || 'تم الرفع'}`, 'ok');
         setSync('online', 'متصل — تم الرفع');
-        $('#jsonInput').value = ''; state.pendingPreview = null;
-        previewInput();
+
+        if (p._source === 'verb-ai') {
+          $('#verbAiInput').value = '';
+          previewVerbAIInput();
+        } else {
+          $('#jsonInput').value = '';
+          previewInput();
+        }
+        state.pendingPreview = null;
       } else {
-        toast(`⚠️ نجاح جزئي`, 'warn');
+        toast(`⚠️ نجاح جزئي (${failed} فشل)`, 'warn');
         setSync('online', 'متصل — نجاح جزئي');
       }
     } catch (err) {
-      console.error(err); toast('خطأ', 'err');
-      setSync('offline', 'فشل');
+      console.error(err); toast('خطأ: ' + (err.message || err), 'err');
+      setSync('offline', 'فشل الرفع');
     } finally {
       state.processing = false;
       btn.classList.remove('loading'); btn.disabled = false;
@@ -1342,7 +1853,8 @@ ${lines.join('\n')}
       <div class="result-item success"><span class="v">${r.sentNew}</span><span class="l">جمل جديدة</span></div>
       <div class="result-item skipped"><span class="v">${r.sentDup}</span><span class="l">مكررة</span></div>
       <div class="result-item success"><span class="v">${r.dictNew}</span><span class="l">كلمات جديدة</span></div>
-      <div class="result-item added"><span class="v">${r.dictAdded}</span><span class="l">معانٍ إضافية</span></div>
+      <div class="result-item added"><span class="v">${r.dictAdded + (r.collisionsApplied || 0)}</span><span class="l">إضافات/تحديثات</span></div>
+      ${(r.collisionsIgnored || 0) > 0 ? `<div class="result-item skipped"><span class="v">${r.collisionsIgnored}</span><span class="l">تعارضات متجاهَلة</span></div>` : ''}
       ${r.dictSame > 0 ? `<div class="result-item skipped"><span class="v">${r.dictSame}</span><span class="l">نفس المعنى</span></div>` : ''}
       ${r.failed > 0 ? `<div class="result-item error"><span class="v">${r.failed}</span><span class="l">فشل</span></div>` : ''}
       <div class="result-item"><span class="v">${r.elapsed}s</span><span class="l">الوقت</span></div>
@@ -1396,7 +1908,7 @@ ${lines.join('\n')}
     }).join('');
   }
 
-  /* ============ Copy Prompt — Sentences ============ */
+  /* ============ Copy Prompts ============ */
   async function copyPrompt() {
     try {
       await navigator.clipboard.writeText(AI_PROMPT);
@@ -1412,20 +1924,15 @@ ${lines.join('\n')}
   }
   function closePromptModal() { $('#promptOverlay').classList.remove('is-open'); }
   async function copyFromModal() {
-    try {
-      await navigator.clipboard.writeText(AI_PROMPT);
-      toast('تم النسخ ✓', 'ok');
-      closePromptModal();
-    } catch {
+    try { await navigator.clipboard.writeText(AI_PROMPT); toast('تم النسخ ✓', 'ok'); closePromptModal(); }
+    catch {
       const r = document.createRange(); r.selectNodeContents($('#promptContent'));
       const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
       toast('حدد وانسخ يدويًا', 'warn');
     }
   }
 
-  /* ============ Verb Prompt Modal ============ */
   function openVerbPromptModal() {
-    // إعادة ضبط الخيارات
     state.verbPromptOptions = { riflessivo: false, passato: false, futuro: false };
     $('#chkRiflessivo').checked = false;
     $('#chkPassato').checked = false;
@@ -1434,9 +1941,7 @@ ${lines.join('\n')}
     updateVerbPromptPreview();
     $('#verbPromptOverlay').classList.add('is-open');
   }
-  function closeVerbPromptModal() {
-    $('#verbPromptOverlay').classList.remove('is-open');
-  }
+  function closeVerbPromptModal() { $('#verbPromptOverlay').classList.remove('is-open'); }
   function updateTenseCheckboxStyles() {
     $$('.tense-checkbox').forEach(el => {
       const input = el.querySelector('input[type="checkbox"]');
@@ -1457,14 +1962,12 @@ ${lines.join('\n')}
       await navigator.clipboard.writeText(prompt);
       toast('تم نسخ برومبت الأفعال ✓', 'ok');
       closeVerbPromptModal();
-      // تغيير مؤقت على زر الأفعال في الهيدر
       const b = $('#btnCopyVerbPrompt');
       b.classList.add('copied');
       const old = b.innerHTML;
       b.innerHTML = '✅ <span class="btn-text-long">تم النسخ</span>';
       setTimeout(() => { b.classList.remove('copied'); b.innerHTML = old; }, 2000);
     } catch (_) {
-      // fallback: تحديد النص في المعاينة
       const el = $('#verbPromptPreview');
       const range = document.createRange(); range.selectNodeContents(el);
       const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
@@ -1472,7 +1975,6 @@ ${lines.join('\n')}
     }
   }
 
-  /* ============ Sample ============ */
   function loadSample() {
     $('#jsonInput').value = `{
   "sentences": [
@@ -1486,10 +1988,10 @@ ${lines.join('\n')}
     toast('تم تحميل المثال', 'ok');
   }
   function clearInput() { $('#jsonInput').value = ''; state.pendingPreview = null; previewInput(); toast('تم المسح'); }
+  function clearVerbAiInput() { $('#verbAiInput').value = ''; previewVerbAIInput(); toast('تم المسح'); }
 
   /* ============ Events ============ */
   function bindEvents() {
-    // Tab switching
     $$('.tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         $$('.tab-btn').forEach(b => b.classList.toggle('active', b === btn));
@@ -1499,10 +2001,7 @@ ${lines.join('\n')}
       });
     });
 
-    // Sentences prompt
     $('#btnCopyPrompt').addEventListener('click', copyPrompt);
-
-    // Verb prompt
     $('#btnCopyVerbPrompt').addEventListener('click', openVerbPromptModal);
     $('#btnCloseVerbPrompt').addEventListener('click', closeVerbPromptModal);
     $('#btnCloseVerbPromptBottom').addEventListener('click', closeVerbPromptModal);
@@ -1511,7 +2010,6 @@ ${lines.join('\n')}
     });
     $('#btnCopyVerbFromModal').addEventListener('click', copyVerbPromptFromModal);
 
-    // Tense checkbox change
     ['chkRiflessivo', 'chkPassato', 'chkFuturo'].forEach(id => {
       document.getElementById(id).addEventListener('change', () => {
         updateTenseCheckboxStyles();
@@ -1526,7 +2024,18 @@ ${lines.join('\n')}
     $('#btnClear').addEventListener('click', clearInput);
     $('#jsonInput').addEventListener('input', previewInput);
 
-    // Verbs tab
+    // Verb AI tab
+    $('#verbAiInput').addEventListener('input', previewVerbAIInput);
+    $('#btnAnalyzeVerbAI').addEventListener('click', analyzeVerbAI);
+    $('#btnVerbAiClear').addEventListener('click', clearVerbAiInput);
+    $('#verbAiInput').addEventListener('keydown', e => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        if (!$('#btnAnalyzeVerbAI').disabled) analyzeVerbAI();
+      }
+    });
+
+    // Manual verb form
     $('#verbHasReflexive').addEventListener('change', e => {
       $('#verbReflexiveSection').hidden = !e.target.checked;
     });
@@ -1570,7 +2079,8 @@ ${lines.join('\n')}
     renderHistory();
     await initFirebase();
     previewInput();
-    console.info('[Ingester v3.1] Boot. USER_ID =', USER_ID);
+    previewVerbAIInput();
+    console.info('[Ingester v3.2] Boot. USER_ID =', USER_ID);
   }
   document.addEventListener('DOMContentLoaded', boot);
 })();
