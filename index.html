@@ -462,7 +462,24 @@ details[open] .details-summary::before { transform: rotate(90deg); }
   'use strict';
 
   /* ============ CONFIG ============ */
-  const FIREBASE_CONFIG = {أنا أتعلم اللغة الإيطالية. سأعطيك قائمة بالجمل الإيطالية التي دونتها أثناء المذاكرة.
+  const FIREBASE_CONFIG = {
+    apiKey:            "AIzaSyA0Ca2fqu7Pw80sKhXVuqaz5h3UIaau_LQ",
+    authDomain:        "imparo-53eea.firebaseapp.com",
+    projectId:         "imparo-53eea",
+    storageBucket:     "imparo-53eea.firebasestorage.app",
+    messagingSenderId: "558351996816",
+    appId:             "1:558351996816:web:6698c08e636482e2908515"
+  };
+  // ✅ يجب مطابقة USER_ID في تطبيق Imparo الرئيسي
+  const USER_ID = "ahmed_imparo_53eea_x7k9m2p4q8w3_admin";
+
+  const BATCH_LIMIT = 500;
+  const HISTORY_KEY = 'imparo_ingester_history_v2';
+  const MEANING_SEPARATOR = ' • ';
+  const VALID_TYPES = ['verb', 'preposition', 'article', 'word'];
+
+  /* ============ AI PROMPT ============ */
+  const AI_PROMPT = `أنا أتعلم اللغة الإيطالية. سأعطيك قائمة بالجمل الإيطالية التي دونتها أثناء المذاكرة.
 المطلوب منك بدقة عالية تحليلياً ولغوياً:
 
 1. ترجمة كل جملة كاملة إلى اللغة العربية بدقة.
@@ -494,7 +511,7 @@ details[open] .details-summary::before { transform: rotate(90deg); }
 }
 
 إليك الجمل:
-[ضع جملك الإيطالية هنا];
+[ضع جملك الإيطالية هنا]`;
 
   /* ============ State ============ */
   const state = {
