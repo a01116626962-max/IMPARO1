@@ -4,51 +4,32 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 <meta name="theme-color" content="#2d7a68" />
-<title>Imparo Ingester v2.1 — معاينة كاملة</title>
+<title>Imparo Ingester v3 — مع الأفعال</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%232d7a68'/><text x='50' y='68' font-size='60' text-anchor='middle' fill='white' font-family='Georgia'>I</text></svg>">
 <style>
-/* =========================================================
-   Imparo Ingester v2.1
-   ========================================================= */
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 [hidden] { display: none !important; }
-
 :root {
-  --bg: #f7f5f0;
-  --surface: #ffffff;
-  --surface-2: #fbfaf7;
-  --primary: #2d7a68;
-  --primary-dark: #1f5a4c;
-  --primary-soft: #e4f1ed;
-  --success: #4caf7d;
-  --success-soft: #e6f5ee;
-  --warn: #eba827;
-  --warn-soft: #fdf3e0;
-  --danger: #e76f51;
-  --danger-soft: #fbe8e2;
-  --info: #4a6ee0;
-  --info-soft: #e0ecff;
-  --text: #23302c;
-  --text-soft: #6b7a76;
-  --border: #ece8e1;
+  --bg: #f7f5f0; --surface: #fff; --surface-2: #fbfaf7;
+  --primary: #2d7a68; --primary-dark: #1f5a4c; --primary-soft: #e4f1ed;
+  --success: #4caf7d; --success-soft: #e6f5ee;
+  --warn: #eba827; --warn-soft: #fdf3e0;
+  --danger: #e76f51; --danger-soft: #fbe8e2;
+  --info: #4a6ee0; --info-soft: #e0ecff;
+  --text: #23302c; --text-soft: #6b7a76; --border: #ece8e1;
   --shadow-sm: 0 1px 3px rgba(30,45,40,.06);
   --shadow-lg: 0 10px 30px rgba(30,45,40,.14);
-  --radius-sm: 12px;
-  --radius: 16px;
-  --radius-lg: 22px;
+  --radius-sm: 12px; --radius: 16px; --radius-lg: 22px;
 }
-
 html, body {
   height: 100%; background: var(--bg); color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Kufi Arabic", "Tahoma", sans-serif;
   font-size: 15px; line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  overscroll-behavior-y: none;
+  -webkit-font-smoothing: antialiased; overscroll-behavior-y: none;
 }
 body { min-height: 100vh; }
 .app { max-width: 720px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; background: var(--bg); }
 
-/* Header */
 .app-header {
   position: sticky; top: 0; z-index: 20;
   display: flex; align-items: center; justify-content: space-between;
@@ -66,17 +47,34 @@ body { min-height: 100vh; }
   padding: 8px 14px; background: var(--primary); color: #fff;
   border: none; border-radius: 999px;
   font-family: inherit; font-size: 12.5px; font-weight: 800;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(45,122,104,.25);
+  cursor: pointer; box-shadow: 0 4px 12px rgba(45,122,104,.25);
   transition: transform .12s ease, background .15s ease;
   white-space: nowrap;
 }
 .btn-copy-prompt:active { transform: scale(.96); }
-.btn-copy-prompt.copied { background: var(--success); box-shadow: 0 4px 12px rgba(76,175,125,.25); }
+.btn-copy-prompt.copied { background: var(--success); }
 
 .app-main { flex: 1; padding: 16px; padding-bottom: 40px; display: flex; flex-direction: column; gap: 14px; }
 
-/* Status bar */
+/* Tab navigation */
+.tab-nav {
+  display: flex; gap: 4px;
+  background: var(--surface); padding: 5px;
+  border-radius: var(--radius); border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.tab-btn {
+  flex: 1; padding: 11px 14px;
+  border: none; background: transparent;
+  font-family: inherit; font-size: 13.5px; font-weight: 800;
+  color: var(--text-soft); cursor: pointer;
+  border-radius: 11px;
+  transition: background .15s ease, color .15s ease;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.tab-btn:hover { background: var(--surface-2); }
+.tab-btn.active { background: var(--primary); color: #fff; box-shadow: 0 3px 10px rgba(45,122,104,.25); }
+
 .status-bar {
   display: flex; align-items: center; gap: 8px;
   padding: 10px 14px; background: var(--surface);
@@ -92,7 +90,7 @@ body { min-height: 100vh; }
 .card { background: var(--surface); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow-sm); border: 1px solid var(--border); }
 .section-title { font-size: 14px; font-weight: 800; color: var(--text); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
 
-.instructions { background: linear-gradient(135deg, #ffffff, #f1faf6); border-color: #d5ebe4; }
+.instructions { background: linear-gradient(135deg, #fff, #f1faf6); border-color: #d5ebe4; }
 .instructions h3 { font-size: 13.5px; color: var(--primary-dark); margin-bottom: 10px; font-weight: 800; }
 .instructions ol { padding-inline-start: 20px; color: var(--text-soft); font-size: 13.5px; line-height: 1.9; }
 .instructions li::marker { color: var(--primary); font-weight: 800; }
@@ -103,9 +101,8 @@ body { min-height: 100vh; }
   border-radius: var(--radius-sm);
   font-family: "Consolas", "Monaco", "Courier New", monospace;
   font-size: 13px; line-height: 1.55; color: var(--text);
-  outline: none; resize: vertical;
+  outline: none; resize: vertical; direction: ltr; text-align: left;
   transition: border-color .15s ease, background .15s ease;
-  direction: ltr; text-align: left;
 }
 .json-input:focus { border-color: var(--primary); background: #fff; }
 .json-input.valid { border-color: var(--success); }
@@ -145,24 +142,85 @@ body { min-height: 100vh; }
 .btn-ghost:hover:not(:disabled) { background: var(--border); }
 
 .btn.loading::after {
-  content: '';
-  width: 14px; height: 14px;
-  border: 2px solid rgba(255,255,255,.4);
-  border-top-color: #fff;
-  border-radius: 50%;
-  animation: spin .7s linear infinite;
+  content: ''; width: 14px; height: 14px;
+  border: 2px solid rgba(255,255,255,.4); border-top-color: #fff;
+  border-radius: 50%; animation: spin .7s linear infinite;
   margin-inline-start: 4px;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ============ Results Card ============ */
-.results-card { background: linear-gradient(135deg, #ffffff, #f1faf6); border-color: #c7e8db; }
-.results-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
-.result-item {
-  padding: 12px; background: var(--surface);
-  border-radius: var(--radius-sm); border: 1px solid var(--border);
-  text-align: center;
+/* Form (for verbs tab) */
+.form-label {
+  display: block; font-size: 12px; font-weight: 700;
+  color: var(--text-soft); margin-bottom: 4px;
 }
+.form-input {
+  width: 100%; padding: 10px 12px;
+  background: var(--surface-2); border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-family: inherit; font-size: 14px; color: var(--text);
+  outline: none; margin-bottom: 10px;
+  transition: border-color .15s ease, background .15s ease;
+}
+.form-input:focus { border-color: var(--primary); background: #fff; }
+.form-input[dir="ltr"] { direction: ltr; text-align: left; font-family: "Georgia", serif; }
+
+.form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+.checkbox-label {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; background: var(--surface-2);
+  border-radius: 10px; cursor: pointer;
+  font-size: 13.5px; font-weight: 600; color: var(--text);
+  margin-bottom: 10px;
+}
+.checkbox-label input[type="checkbox"] {
+  width: 18px; height: 18px;
+  accent-color: var(--primary); cursor: pointer;
+}
+
+.reflexive-block { background: #f5f0ff; padding: 12px; border-radius: 10px; margin-bottom: 10px; border: 1px solid #e0d5f5; }
+.reflexive-block .form-label { color: #7c4dcc; }
+.reflexive-block h4 { font-size: 13px; margin: 0 0 10px; color: #7c4dcc; font-weight: 800; }
+
+/* Verbs list */
+.verb-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 12px 14px; background: var(--surface-2);
+  border-radius: 10px; border: 1px solid var(--border);
+  margin-bottom: 8px;
+}
+.verb-item:last-child { margin-bottom: 0; }
+.verb-item-body { flex: 1; min-width: 0; }
+.verb-item-inf {
+  font-family: "Georgia", serif; font-weight: 800; font-size: 16px;
+  color: var(--primary-dark); direction: ltr; text-align: left;
+  margin-bottom: 2px;
+}
+.verb-item-meaning { font-size: 13px; color: var(--text); margin-bottom: 6px; }
+.verb-item-meta { display: flex; flex-wrap: wrap; gap: 4px; }
+.verb-badge {
+  font-size: 10.5px; font-weight: 700;
+  padding: 2px 8px; border-radius: 5px;
+  background: var(--surface); border: 1px solid var(--border);
+  color: var(--text-soft);
+}
+.verb-badge.reflexive { background: #ede5ff; color: #7c4dcc; border-color: transparent; }
+.verb-badge.conj { background: var(--info-soft); color: var(--info); border-color: transparent; }
+.verb-item-actions { display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
+.verb-item-actions button {
+  border: 1px solid var(--border); background: var(--surface);
+  padding: 6px 10px; border-radius: 8px;
+  font-family: inherit; font-size: 11.5px; font-weight: 700;
+  cursor: pointer; transition: background .15s ease;
+}
+.verb-item-actions button:hover { background: var(--border); }
+.verb-item-actions .danger { color: var(--danger); }
+
+/* Results / History (same as v2.1) */
+.results-card { background: linear-gradient(135deg, #fff, #f1faf6); border-color: #c7e8db; }
+.results-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
+.result-item { padding: 12px; background: var(--surface); border-radius: var(--radius-sm); border: 1px solid var(--border); text-align: center; }
 .result-item .v { font-size: 22px; font-weight: 800; color: var(--primary-dark); line-height: 1.2; display: block; }
 .result-item .l { font-size: 11.5px; color: var(--text-soft); margin-top: 2px; }
 .result-item.success .v { color: var(--success); }
@@ -170,21 +228,6 @@ body { min-height: 100vh; }
 .result-item.skipped .v { color: var(--warn); }
 .result-item.error .v { color: var(--danger); }
 
-.details-box { margin-top: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; background: var(--surface); }
-.details-summary { padding: 10px 14px; cursor: pointer; font-size: 13px; font-weight: 700; color: var(--primary-dark); background: var(--surface-2); display: flex; align-items: center; gap: 6px; user-select: none; }
-.details-summary::marker { display: none; }
-.details-summary::before { content: '▶'; font-size: 10px; transition: transform .2s ease; display: inline-block; }
-details[open] .details-summary::before { transform: rotate(90deg); }
-.details-content { padding: 10px 14px; max-height: 300px; overflow-y: auto; font-size: 12.5px; }
-.details-group { margin-bottom: 12px; }
-.details-group:last-child { margin-bottom: 0; }
-.details-group h5 { font-size: 12px; font-weight: 800; color: var(--text-soft); margin-bottom: 6px; padding-bottom: 4px; border-bottom: 1px solid var(--border); }
-.detail-item { padding: 6px 8px; margin-bottom: 4px; background: var(--surface-2); border-radius: 8px; display: flex; justify-content: space-between; gap: 8px; font-size: 12px; }
-.detail-item .it { direction: ltr; text-align: left; font-family: "Georgia", serif; font-weight: 600; flex: 1; }
-.detail-item .ar { color: var(--text-soft); text-align: left; }
-.detail-item .reason { font-size: 10.5px; padding: 1px 6px; border-radius: 4px; background: var(--warn-soft); color: var(--warn); white-space: nowrap; }
-
-/* ============ History ============ */
 .history-list { display: flex; flex-direction: column; gap: 8px; }
 .history-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; background: var(--surface-2); border-radius: var(--radius-sm); border: 1px solid var(--border); font-size: 12.5px; }
 .history-item-icon { width: 32px; height: 32px; border-radius: 50%; background: var(--success-soft); color: var(--success); display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
@@ -194,7 +237,6 @@ details[open] .details-summary::before { transform: rotate(90deg); }
 
 .empty-state { text-align: center; color: var(--text-soft); font-size: 13px; padding: 32px 12px; }
 
-/* Toast */
 .toast {
   position: fixed; bottom: 24px; left: 50%;
   transform: translateX(-50%) translateY(20px);
@@ -211,25 +253,20 @@ details[open] .details-summary::before { transform: rotate(90deg); }
 .toast.err { background: var(--danger); }
 .toast.warn { background: var(--warn); color: #3a2c05; }
 
-/* ============ Modals ============ */
 .prompt-overlay, .preview-overlay {
   position: fixed; inset: 0; z-index: 100;
-  background: rgba(20,30,28,.55);
-  backdrop-filter: blur(4px);
-  display: none;
-  align-items: center; justify-content: center;
+  background: rgba(20,30,28,.55); backdrop-filter: blur(4px);
+  display: none; align-items: center; justify-content: center;
   padding: 12px;
 }
 .prompt-overlay.is-open, .preview-overlay.is-open { display: flex; }
 @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: none; opacity: 1; } }
 
-/* Prompt Modal */
 .prompt-modal {
   background: var(--surface); border-radius: var(--radius-lg);
   width: 100%; max-width: 560px; max-height: 85vh;
   display: flex; flex-direction: column;
-  box-shadow: var(--shadow-lg);
-  animation: slideUp .25s ease;
+  box-shadow: var(--shadow-lg); animation: slideUp .25s ease;
 }
 .prompt-modal-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid var(--border); }
 .prompt-modal-header h3 { font-size: 15px; font-weight: 800; color: var(--primary-dark); }
@@ -239,8 +276,7 @@ details[open] .details-summary::before { transform: rotate(90deg); }
   border-radius: var(--radius-sm); padding: 14px;
   font-family: "Consolas", "Monaco", "Courier New", monospace;
   font-size: 12px; line-height: 1.65;
-  white-space: pre-wrap; color: var(--text);
-  direction: rtl;
+  white-space: pre-wrap; color: var(--text); direction: rtl;
 }
 .prompt-modal-footer { padding: 12px 18px; border-top: 1px solid var(--border); display: flex; gap: 8px; }
 .prompt-modal-footer .btn { flex: 1; padding: 11px 14px; font-size: 13.5px; }
@@ -254,173 +290,52 @@ details[open] .details-summary::before { transform: rotate(90deg); }
 }
 .btn-icon:hover { background: rgba(0,0,0,.06); }
 
-/* ============ Preview Modal ============ */
 .preview-modal {
   background: var(--surface); border-radius: var(--radius-lg);
   width: 100%; max-width: 720px; max-height: 92vh;
   display: flex; flex-direction: column;
-  box-shadow: var(--shadow-lg);
-  animation: slideUp .25s ease;
+  box-shadow: var(--shadow-lg); animation: slideUp .25s ease;
   overflow: hidden;
 }
 .preview-modal-header {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 18px;
-  border-bottom: 1px solid var(--border);
-  background: var(--surface);
+  padding: 14px 18px; border-bottom: 1px solid var(--border);
 }
-.preview-modal-header h3 {
-  font-size: 15px; font-weight: 800; color: var(--primary-dark);
-  display: flex; align-items: center; gap: 8px;
-}
-.preview-modal-header .user-badge {
-  font-size: 10px; font-weight: 700;
-  color: var(--text-soft); background: var(--surface-2);
-  padding: 2px 8px; border-radius: 999px;
-  border: 1px solid var(--border);
-}
-
-.preview-summary {
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  gap: 8px; padding: 12px 16px;
-  background: var(--surface-2);
-  border-bottom: 1px solid var(--border);
-}
-.preview-stat {
-  text-align: center; padding: 8px 4px;
-  border-radius: 10px; background: var(--surface);
-  border: 1px solid var(--border);
-}
-.preview-stat .stat-value {
-  font-size: 20px; font-weight: 800; color: var(--primary-dark);
-  display: block; line-height: 1.2;
-}
-.preview-stat .stat-label {
-  font-size: 10.5px; color: var(--text-soft); margin-top: 2px;
-  font-weight: 700;
-}
+.preview-modal-header h3 { font-size: 15px; font-weight: 800; color: var(--primary-dark); display: flex; align-items: center; gap: 8px; }
+.user-badge { font-size: 10px; font-weight: 700; color: var(--text-soft); background: var(--surface-2); padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); }
+.preview-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 12px 16px; background: var(--surface-2); border-bottom: 1px solid var(--border); }
+.preview-stat { text-align: center; padding: 8px 4px; border-radius: 10px; background: var(--surface); border: 1px solid var(--border); }
+.preview-stat .stat-value { font-size: 20px; font-weight: 800; color: var(--primary-dark); display: block; line-height: 1.2; }
+.preview-stat .stat-label { font-size: 10.5px; color: var(--text-soft); margin-top: 2px; font-weight: 700; }
 .preview-stat.success .stat-value { color: var(--success); }
 .preview-stat.added .stat-value { color: var(--info); }
 .preview-stat.skipped .stat-value { color: var(--warn); }
-
-.preview-tabs {
-  display: flex; gap: 4px;
-  padding: 10px 12px 0;
-  border-bottom: 1px solid var(--border);
-  background: var(--surface);
-  overflow-x: auto;
-  flex-shrink: 0;
-}
+.preview-tabs { display: flex; gap: 4px; padding: 10px 12px 0; border-bottom: 1px solid var(--border); background: var(--surface); overflow-x: auto; flex-shrink: 0; }
 .preview-tab-btn {
   border: none; background: transparent;
-  padding: 9px 14px;
-  font-family: inherit; font-size: 12.5px; font-weight: 700;
-  color: var(--text-soft);
-  cursor: pointer;
-  border-radius: 8px 8px 0 0;
-  white-space: nowrap;
+  padding: 9px 14px; font-family: inherit;
+  font-size: 12.5px; font-weight: 700; color: var(--text-soft);
+  cursor: pointer; border-radius: 8px 8px 0 0; white-space: nowrap;
   transition: background .15s ease, color .15s ease;
   border-bottom: 2px solid transparent;
   display: flex; align-items: center; gap: 6px;
 }
-.preview-tab-btn:hover { background: var(--surface-2); }
-.preview-tab-btn.active {
-  color: var(--primary-dark);
-  border-bottom-color: var(--primary);
-  background: var(--surface-2);
-}
-.preview-tab-btn .tab-count {
-  background: var(--primary-soft);
-  color: var(--primary-dark);
-  padding: 1px 7px;
-  border-radius: 999px;
-  font-size: 10.5px;
-  font-weight: 800;
-}
+.preview-tab-btn.active { color: var(--primary-dark); border-bottom-color: var(--primary); background: var(--surface-2); }
+.preview-tab-btn .tab-count { background: var(--primary-soft); color: var(--primary-dark); padding: 1px 7px; border-radius: 999px; font-size: 10.5px; font-weight: 800; }
 .preview-tab-btn.active .tab-count { background: var(--primary); color: #fff; }
-
-.preview-modal-body {
-  flex: 1; overflow-y: auto;
-  padding: 12px 16px;
-  min-height: 180px;
-  max-height: 55vh;
-}
+.preview-modal-body { flex: 1; overflow-y: auto; padding: 12px 16px; min-height: 180px; max-height: 55vh; }
 .preview-tab-content { display: flex; flex-direction: column; gap: 8px; }
-
-.preview-list-item {
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 10px 12px;
-  display: flex; gap: 10px;
-}
-.preview-item-num {
-  width: 26px; height: 26px;
-  border-radius: 50%;
-  background: var(--primary-soft);
-  color: var(--primary-dark);
-  font-size: 11px; font-weight: 800;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
+.preview-list-item { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; display: flex; gap: 10px; }
+.preview-item-num { width: 26px; height: 26px; border-radius: 50%; background: var(--primary-soft); color: var(--primary-dark); font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .preview-item-body { flex: 1; min-width: 0; }
-.preview-item-it {
-  direction: ltr; text-align: left;
-  font-family: "Georgia", serif;
-  font-size: 14px; font-weight: 700;
-  margin-bottom: 2px;
-  color: var(--text);
-  word-break: break-word;
-}
-.preview-item-ar {
-  font-size: 12.5px;
-  color: var(--text-soft);
-}
-.preview-item-word-row {
-  display: flex; align-items: center;
-  gap: 6px; flex-wrap: wrap;
-  margin-bottom: 4px;
-}
-.preview-item-word {
-  font-family: "Georgia", serif;
-  font-weight: 700;
-  font-size: 14.5px;
-  color: var(--text);
-  word-break: break-word;
-}
-.preview-item-lemma {
-  font-family: "Georgia", serif;
-  font-style: italic;
-  font-size: 11.5px;
-  color: var(--text-soft);
-  margin-bottom: 4px;
-}
-.preview-item-meaning {
-  font-size: 13px;
-  color: var(--text);
-  margin-bottom: 4px;
-  line-height: 1.5;
-  word-break: break-word;
-}
-.preview-item-summary {
-  font-size: 11.5px;
-  color: var(--text-soft);
-  line-height: 1.6;
-  margin-top: 6px;
-  padding: 7px 9px;
-  background: var(--surface);
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-.preview-badge {
-  font-size: 10px;
-  padding: 2px 7px;
-  border-radius: 5px;
-  font-weight: 800;
-  letter-spacing: .2px;
-}
+.preview-item-it { direction: ltr; text-align: left; font-family: "Georgia", serif; font-size: 14px; font-weight: 700; margin-bottom: 2px; color: var(--text); word-break: break-word; }
+.preview-item-ar { font-size: 12.5px; color: var(--text-soft); }
+.preview-item-word-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 4px; }
+.preview-item-word { font-family: "Georgia", serif; font-weight: 700; font-size: 14.5px; color: var(--text); word-break: break-word; }
+.preview-item-lemma { font-family: "Georgia", serif; font-style: italic; font-size: 11.5px; color: var(--text-soft); margin-bottom: 4px; }
+.preview-item-meaning { font-size: 13px; color: var(--text); margin-bottom: 4px; line-height: 1.5; word-break: break-word; }
+.preview-item-summary { font-size: 11.5px; color: var(--text-soft); line-height: 1.6; margin-top: 6px; padding: 7px 9px; background: var(--surface); border-radius: 6px; border: 1px solid var(--border); white-space: pre-wrap; word-break: break-word; }
+.preview-badge { font-size: 10px; padding: 2px 7px; border-radius: 5px; font-weight: 800; letter-spacing: .2px; }
 .preview-badge.new { background: var(--success-soft); color: var(--success); }
 .preview-badge.added { background: var(--info-soft); color: var(--info); }
 .preview-badge.skipped { background: var(--warn-soft); color: var(--warn); }
@@ -428,18 +343,8 @@ details[open] .details-summary::before { transform: rotate(90deg); }
 .preview-badge.type-preposition { background: #ffe8d4; color: #e08a3a; }
 .preview-badge.type-article { background: #d4f0e4; color: #3a9a6a; }
 .preview-badge.type-word { background: var(--surface); color: var(--text-soft); border: 1px solid var(--border); }
-
-.preview-modal-footer {
-  padding: 12px 16px;
-  border-top: 1px solid var(--border);
-  display: flex; gap: 8px;
-  background: var(--surface);
-  flex-shrink: 0;
-}
-.preview-modal-footer .btn {
-  padding: 12px 16px;
-  font-size: 14px;
-}
+.preview-modal-footer { padding: 12px 16px; border-top: 1px solid var(--border); display: flex; gap: 8px; background: var(--surface); flex-shrink: 0; }
+.preview-modal-footer .btn { padding: 12px 16px; font-size: 14px; }
 .preview-modal-footer .btn-primary { flex: 2; }
 .preview-modal-footer .btn-ghost { flex: 1; }
 
@@ -447,10 +352,11 @@ details[open] .details-summary::before { transform: rotate(90deg); }
   .app-header { padding: 10px 14px; }
   .brand h1 { font-size: 16px; }
   .btn-copy-prompt { padding: 7px 12px; font-size: 12px; }
-  .results-grid { grid-template-columns: 1fr; }
-  .preview-summary { grid-template-columns: 1fr 1fr; }
+  .results-grid, .preview-summary { grid-template-columns: 1fr 1fr; }
   .preview-modal { max-height: 96vh; }
   .preview-modal-body { max-height: 50vh; }
+  .tab-btn { font-size: 12.5px; padding: 9px 10px; }
+  .form-row-2 { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -461,7 +367,7 @@ details[open] .details-summary::before { transform: rotate(90deg); }
     <div class="brand">
       <span class="brand-dot"></span>
       <div>
-        <h1>Imparo <span class="subtitle">INGESTER v2.1</span></h1>
+        <h1>Imparo <span class="subtitle">INGESTER v3</span></h1>
       </div>
     </div>
     <button class="btn-copy-prompt" id="btnCopyPrompt">📋 نسخ البرومبت</button>
@@ -473,71 +379,148 @@ details[open] .details-summary::before { transform: rotate(90deg); }
       <span id="statusText">جارٍ الاتصال بقاعدة البيانات…</span>
     </div>
 
-    <div class="card instructions">
-      <h3>🎯 كيف يعمل التطبيق؟</h3>
-      <ol>
-        <li>اضغط <strong>"نسخ البرومبت"</strong> أعلى الصفحة.</li>
-        <li>الصقه في ChatGPT/Claude مع الجمل الإيطالية.</li>
-        <li>انسخ ناتج JSON من الذكاء الاصطناعي.</li>
-        <li>الصقه في المربع أدناه → اضغط <strong>"تحليل ومعاينة"</strong>.</li>
-        <li>ستُفتح نافذة معاينة كاملة → راجع → اضغط <strong>"رفع إلى السحابة"</strong>.</li>
-      </ol>
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+      <button class="tab-btn active" data-tab="json">📥 JSON</button>
+      <button class="tab-btn" data-tab="verbs">🔤 الأفعال</button>
     </div>
 
-    <!-- JSON Input -->
-    <div class="card">
-      <h3 class="section-title">📥 نص JSON من الذكاء الاصطناعي</h3>
-      <textarea id="jsonInput" class="json-input" placeholder='الصق هنا ناتج JSON…' spellcheck="false"></textarea>
-      <div class="input-meta">
-        <span id="inputStatus" class="input-status">بانتظار النص…</span>
-        <div class="input-meta-actions">
-          <button class="mini-btn" id="btnSample">📋 مثال</button>
-          <button class="mini-btn" id="btnClear">🗑️ مسح</button>
+    <!-- ============ TAB 1: JSON ============ -->
+    <div id="tab-json">
+      <div class="card instructions">
+        <h3>🎯 كيف يعمل؟</h3>
+        <ol>
+          <li>اضغط <strong>"نسخ البرومبت"</strong> أعلى الصفحة.</li>
+          <li>الصقه في ChatGPT/Claude مع الجمل الإيطالية.</li>
+          <li>الصق ناتج JSON في المربع أدناه.</li>
+          <li>اضغط <strong>"تحليل ومعاينة"</strong> → راجع → <strong>"رفع"</strong>.</li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <h3 class="section-title">📥 نص JSON من الذكاء الاصطناعي</h3>
+        <textarea id="jsonInput" class="json-input" placeholder='الصق هنا ناتج JSON…' spellcheck="false"></textarea>
+        <div class="input-meta">
+          <span id="inputStatus" class="input-status">بانتظار النص…</span>
+          <div class="input-meta-actions">
+            <button class="mini-btn" id="btnSample">📋 مثال</button>
+            <button class="mini-btn" id="btnClear">🗑️ مسح</button>
+          </div>
+        </div>
+        <button class="btn btn-primary" id="btnAnalyze" disabled>🔍 تحليل ومعاينة قبل الرفع</button>
+      </div>
+
+      <div class="card results-card" id="resultsCard" hidden>
+        <h3 class="section-title">✅ نتيجة آخر عملية</h3>
+        <div class="results-grid" id="resultsGrid"></div>
+        <details class="details-box" id="resultsDetails" style="margin-top:12px;border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;background:var(--surface);">
+          <summary style="padding:10px 14px;cursor:pointer;font-size:13px;font-weight:700;color:var(--primary-dark);background:var(--surface-2);">عرض التفاصيل</summary>
+          <div style="padding:10px 14px;max-height:300px;overflow-y:auto;font-size:12.5px;" id="resultsDetailsContent"></div>
+        </details>
+      </div>
+
+      <div class="card" id="historyCard" hidden>
+        <h3 class="section-title">📜 سجل آخر العمليات</h3>
+        <div class="history-list" id="historyList"></div>
+      </div>
+    </div>
+
+    <!-- ============ TAB 2: VERBS ============ -->
+    <div id="tab-verbs" hidden>
+      <div class="card instructions" style="background: linear-gradient(135deg, #fff, #fff8e6); border-color: #f0d8a0;">
+        <h3 style="color: #a76b0f;">💡 كيف تضيف فعلاً؟</h3>
+        <p style="font-size: 13px; color: var(--text-soft); line-height: 1.7;">
+          أضف الفعل مرة واحدة بمصدره وتصريفاته. في التطبيق الرئيسي، عند النقر على أي صيغة مصرّفة
+          (مثل <span dir="ltr">mangio</span>) أو المصدر (<span dir="ltr">mangiare</span>)،
+          ستظهر بطاقة الفعل الكاملة مع تمييز الصيغة التي نُقر عليها.
+          للفعل المنعكس مثل <span dir="ltr">alzarsi</span>، فعّل الخيار واملأ حقوله.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 class="section-title" id="verbFormTitle">➕ إضافة فعل جديد</h3>
+        <input type="hidden" id="verbEditId" />
+
+        <div class="form-row-2">
+          <div>
+            <label class="form-label">المصدر *</label>
+            <input type="text" id="verbInfinitive" class="form-input" dir="ltr" placeholder="mangiare" />
+          </div>
+          <div>
+            <label class="form-label">المعنى *</label>
+            <input type="text" id="verbMeaning" class="form-input" placeholder="يأكل" />
+          </div>
+        </div>
+
+        <h4 style="font-size: 13px; margin: 6px 0 10px; color: var(--primary-dark); font-weight: 800;">📝 المضارع (Presente)</h4>
+        <div class="form-row-2">
+          <div><label class="form-label">io</label><input type="text" id="verbPresIo" class="form-input" dir="ltr" placeholder="mangio" /></div>
+          <div><label class="form-label">tu</label><input type="text" id="verbPresTu" class="form-input" dir="ltr" placeholder="mangi" /></div>
+          <div><label class="form-label">lui/lei</label><input type="text" id="verbPresLui" class="form-input" dir="ltr" placeholder="mangia" /></div>
+          <div><label class="form-label">noi</label><input type="text" id="verbPresNoi" class="form-input" dir="ltr" placeholder="mangiamo" /></div>
+          <div><label class="form-label">voi</label><input type="text" id="verbPresVoi" class="form-input" dir="ltr" placeholder="mangiate" /></div>
+          <div><label class="form-label">loro</label><input type="text" id="verbPresLoro" class="form-input" dir="ltr" placeholder="mangiano" /></div>
+        </div>
+
+        <label class="checkbox-label" style="margin-top: 8px;">
+          <input type="checkbox" id="verbHasReflexive" />
+          <span>🔄 له صيغة منعكسة (مثل alzarsi)</span>
+        </label>
+
+        <div id="verbReflexiveSection" class="reflexive-block" hidden>
+          <div class="form-row-2">
+            <div>
+              <label class="form-label">المصدر المنعكس</label>
+              <input type="text" id="verbRefInfinitive" class="form-input" dir="ltr" placeholder="alzarsi" />
+            </div>
+            <div>
+              <label class="form-label">المعنى المنعكس</label>
+              <input type="text" id="verbRefMeaning" class="form-input" placeholder="ينهض" />
+            </div>
+          </div>
+          <h4>🔄 التصريفات المنعكسة (Presente)</h4>
+          <div class="form-row-2">
+            <div><label class="form-label">io</label><input type="text" id="verbRefIo" class="form-input" dir="ltr" placeholder="mi alzo" /></div>
+            <div><label class="form-label">tu</label><input type="text" id="verbRefTu" class="form-input" dir="ltr" placeholder="ti alzi" /></div>
+            <div><label class="form-label">lui/lei</label><input type="text" id="verbRefLui" class="form-input" dir="ltr" placeholder="si alza" /></div>
+            <div><label class="form-label">noi</label><input type="text" id="verbRefNoi" class="form-input" dir="ltr" placeholder="ci alziamo" /></div>
+            <div><label class="form-label">voi</label><input type="text" id="verbRefVoi" class="form-input" dir="ltr" placeholder="vi alzate" /></div>
+            <div><label class="form-label">loro</label><input type="text" id="verbRefLoro" class="form-input" dir="ltr" placeholder="si alzano" /></div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px; margin-top: 14px;">
+          <button class="btn btn-ghost" id="btnResetVerb" style="flex: 1;">إفراغ</button>
+          <button class="btn btn-primary" id="btnSaveVerb" style="flex: 2;">💾 حفظ الفعل</button>
         </div>
       </div>
-      <button class="btn btn-primary" id="btnAnalyze" disabled>🔍 تحليل ومعاينة قبل الرفع</button>
-    </div>
 
-    <!-- Results -->
-    <div class="card results-card" id="resultsCard" hidden>
-      <h3 class="section-title">✅ نتيجة آخر عملية</h3>
-      <div class="results-grid" id="resultsGrid"></div>
-      <details class="details-box" id="resultsDetails">
-        <summary class="details-summary">عرض التفاصيل</summary>
-        <div class="details-content" id="resultsDetailsContent"></div>
-      </details>
-    </div>
-
-    <!-- History -->
-    <div class="card" id="historyCard" hidden>
-      <h3 class="section-title">📜 سجل آخر العمليات</h3>
-      <div class="history-list" id="historyList"></div>
+      <div class="card">
+        <h3 class="section-title">📋 الأفعال المحفوظة (<span id="verbsCount">0</span>)</h3>
+        <div id="verbsList"></div>
+      </div>
     </div>
   </main>
 </div>
 
-<!-- ============ Preview Modal ============ -->
+<!-- Preview Modal -->
 <div class="preview-overlay" id="previewOverlay">
   <div class="preview-modal">
     <div class="preview-modal-header">
       <h3>🔍 معاينة قبل الرفع <span class="user-badge" id="previewUserBadge">…</span></h3>
-      <button class="btn-icon" id="btnClosePreview" aria-label="إغلاق">✕</button>
+      <button class="btn-icon" id="btnClosePreview">✕</button>
     </div>
-
     <div class="preview-summary" id="previewSummary"></div>
-
     <div class="preview-tabs" id="previewTabs">
       <button class="preview-tab-btn active" data-tab="sentences">📅 الجمل</button>
       <button class="preview-tab-btn" data-tab="dictionary">📖 القاموس</button>
       <button class="preview-tab-btn" data-tab="skipped">⏭️ متجاهَل</button>
     </div>
-
     <div class="preview-modal-body">
       <div class="preview-tab-content" data-tab-content="sentences" id="previewTabSentences"></div>
       <div class="preview-tab-content" data-tab-content="dictionary" id="previewTabDictionary" hidden></div>
       <div class="preview-tab-content" data-tab-content="skipped" id="previewTabSkipped" hidden></div>
     </div>
-
     <div class="preview-modal-footer">
       <button class="btn btn-ghost" id="btnClosePreviewBottom">إلغاء</button>
       <button class="btn btn-primary" id="btnConfirmUpload">🚀 رفع إلى السحابة</button>
@@ -568,9 +551,6 @@ details[open] .details-summary::before { transform: rotate(90deg); }
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
 <script>
-/* =========================================================
-   Imparo Ingester v2.1 — Fixed preview + Full modal
-   ========================================================= */
 (function () {
   'use strict';
 
@@ -586,9 +566,11 @@ details[open] .details-summary::before { transform: rotate(90deg); }
   const USER_ID = "ahmed_imparo_53eea_x7k9m2p4q8w3_admin";
 
   const BATCH_LIMIT = 500;
-  const HISTORY_KEY = 'imparo_ingester_history_v2';
+  const HISTORY_KEY = 'imparo_ingester_history_v3';
   const MEANING_SEPARATOR = ' • ';
   const VALID_TYPES = ['verb', 'preposition', 'article', 'word'];
+  const PRONOUN_KEYS = ['io', 'tu', 'lui', 'noi', 'voi', 'loro'];
+  const PRONOUN_INPUTS = ['Io', 'Tu', 'Lui', 'Noi', 'Voi', 'Loro'];
 
   /* ============ AI PROMPT ============ */
   const AI_PROMPT = `أنا أتعلم اللغة الإيطالية. سأعطيك قائمة بالجمل الإيطالية التي دونتها أثناء المذاكرة.
@@ -630,7 +612,8 @@ details[open] .details-summary::before { transform: rotate(90deg); }
     db: null,
     ready: false,
     processing: false,
-    pendingPreview: null
+    pendingPreview: null,
+    verbs: []
   };
 
   /* ============ Helpers ============ */
@@ -706,14 +689,196 @@ details[open] .details-summary::before { transform: rotate(90deg); }
       state.db = firebase.firestore();
       await state.db.collection('users').doc(USER_ID).get();
       state.ready = true;
-      setSync('online', 'متصل بقاعدة البيانات (' + USER_ID.slice(0, 16) + '…)');
+      setSync('online', 'متصل (' + USER_ID.slice(0, 16) + '…)');
       $('#previewUserBadge').textContent = USER_ID.slice(0, 20) + '…';
-      console.info('[Ingester] جاهز. USER_ID =', USER_ID);
+      await loadVerbs();
+      console.info('[Ingester v3] جاهز. USER_ID =', USER_ID);
     } catch (err) {
       console.error('[Ingester] init:', err);
       setSync('offline', 'فشل الاتصال: ' + (err.message || err));
       toast('فشل الاتصال بقاعدة البيانات', 'err');
     }
+  }
+
+  /* ============ Verbs CRUD ============ */
+  function verbsCol() {
+    return state.db.collection('users').doc(USER_ID).collection('verbs');
+  }
+
+  async function loadVerbs() {
+    try {
+      const snap = await verbsCol().get();
+      state.verbs = snap.docs.map(d => Object.assign({ id: d.id }, d.data() || {}));
+      renderVerbsList();
+    } catch (err) {
+      console.warn('[Verbs] load:', err);
+    }
+  }
+
+  /* بناء forms_index: كل صيغة ← نفس الفعل.
+     للصيغ المنعكسة "mi alzo" نضيف "alzo" أيضاً للبحث بالكلمة المفردة */
+  function buildFormsIndex(v) {
+    const forms = new Set();
+    const add = (s) => { if (!s) return; const k = normalizeKey(s); if (k) forms.add(k); };
+    const addReflexive = (s) => {
+      if (!s) return;
+      add(s);
+      const parts = String(s).trim().split(/\s+/);
+      add(parts[parts.length - 1]);
+    };
+    add(v.infinitive);
+    if (v.present) Object.values(v.present).forEach(add);
+    add(v.reflexive_infinitive);
+    if (v.present_reflexive) Object.values(v.present_reflexive).forEach(addReflexive);
+    return Array.from(forms);
+  }
+
+  function resetVerbForm() {
+    $('#verbEditId').value = '';
+    $('#verbInfinitive').value = '';
+    $('#verbMeaning').value = '';
+    $('#verbHasReflexive').checked = false;
+    $('#verbReflexiveSection').hidden = true;
+    $('#verbRefInfinitive').value = '';
+    $('#verbRefMeaning').value = '';
+    PRONOUN_INPUTS.forEach(p => {
+      const el = document.getElementById('verbPres' + p); if (el) el.value = '';
+      const rel = document.getElementById('verbRef' + p); if (rel) rel.value = '';
+    });
+    $('#verbFormTitle').textContent = '➕ إضافة فعل جديد';
+  }
+
+  function editVerb(id) {
+    const v = state.verbs.find(x => x.id === id);
+    if (!v) return;
+    $('#verbEditId').value = id;
+    $('#verbInfinitive').value = v.infinitive || '';
+    $('#verbMeaning').value = v.meaning || '';
+    const hasRef = !!v.reflexive_infinitive;
+    $('#verbHasReflexive').checked = hasRef;
+    $('#verbReflexiveSection').hidden = !hasRef;
+    $('#verbRefInfinitive').value = v.reflexive_infinitive || '';
+    $('#verbRefMeaning').value = v.reflexive_meaning || '';
+    const pres = v.present || {};
+    PRONOUN_KEYS.forEach((k, i) => {
+      const el = document.getElementById('verbPres' + PRONOUN_INPUTS[i]);
+      if (el) el.value = pres[k] || '';
+    });
+    const rPres = v.present_reflexive || {};
+    PRONOUN_KEYS.forEach((k, i) => {
+      const el = document.getElementById('verbRef' + PRONOUN_INPUTS[i]);
+      if (el) el.value = rPres[k] || '';
+    });
+    $('#verbFormTitle').textContent = '✏️ تعديل: ' + (v.infinitive || '');
+    $('#verbInfinitive').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  async function deleteVerb(id) {
+    const v = state.verbs.find(x => x.id === id);
+    if (!v) return;
+    if (!confirm(`حذف الفعل "${v.infinitive}"؟`)) return;
+    try {
+      setSync('syncing', 'جارٍ الحذف…');
+      await verbsCol().doc(id).delete();
+      state.verbs = state.verbs.filter(x => x.id !== id);
+      renderVerbsList();
+      setSync('online', 'متصل');
+      toast('تم الحذف', 'ok');
+    } catch (err) {
+      console.error(err);
+      setSync('offline', 'فشل الحذف');
+      toast('فشل الحذف: ' + (err.message || err), 'err');
+    }
+  }
+
+  async function saveVerb() {
+    const infinitive = $('#verbInfinitive').value.trim();
+    const meaning = $('#verbMeaning').value.trim();
+    if (!infinitive) { toast('أدخل المصدر', 'err'); return; }
+    if (!meaning) { toast('أدخل المعنى', 'err'); return; }
+
+    const hasRef = $('#verbHasReflexive').checked;
+    const present = {};
+    PRONOUN_KEYS.forEach((k, i) => {
+      present[k] = document.getElementById('verbPres' + PRONOUN_INPUTS[i]).value.trim();
+    });
+    if (!Object.values(present).some(Boolean)) {
+      toast('أضف تصريفات المضارع على الأقل', 'err');
+      return;
+    }
+
+    const data = {
+      infinitive,
+      meaning,
+      reflexive_infinitive: hasRef ? ($('#verbRefInfinitive').value.trim() || null) : null,
+      reflexive_meaning: hasRef ? ($('#verbRefMeaning').value.trim() || null) : null,
+      present,
+      present_reflexive: null,
+      updated_at: Date.now()
+    };
+
+    if (hasRef) {
+      const rPres = {};
+      PRONOUN_KEYS.forEach((k, i) => {
+        rPres[k] = document.getElementById('verbRef' + PRONOUN_INPUTS[i]).value.trim();
+      });
+      data.present_reflexive = rPres;
+    }
+
+    data.forms_index = buildFormsIndex(data);
+
+    try {
+      setSync('syncing', 'جارٍ حفظ الفعل…');
+      const key = normalizeKey(infinitive);
+      await verbsCol().doc(key).set(data, { merge: true });
+      data.id = key;
+      const idx = state.verbs.findIndex(x => x.id === key);
+      if (idx >= 0) state.verbs[idx] = data; else state.verbs.push(data);
+      renderVerbsList();
+      resetVerbForm();
+      setSync('online', 'متصل — تم الحفظ');
+      toast(`✅ "${infinitive}" محفوظ بـ ${data.forms_index.length} صيغة`, 'ok');
+    } catch (err) {
+      console.error(err);
+      setSync('offline', 'فشل الحفظ');
+      toast('فشل الحفظ: ' + (err.message || err), 'err');
+    }
+  }
+
+  function renderVerbsList() {
+    const wrap = $('#verbsList');
+    $('#verbsCount').textContent = state.verbs.length;
+    if (!state.verbs.length) {
+      wrap.innerHTML = '<div class="empty-state">لا توجد أفعال محفوظة بعد</div>';
+      return;
+    }
+    wrap.innerHTML = state.verbs.map(v => {
+      const conjCount = v.present ? Object.values(v.present).filter(Boolean).length : 0;
+      const hasRef = !!v.reflexive_infinitive;
+      return `
+        <div class="verb-item">
+          <div class="verb-item-body">
+            <div class="verb-item-inf" dir="ltr">${escapeHtml(v.infinitive || '')}</div>
+            <div class="verb-item-meaning">${escapeHtml(v.meaning || '—')}</div>
+            <div class="verb-item-meta">
+              <span class="verb-badge conj">${conjCount}/6 تصريف</span>
+              ${hasRef ? `<span class="verb-badge reflexive">🔄 ${escapeHtml(v.reflexive_infinitive)}</span>` : ''}
+            </div>
+          </div>
+          <div class="verb-item-actions">
+            <button data-edit="${escapeHtml(v.id)}">✏️</button>
+            <button class="danger" data-del="${escapeHtml(v.id)}">🗑️</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    wrap.querySelectorAll('[data-edit]').forEach(b => {
+      b.addEventListener('click', () => editVerb(b.dataset.edit));
+    });
+    wrap.querySelectorAll('[data-del]').forEach(b => {
+      b.addEventListener('click', () => deleteVerb(b.dataset.del));
+    });
   }
 
   /* ============ Parse JSON ============ */
@@ -804,7 +969,7 @@ details[open] .details-summary::before { transform: rotate(90deg); }
     return map;
   }
 
-  /* ============ Live input status (does NOT touch preview modal) ============ */
+  /* ============ Live input status ============ */
   function previewInput() {
     const text = $('#jsonInput').value.trim();
     const btn = $('#btnAnalyze');
@@ -854,32 +1019,17 @@ details[open] .details-summary::before { transform: rotate(90deg); }
   }
 
   function renderPreviewModal(p) {
-    // Summary
     $('#previewSummary').innerHTML = `
-      <div class="preview-stat success">
-        <span class="stat-value">${p.sentNew}</span>
-        <span class="stat-label">جمل جديدة</span>
-      </div>
-      <div class="preview-stat success">
-        <span class="stat-value">${p.dictNew}</span>
-        <span class="stat-label">كلمات جديدة</span>
-      </div>
-      <div class="preview-stat added">
-        <span class="stat-value">${p.dictAdded}</span>
-        <span class="stat-label">معانٍ إضافية</span>
-      </div>
-      <div class="preview-stat skipped">
-        <span class="stat-value">${p.sentDup + p.dictSame}</span>
-        <span class="stat-label">سيُتجاهل</span>
-      </div>
+      <div class="preview-stat success"><span class="stat-value">${p.sentNew}</span><span class="stat-label">جمل جديدة</span></div>
+      <div class="preview-stat success"><span class="stat-value">${p.dictNew}</span><span class="stat-label">كلمات جديدة</span></div>
+      <div class="preview-stat added"><span class="stat-value">${p.dictAdded}</span><span class="stat-label">معانٍ إضافية</span></div>
+      <div class="preview-stat skipped"><span class="stat-value">${p.sentDup + p.dictSame}</span><span class="stat-label">سيُتجاهل</span></div>
     `;
 
-    // Tab counts
     document.querySelector('[data-tab="sentences"]').innerHTML = `📅 الجمل <span class="tab-count">${p.sentNew}</span>`;
     document.querySelector('[data-tab="dictionary"]').innerHTML = `📖 القاموس <span class="tab-count">${p.dictNew + p.dictAdded}</span>`;
     document.querySelector('[data-tab="skipped"]').innerHTML = `⏭️ متجاهَل <span class="tab-count">${p.sentDup + p.dictSame}</span>`;
 
-    // Sentences tab
     const sentWrap = $('#previewTabSentences');
     if (p._freshSentences.length === 0) {
       sentWrap.innerHTML = '<div class="empty-state">لا توجد جمل جديدة للإضافة</div>';
@@ -895,7 +1045,6 @@ details[open] .details-summary::before { transform: rotate(90deg); }
       `).join('');
     }
 
-    // Dictionary tab
     const dictWrap = $('#previewTabDictionary');
     if (p._dictOps.length === 0) {
       dictWrap.innerHTML = '<div class="empty-state">لا توجد كلمات جديدة أو معانٍ إضافية</div>';
@@ -926,17 +1075,10 @@ details[open] .details-summary::before { transform: rotate(90deg); }
       }).join('');
     }
 
-    // Skipped tab
     const skipWrap = $('#previewTabSkipped');
     const skippedAll = [
-      ...p._dupSentences.map(d => ({
-        kind: 'sentence', main: d.sentence.italian,
-        sub: d.sentence.arabic, reason: d.reason
-      })),
-      ...p._dictSkipped.map(d => ({
-        kind: 'word', main: d.word,
-        sub: d.oldMeaning, reason: d.reason
-      }))
+      ...p._dupSentences.map(d => ({ kind: 'sentence', main: d.sentence.italian, sub: d.sentence.arabic, reason: d.reason })),
+      ...p._dictSkipped.map(d => ({ kind: 'word', main: d.word, sub: d.oldMeaning, reason: d.reason }))
     ];
     if (skippedAll.length === 0) {
       skipWrap.innerHTML = '<div class="empty-state">لا يوجد شيء متجاهَل — كل البيانات جديدة 🎉</div>';
@@ -954,15 +1096,11 @@ details[open] .details-summary::before { transform: rotate(90deg); }
       `).join('');
     }
 
-    // Confirm button
     const total = p.sentNew + p.dictNew + p.dictAdded;
     const btn = $('#btnConfirmUpload');
     btn.disabled = total === 0;
-    btn.innerHTML = total === 0
-      ? '🚫 لا يوجد جديد للرفع'
-      : `🚀 رفع ${total} عملية إلى السحابة`;
+    btn.innerHTML = total === 0 ? '🚫 لا يوجد جديد للرفع' : `🚀 رفع ${total} عملية إلى السحابة`;
 
-    // Default tab
     if (p.sentNew > 0) switchPreviewTab('sentences');
     else if (p.dictNew + p.dictAdded > 0) switchPreviewTab('dictionary');
     else switchPreviewTab('skipped');
@@ -984,12 +1122,11 @@ details[open] .details-summary::before { transform: rotate(90deg); }
     const dictMap = buildDictMap(parsed.dictionary);
 
     if (sentences.length === 0 && dictMap.size === 0) {
-      toast('لا توجد بيانات صالحة', 'err');
-      return;
+      toast('لا توجد بيانات صالحة', 'err'); return;
     }
 
     state.processing = true;
-    setSync('syncing', 'جارٍ تحليل البيانات ومقارنتها بالمخزّن…');
+    setSync('syncing', 'جارٍ تحليل البيانات…');
 
     const btn = $('#btnAnalyze');
     btn.classList.add('loading');
@@ -1002,7 +1139,6 @@ details[open] .details-summary::before { transform: rotate(90deg); }
         state.db.collection('users').doc(USER_ID).collection('dictionary').get()
       ]);
 
-      // === Sentences dedup ===
       const existingItalian = new Set();
       sentSnap.docs.forEach(doc => {
         const d = doc.data() || {};
@@ -1010,54 +1146,36 @@ details[open] .details-summary::before { transform: rotate(90deg); }
         if (it) existingItalian.add(it);
       });
 
-      const freshSentences = [];
-      const dupSentences = [];
-      const batchSeen = new Set();
-
+      const freshSentences = [], dupSentences = [], batchSeen = new Set();
       sentences.forEach(s => {
         const key = s.italian.trim().toLowerCase();
-        if (existingItalian.has(key)) {
-          dupSentences.push({ sentence: s, reason: 'موجودة مسبقًا' });
-        } else if (batchSeen.has(key)) {
-          dupSentences.push({ sentence: s, reason: 'مكررة في نفس الدفعة' });
-        } else {
-          freshSentences.push(s);
-          batchSeen.add(key);
-        }
+        if (existingItalian.has(key)) dupSentences.push({ sentence: s, reason: 'موجودة مسبقًا' });
+        else if (batchSeen.has(key)) dupSentences.push({ sentence: s, reason: 'مكررة في نفس الدفعة' });
+        else { freshSentences.push(s); batchSeen.add(key); }
       });
 
-      // === Dictionary merge ===
       const existingDict = new Map();
-      dictSnap.docs.forEach(doc => {
-        existingDict.set(doc.id, doc.data() || {});
-      });
+      dictSnap.docs.forEach(doc => { existingDict.set(doc.id, doc.data() || {}); });
 
-      const dictOps = [];
-      const dictSkipped = [];
-
+      const dictOps = [], dictSkipped = [];
       dictMap.forEach((entry, key) => {
         const old = existingDict.get(key);
-
         if (!old) {
           dictOps.push({
             key, kind: 'new',
             data: {
               word: entry.word, lemma: entry.lemma, type: entry.type,
-              meaning: entry.meaning, summary: entry.summary,
-              updated_at: Date.now()
+              meaning: entry.meaning, summary: entry.summary, updated_at: Date.now()
             }
           });
           return;
         }
-
         const oldMeaning = String(old.meaning || '').trim();
         const cmp = compareMeanings(oldMeaning, entry.meaning);
-
         if (cmp.same) {
           dictSkipped.push({ word: entry.word, key, reason: 'نفس المعنى', oldMeaning });
           return;
         }
-
         dictOps.push({
           key,
           kind: cmp.added ? 'meaning-added' : 'new',
@@ -1087,10 +1205,7 @@ details[open] .details-summary::before { transform: rotate(90deg); }
       state.pendingPreview = preview;
       renderPreviewModal(preview);
       openPreviewModal();
-
       setSync('online', 'متصل — راجع المعاينة');
-      console.info('[Ingester] تحليل:', preview);
-
     } catch (err) {
       console.error('[Ingester] analyze:', err);
       toast('فشل التحليل: ' + (err.message || err), 'err');
@@ -1099,7 +1214,7 @@ details[open] .details-summary::before { transform: rotate(90deg); }
       state.processing = false;
       btn.classList.remove('loading');
       btn.textContent = '🔍 تحليل ومعاينة قبل الرفع';
-      previewInput(); // آمِن الآن — لا يُخفي النافذة
+      previewInput();
     }
   }
 
@@ -1130,9 +1245,8 @@ details[open] .details-summary::before { transform: rotate(90deg); }
       const ops = [];
 
       p._freshSentences.forEach(s => {
-        const ref = sentencesCol.doc();
         ops.push({
-          ref,
+          ref: sentencesCol.doc(),
           data: {
             italian: s.italian, arabic: s.arabic,
             next_review: now - 1,
@@ -1140,21 +1254,16 @@ details[open] .details-summary::before { transform: rotate(90deg); }
             in_mistake_bank: false, is_frozen: false,
             created_at: now, last_reviewed: null
           },
-          merge: false, kind: 'sentence'
+          merge: false
         });
       });
 
       p._dictOps.forEach(op => {
-        const ref = dictCol.doc(op.key);
-        ops.push({ ref, data: op.data, merge: true, kind: op.kind });
+        ops.push({ ref: dictCol.doc(op.key), data: op.data, merge: true });
       });
 
-      const chunks = [];
       for (let i = 0; i < ops.length; i += BATCH_LIMIT) {
-        chunks.push(ops.slice(i, i + BATCH_LIMIT));
-      }
-
-      for (const chunk of chunks) {
+        const chunk = ops.slice(i, i + BATCH_LIMIT);
         try {
           const batch = state.db.batch();
           chunk.forEach(op => {
@@ -1176,9 +1285,7 @@ details[open] .details-summary::before { transform: rotate(90deg); }
         dictSame: p.dictSame, failed, elapsed,
         details: {
           duplicateSentences: p._dupSentences.map(d => ({
-            italian: d.sentence.italian,
-            arabic: d.sentence.arabic,
-            reason: d.reason
+            italian: d.sentence.italian, arabic: d.sentence.arabic, reason: d.reason
           })),
           skippedDict: p._dictSkipped.map(d => ({
             word: d.word, reason: d.reason, oldMeaning: d.oldMeaning
@@ -1194,43 +1301,36 @@ details[open] .details-summary::before { transform: rotate(90deg); }
       closePreviewModal();
 
       if (failed === 0) {
-        toast(`✅ تم رفع ${p.sentNew} جملة · ${p.dictNew + p.dictAdded} كلمة`, 'ok');
-        setSync('online', 'متصل — تم الرفع بنجاح');
+        toast(`✅ ${p.sentNew} جملة · ${p.dictNew + p.dictAdded} كلمة`, 'ok');
+        setSync('online', 'متصل — تم الرفع');
         $('#jsonInput').value = '';
         state.pendingPreview = null;
         previewInput();
       } else {
-        toast(`⚠️ بعض العمليات فشلت (${failed})`, 'warn');
+        toast(`⚠️ نجاح جزئي (${failed} فشل)`, 'warn');
         setSync('online', 'متصل — نجاح جزئي');
       }
-
     } catch (err) {
       console.error('[Ingester] commit:', err);
-      toast('خطأ غير متوقع: ' + (err.message || err), 'err');
-      setSync('offline', 'خطأ في الرفع');
+      toast('خطأ: ' + (err.message || err), 'err');
+      setSync('offline', 'فشل الرفع');
     } finally {
       state.processing = false;
       confirmBtn.classList.remove('loading');
       confirmBtn.disabled = false;
-      // النص يعتمد على حالة المعاينة الحالية
       if (state.pendingPreview) {
         const t = state.pendingPreview.sentNew + state.pendingPreview.dictNew + state.pendingPreview.dictAdded;
-        confirmBtn.innerHTML = t === 0
-          ? '🚫 لا يوجد جديد للرفع'
-          : `🚀 رفع ${t} عملية إلى السحابة`;
+        confirmBtn.innerHTML = t === 0 ? '🚫 لا يوجد جديد للرفع' : `🚀 رفع ${t} عملية إلى السحابة`;
       } else {
         confirmBtn.innerHTML = '🚀 رفع إلى السحابة';
       }
     }
   }
 
-  /* ============ Results ============ */
+  /* ============ Results / History ============ */
   function renderResults(r) {
-    const card = $('#resultsCard');
-    card.hidden = false;
-
-    const grid = $('#resultsGrid');
-    grid.innerHTML = `
+    $('#resultsCard').hidden = false;
+    $('#resultsGrid').innerHTML = `
       <div class="result-item success"><span class="v">${r.sentNew}</span><span class="l">جمل جديدة</span></div>
       <div class="result-item skipped"><span class="v">${r.sentDup}</span><span class="l">جمل مكررة</span></div>
       <div class="result-item success"><span class="v">${r.dictNew}</span><span class="l">كلمات جديدة</span></div>
@@ -1242,48 +1342,42 @@ details[open] .details-summary::before { transform: rotate(90deg); }
 
     const details = $('#resultsDetailsContent');
     let html = '';
-
     if (r.details.duplicateSentences.length) {
-      html += `<div class="details-group"><h5>📅 جمل مكررة</h5>`;
+      html += `<div style="margin-bottom:12px;"><h5 style="font-size:12px;font-weight:800;color:var(--text-soft);margin-bottom:6px;border-bottom:1px solid var(--border);padding-bottom:4px;">📅 جمل مكررة</h5>`;
       r.details.duplicateSentences.forEach(d => {
-        html += `<div class="detail-item">
-          <span class="it">${escapeHtml(d.italian)}</span>
-          <span class="reason">${escapeHtml(d.reason)}</span>
+        html += `<div style="padding:6px 8px;margin-bottom:4px;background:var(--surface-2);border-radius:8px;display:flex;justify-content:space-between;gap:8px;font-size:12px;">
+          <span dir="ltr" style="font-family:Georgia;font-weight:600;flex:1;">${escapeHtml(d.italian)}</span>
+          <span style="font-size:10.5px;padding:1px 6px;border-radius:4px;background:var(--warn-soft);color:var(--warn);white-space:nowrap;">${escapeHtml(d.reason)}</span>
         </div>`;
       });
       html += `</div>`;
     }
-
     if (r.details.meaningAddedList.length) {
-      html += `<div class="details-group"><h5>➕ معانٍ أُضيفت</h5>`;
+      html += `<div style="margin-bottom:12px;"><h5 style="font-size:12px;font-weight:800;color:var(--text-soft);margin-bottom:6px;border-bottom:1px solid var(--border);padding-bottom:4px;">➕ معانٍ أُضيفت</h5>`;
       r.details.meaningAddedList.forEach(d => {
-        html += `<div class="detail-item">
-          <span class="it" style="flex:0;">${escapeHtml(d.word)}</span>
-          <span class="ar" style="flex:1;">${escapeHtml(d.meaning)}</span>
+        html += `<div style="padding:6px 8px;margin-bottom:4px;background:var(--surface-2);border-radius:8px;display:flex;gap:8px;font-size:12px;">
+          <span dir="ltr" style="font-family:Georgia;font-weight:600;">${escapeHtml(d.word)}</span>
+          <span style="color:var(--text-soft);flex:1;">${escapeHtml(d.meaning)}</span>
         </div>`;
       });
       html += `</div>`;
     }
-
     if (r.details.skippedDict.length) {
-      html += `<div class="details-group"><h5>📖 كلمات بنفس المعنى</h5>`;
+      html += `<div><h5 style="font-size:12px;font-weight:800;color:var(--text-soft);margin-bottom:6px;border-bottom:1px solid var(--border);padding-bottom:4px;">📖 كلمات بنفس المعنى</h5>`;
       r.details.skippedDict.forEach(d => {
-        html += `<div class="detail-item">
-          <span class="it" style="flex:0;">${escapeHtml(d.word)}</span>
-          <span class="ar" style="flex:1;">${escapeHtml(d.oldMeaning)}</span>
-          <span class="reason">${escapeHtml(d.reason)}</span>
+        html += `<div style="padding:6px 8px;margin-bottom:4px;background:var(--surface-2);border-radius:8px;display:flex;gap:8px;font-size:12px;">
+          <span dir="ltr" style="font-family:Georgia;font-weight:600;">${escapeHtml(d.word)}</span>
+          <span style="color:var(--text-soft);flex:1;">${escapeHtml(d.oldMeaning)}</span>
         </div>`;
       });
       html += `</div>`;
     }
-
     if (!html) html = '<div class="empty-state">لا توجد تفاصيل</div>';
     details.innerHTML = html;
     $('#resultsDetails').open = false;
-    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    $('#resultsCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
-  /* ============ History ============ */
   function loadHistory() {
     try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); }
     catch { return []; }
@@ -1311,9 +1405,7 @@ details[open] .details-summary::before { transform: rotate(90deg); }
     card.hidden = false;
     wrap.innerHTML = history.map(item => {
       const date = new Date(item.timestamp);
-      const timeStr = date.toLocaleString('ar-EG', {
-        day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit'
-      });
+      const timeStr = date.toLocaleString('ar-EG', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
       const parts = [];
       if (item.sentNew) parts.push(`+${item.sentNew} جملة`);
       if (item.sentDup) parts.push(`${item.sentDup} مكرر`);
@@ -1328,8 +1420,7 @@ details[open] .details-summary::before { transform: rotate(90deg); }
             <div class="history-item-title">${parts.join(' · ')}</div>
             <div class="history-item-time">${timeStr}</div>
           </div>
-        </div>
-      `;
+        </div>`;
     }).join('');
   }
 
@@ -1376,51 +1467,20 @@ details[open] .details-summary::before { transform: rotate(90deg); }
   function loadSample() {
     const sample = `{
   "sentences": [
-    {
-      "italian": "Io mangio una mela ogni mattina",
-      "arabic": "أنا آكل تفاحة كل صباح"
-    },
-    {
-      "italian": "Vado a Roma con il treno",
-      "arabic": "أذهب إلى روما بالقطار"
-    }
+    { "italian": "Io mangio una mela ogni mattina", "arabic": "أنا آكل تفاحة كل صباح" },
+    { "italian": "Vado a Roma con il treno", "arabic": "أذهب إلى روما بالقطار" }
   ],
   "dictionary": [
-    {
-      "word": "mangio",
-      "lemma": "mangiare",
-      "type": "verb",
-      "meaning": "آكل",
-      "summary": "io mangio, tu mangi, lui/lei mangia, noi mangiamo, voi mangiate, loro mangiano"
-    },
-    {
-      "word": "a",
-      "lemma": "a",
-      "type": "preposition",
-      "meaning": "إلى",
-      "summary": "تُستخدم للاتجاه (a Roma)، أو الوقت (alle 8)، أو الحالة (a casa)."
-    },
-    {
-      "word": "il",
-      "lemma": "il",
-      "type": "article",
-      "meaning": "أداة التعريف (مذكر)",
-      "summary": "قبل الأسماء المذكرة المفردة. lo قبل s+consonant أو z. l' قبل الحروف المتحركة."
-    },
-    {
-      "word": "mela",
-      "lemma": "mela",
-      "type": "word",
-      "meaning": "تفاحة",
-      "summary": "اسم مؤنث (la mela). جمع: le mele."
-    }
+    { "word": "mangio", "lemma": "mangiare", "type": "verb", "meaning": "آكل", "summary": "io mangio, tu mangi, lui/lei mangia, noi mangiamo, voi mangiate, loro mangiano" },
+    { "word": "a", "lemma": "a", "type": "preposition", "meaning": "إلى", "summary": "للاتجاه أو الوقت أو الحالة." },
+    { "word": "il", "lemma": "il", "type": "article", "meaning": "أداة التعريف", "summary": "قبل المذكر المفرد." },
+    { "word": "mela", "lemma": "mela", "type": "word", "meaning": "تفاحة", "summary": "اسم مؤنث، جمع: mele." }
   ]
 }`;
     $('#jsonInput').value = sample;
     previewInput();
     toast('تم تحميل المثال', 'ok');
   }
-
   function clearInput() {
     $('#jsonInput').value = '';
     state.pendingPreview = null;
@@ -1430,12 +1490,30 @@ details[open] .details-summary::before { transform: rotate(90deg); }
 
   /* ============ Events ============ */
   function bindEvents() {
+    // Tab switching
+    $$('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        $$('.tab-btn').forEach(b => b.classList.toggle('active', b === btn));
+        $('#tab-json').hidden = btn.dataset.tab !== 'json';
+        $('#tab-verbs').hidden = btn.dataset.tab !== 'verbs';
+        if (btn.dataset.tab === 'verbs') loadVerbs();
+      });
+    });
+
+    // JSON tab
     $('#btnCopyPrompt').addEventListener('click', copyPrompt);
     $('#btnAnalyze').addEventListener('click', analyze);
     $('#btnConfirmUpload').addEventListener('click', commitUpload);
     $('#btnSample').addEventListener('click', loadSample);
     $('#btnClear').addEventListener('click', clearInput);
     $('#jsonInput').addEventListener('input', previewInput);
+
+    // Verbs tab
+    $('#verbHasReflexive').addEventListener('change', e => {
+      $('#verbReflexiveSection').hidden = !e.target.checked;
+    });
+    $('#btnSaveVerb').addEventListener('click', saveVerb);
+    $('#btnResetVerb').addEventListener('click', resetVerbForm);
 
     // Preview modal
     $('#btnClosePreview').addEventListener('click', closePreviewModal);
@@ -1476,7 +1554,7 @@ details[open] .details-summary::before { transform: rotate(90deg); }
     renderHistory();
     await initFirebase();
     previewInput();
-    console.info('[Ingester v2.1] Boot complete. USER_ID =', USER_ID);
+    console.info('[Ingester v3] Boot complete. USER_ID =', USER_ID);
   }
 
   document.addEventListener('DOMContentLoaded', boot);
