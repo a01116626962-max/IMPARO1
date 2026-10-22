@@ -56,6 +56,8 @@ body { min-height: 100vh; }
 .btn-prompt:active { transform: scale(.96); }
 .btn-prompt.sentences { background: var(--primary); color: #fff; box-shadow: 0 4px 10px rgba(45,122,104,.22); }
 .btn-prompt.verbs { background: var(--purple); color: #fff; box-shadow: 0 4px 10px rgba(124,77,204,.22); }
+/* ✅ جديد: زر برومبت ملف Drive — أزرق معلوماتي */
+.btn-prompt.drive { background: var(--info); color: #fff; box-shadow: 0 4px 10px rgba(74,110,224,.22); }
 .btn-prompt.copied { background: var(--success) !important; box-shadow: 0 4px 10px rgba(76,175,125,.22); }
 
 .app-main { flex: 1; padding: 16px; padding-bottom: 40px; display: flex; flex-direction: column; gap: 14px; }
@@ -619,6 +621,10 @@ body { min-height: 100vh; }
       <button class="btn-prompt verbs" id="btnCopyVerbPrompt" title="برومبت الأفعال">
         🔤 <span class="btn-text-long">برومبت الأفعال</span>
       </button>
+      <!-- ✅ جديد: برومبت ملف Drive -->
+      <button class="btn-prompt drive" id="btnCopyDrivePrompt" title="برومبت ملف Drive — تحويل ملف الجمل إلى JSON">
+        📄 <span class="btn-text-long">ملف Drive</span>
+      </button>
     </div>
   </header>
 
@@ -638,8 +644,8 @@ body { min-height: 100vh; }
       <div class="card instructions">
         <h3>🎯 كيف يعمل؟</h3>
         <ol>
-          <li>اضغط <strong>"برومبت الجمل"</strong> أو <strong>"برومبت الأفعال"</strong> أعلى الصفحة.</li>
-          <li>الصق البرومبت في ChatGPT/Claude مع بياناتك.</li>
+          <li>اضغط <strong>"برومبت الجمل"</strong> أو <strong>"برومبت الأفعال"</strong> أو <strong>"ملف Drive"</strong> أعلى الصفحة.</li>
+          <li>الصق البرومبت في ChatGPT/Claude مع بياناتك (أو ارفق ملف Drive).</li>
           <li>الصق ناتج JSON في المربع أدناه (أو في حقل الأفعال بتبويب "الأفعال").</li>
           <li>اضغط <strong>"تحليل ومعاينة"</strong> → راجع → <strong>"رفع"</strong>.</li>
         </ol>
@@ -783,11 +789,11 @@ body { min-height: 100vh; }
   </div>
 </div>
 
-<!-- Prompt Modal -->
+<!-- Prompt Modal (يُستخدم كـ fallback للنسخ اليدوي لكل البرومبتات) -->
 <div class="prompt-overlay" id="promptOverlay">
   <div class="prompt-modal">
     <div class="prompt-modal-header">
-      <h3>📝 برومبت الجمل (للاستخدام مع AI)</h3>
+      <h3 id="promptModalTitle">📝 برومبت (نسخ يدوي)</h3>
       <button class="btn-icon" id="btnClosePrompt">✕</button>
     </div>
     <div class="prompt-modal-body">
@@ -918,6 +924,24 @@ body { min-height: 100vh; }
 إليك الجمل:
 [ضع جملك الإيطالية هنا]`;
 
+  /* =========================================================
+     ✅ برومبت ملف Drive — يُنسخ مباشرة عند الضغط على الزر
+     ========================================================= */
+  const DRIVE_PROMPT = `أنا أرسل لك ملفاً يحتوي على جمل إيطالية ومترجمة للعربية (الملف رقم 1). 
+
+المطلوب منك بدقة متناهية:
+1. عدم تعديل أي كلمة أو حرف أو صياغة في الجمل إطلاقاً.
+2. تحويل كل هذه الجمل إلى هيكلية JSON النظيفة التي يفهمها موقعي بدون أي نصوص أو شرح خارجي.
+3. التأكد من تنسيق المفاتيح كالتالي:
+
+{
+  "sentences": [
+    { "italian": "الجملة الإيطالية كما هي بالملف", "arabic": "الترجمة العربية كما هي بالملف" }
+  ]
+}
+
+أخرج لي فقط نص الـ JSON المجهز.`;
+
   function buildVerbPrompt(opts) {
     const lines = [];
     lines.push('- تصريفات الفعل في زمن المضارع (Presente) [أساسي دائمًا].');
@@ -964,7 +988,9 @@ ${lines.join('\n')}
     processing: false,
     pendingPreview: null,
     verbs: [],
-    verbPromptOptions: { riflessivo: false, passato: false, futuro: false }
+    verbPromptOptions: { riflessivo: false, passato: false, futuro: false },
+    modalPromptText: '', // ✅ جديد: تتبّع البرومبت الحالي المعروض في المودال
+    modalPromptTitle: ''
   };
 
   const $ = sel => document.querySelector(sel);
@@ -1908,23 +1934,43 @@ ${lines.join('\n')}
     }).join('');
   }
 
-  /* ============ Copy Prompts ============ */
-  async function copyPrompt() {
+  /* =========================================================
+     Copy Prompts — دالة عامة + دالتان لكل زر
+     ========================================================= */
+  async function copyPromptText(text, btnEl, successMsg, modalTitle) {
     try {
-      await navigator.clipboard.writeText(AI_PROMPT);
-      toast('تم نسخ برومبت الجمل ✓', 'ok');
-      const b = $('#btnCopyPrompt'); b.classList.add('copied');
-      const old = b.innerHTML; b.innerHTML = '✅ <span class="btn-text-long">تم النسخ</span>';
-      setTimeout(() => { b.classList.remove('copied'); b.innerHTML = old; }, 2000);
+      await navigator.clipboard.writeText(text);
+      toast(successMsg, 'ok');
+      if (btnEl) {
+        btnEl.classList.add('copied');
+        const old = btnEl.innerHTML;
+        btnEl.innerHTML = '✅ <span class="btn-text-long">تم النسخ</span>';
+        setTimeout(() => { btnEl.classList.remove('copied'); btnEl.innerHTML = old; }, 2000);
+      }
     } catch (_) {
-      $('#promptContent').textContent = AI_PROMPT;
+      // fallback: open modal for manual copy
+      state.modalPromptText = text;
+      state.modalPromptTitle = modalTitle || '📝 برومبت (نسخ يدوي)';
+      $('#promptModalTitle').textContent = state.modalPromptTitle;
+      $('#promptContent').textContent = text;
       $('#promptOverlay').classList.add('is-open');
       toast('انسخ يدويًا', 'warn');
     }
   }
+
+  function copyPrompt() {
+    copyPromptText(AI_PROMPT, $('#btnCopyPrompt'), 'تم نسخ برومبت الجمل ✓', '📝 برومبت الجمل');
+  }
+
+  function copyDrivePrompt() {
+    copyPromptText(DRIVE_PROMPT, $('#btnCopyDrivePrompt'), 'تم نسخ برومبت ملف Drive ✓', '📄 برومبت ملف Drive');
+  }
+
   function closePromptModal() { $('#promptOverlay').classList.remove('is-open'); }
+
   async function copyFromModal() {
-    try { await navigator.clipboard.writeText(AI_PROMPT); toast('تم النسخ ✓', 'ok'); closePromptModal(); }
+    const text = state.modalPromptText || AI_PROMPT;
+    try { await navigator.clipboard.writeText(text); toast('تم النسخ ✓', 'ok'); closePromptModal(); }
     catch {
       const r = document.createRange(); r.selectNodeContents($('#promptContent'));
       const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
@@ -2003,6 +2049,9 @@ ${lines.join('\n')}
 
     $('#btnCopyPrompt').addEventListener('click', copyPrompt);
     $('#btnCopyVerbPrompt').addEventListener('click', openVerbPromptModal);
+    // ✅ جديد: زر برومبت ملف Drive
+    $('#btnCopyDrivePrompt').addEventListener('click', copyDrivePrompt);
+
     $('#btnCloseVerbPrompt').addEventListener('click', closeVerbPromptModal);
     $('#btnCloseVerbPromptBottom').addEventListener('click', closeVerbPromptModal);
     $('#verbPromptOverlay').addEventListener('click', e => {
