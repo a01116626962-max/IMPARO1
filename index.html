@@ -149,7 +149,6 @@ body { min-height: 100vh; }
 .btn-purple { background: var(--purple); color: #fff; box-shadow: 0 6px 16px rgba(124,77,204,.28); }
 .btn-purple:hover:not(:disabled) { background: #6938b8; }
 .btn-purple:disabled { background: #b9c7c3; box-shadow: none; }
-/* ✅ جديد: زر أزرق (info) لتبويب Drive */
 .btn-info { background: var(--info); color: #fff; box-shadow: 0 6px 16px rgba(74,110,224,.28); }
 .btn-info:hover:not(:disabled) { background: #3a5bc7; }
 .btn-info:disabled { background: #b9c7c3; box-shadow: none; }
@@ -399,6 +398,7 @@ body { min-height: 100vh; }
 .preview-item-body { flex: 1; min-width: 0; }
 .preview-item-it { direction: ltr; text-align: left; font-family: "Georgia", serif; font-size: 14px; font-weight: 700; margin-bottom: 2px; color: var(--text); word-break: break-word; }
 .preview-item-ar { font-size: 12.5px; color: var(--text-soft); }
+.preview-item-ar.empty-ar { opacity: .55; font-style: italic; }
 .preview-item-word-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 4px; }
 .preview-item-word { font-family: "Georgia", serif; font-weight: 700; font-size: 14.5px; color: var(--text); word-break: break-word; }
 .preview-item-lemma { font-family: "Georgia", serif; font-style: italic; font-size: 11.5px; color: var(--text-soft); margin-bottom: 4px; }
@@ -417,7 +417,6 @@ body { min-height: 100vh; }
 .preview-modal-footer .btn-primary { flex: 2; }
 .preview-modal-footer .btn-ghost { flex: 1; }
 
-/* ============ Collision UI ============ */
 .collision-card {
   background: #fffbf2;
   border: 1.5px solid #f0d8a0;
@@ -575,13 +574,6 @@ body { min-height: 100vh; }
   transition: all .15s ease;
 }
 .collision-bulk-btn:hover { background: var(--primary-soft); color: var(--primary-dark); border-color: var(--primary); }
-
-.collision-new-tenses-hint {
-  font-size: 10.5px;
-  color: var(--info);
-  font-weight: 700;
-  margin-top: 4px;
-}
 
 .btn-icon {
   background: transparent; border: none;
@@ -764,7 +756,7 @@ body { min-height: 100vh; }
       </div>
     </div>
 
-    <!-- ============ TAB 3: DRIVE SENTENCES (جديد) ============ -->
+    <!-- ============ TAB 3: DRIVE SENTENCES ============ -->
     <div id="tab-drive" hidden>
 
       <div class="card" style="background: linear-gradient(135deg, #fff, #eef4ff); border-color: #c9d9f5;">
@@ -788,6 +780,7 @@ body { min-height: 100vh; }
       <div class="card instructions" style="background: linear-gradient(135deg, #fff, #eef4ff); border-color: #c9d9f5;">
         <h3 style="color: var(--info);">💡 ملاحظات</h3>
         <ul style="padding-inline-start: 20px; color: var(--text-soft); font-size: 13px; line-height: 1.9;">
+          <li><strong>الحقل الإلزامي الوحيد هو <code style="font-family: monospace;">italian</code></strong> — الترجمة العربية <code style="font-family: monospace;">arabic</code> اختيارية تماماً (يمكن تركها فارغة).</li>
           <li>تُقارن كل جملة مع قاعدة البيانات ويُستبعد المطابق تماماً تلقائياً.</li>
           <li>سترى في المعاينة: الجمل الجديدة + المكررة (في تبويب "متجاهَل") قبل الرفع.</li>
           <li>يعتمد هذا التبويب على صيغة JSON البسيطة الناتجة من برومبت "ملف Drive" (مصفوفة <code style="font-family: monospace;">sentences</code> فقط).</li>
@@ -1047,7 +1040,6 @@ ${lines.join('\n')}
     const el = $('#verbAiStatus'); if (!el) return;
     el.textContent = text; el.className = 'input-status ' + type;
   }
-  // ✅ جديد: حالة تبويب Drive
   function setDriveStatus(text, type = '') {
     const el = $('#driveStatus'); if (!el) return;
     el.textContent = text; el.className = 'input-status ' + type;
@@ -1325,11 +1317,20 @@ ${lines.join('\n')}
     if (!sentences.length && !dictionary.length) throw new Error('لم يُعثر على بيانات');
     return { sentences, dictionary };
   }
+  /* validateSentence المشتركة — تبقى صارمة (italian + arabic معاً) لتبويبي JSON والأفعال */
   function validateSentence(s) {
     if (!s || typeof s !== 'object') return null;
     const italian = String(s.italian || '').trim();
     const arabic = String(s.arabic || '').trim();
     return (italian && arabic) ? { italian, arabic } : null;
+  }
+  /* ✅ جديدة: تحقق متساهل خاص بتبويب Drive — يشترط italian فقط، arabic اختياري */
+  function validateDriveSentence(s) {
+    if (!s || typeof s !== 'object') return null;
+    const italian = String(s.italian || '').trim();
+    if (!italian) return null;
+    const arabic = String(s.arabic || '').trim(); // اختياري تماماً — "" مسموح
+    return { italian, arabic };
   }
   function validateDictEntry(d) {
     if (!d || typeof d !== 'object') return null;
@@ -1419,7 +1420,7 @@ ${lines.join('\n')}
   }
 
   /* =========================================================
-     ✅ جديد: Drive Sentences Input
+     ✅ Drive Sentences Input — تحديث التحقق (arabic اختياري)
      ========================================================= */
   function parseDriveInput(raw) {
     const text = stripCodeFences(raw);
@@ -1436,8 +1437,9 @@ ${lines.join('\n')}
       throw new Error('الصيغة غير صحيحة — يجب أن يحتوي JSON على مصفوفة "sentences"');
     }
 
-    const sentences = rawSentences.map(validateSentence).filter(Boolean);
-    if (!sentences.length) throw new Error('لم يُعثر على جمل صالحة (تأكد من وجود italian و arabic)');
+    // ✅ يستخدم التحقق المتساهل (italian فقط إلزامي)
+    const sentences = rawSentences.map(validateDriveSentence).filter(Boolean);
+    if (!sentences.length) throw new Error('لم يُعثر على جمل صالحة — تأكد من وجود حقل "italian" غير فارغ');
     return { sentences };
   }
 
@@ -1448,7 +1450,11 @@ ${lines.join('\n')}
     if (!text) { setDriveStatus('بانتظار النص…'); btn.disabled = true; ta.classList.remove('valid','invalid'); return; }
     try {
       const parsed = parseDriveInput(text);
-      setDriveStatus(`✅ ${parsed.sentences.length} جملة جاهزة للمعاينة`, 'ok');
+      const withAr = parsed.sentences.filter(s => s.arabic).length;
+      const withoutAr = parsed.sentences.length - withAr;
+      let msg = `✅ ${parsed.sentences.length} جملة جاهزة`;
+      if (withoutAr > 0) msg += ` (${withoutAr} بدون ترجمة)`;
+      setDriveStatus(msg, 'ok');
       btn.disabled = false;
       ta.classList.add('valid'); ta.classList.remove('invalid');
     } catch (e) {
@@ -1472,7 +1478,7 @@ ${lines.join('\n')}
     btn.classList.add('loading'); btn.disabled = true; btn.textContent = 'جارٍ التحليل…';
 
     try {
-      const emptyDictMap = new Map(); // Drive: جمل فقط، لا قاموس
+      const emptyDictMap = new Map();
       await runAnalysis(parsed.sentences, emptyDictMap, 'drive');
     } catch (err) {
       console.error(err); toast('فشل التحليل', 'err');
@@ -1499,7 +1505,6 @@ ${lines.join('\n')}
     const hasCollisions = collisions.length > 0;
     const isDriveSource = p._source === 'drive';
 
-    // Summary
     $('#previewSummary').innerHTML = `
       ${hasCollisions ? `
       <div class="preview-stat collision">
@@ -1512,7 +1517,6 @@ ${lines.join('\n')}
       <div class="preview-stat skipped"><span class="stat-value">${p.sentDup + p.dictSame}</span><span class="stat-label">سيُتجاهل</span></div>
     `;
 
-    // Tabs
     const collTabBtn = $('#previewTabBtnCollisions');
     collTabBtn.hidden = !hasCollisions;
     $('#collisionsTabCount').textContent = collisions.length;
@@ -1521,7 +1525,6 @@ ${lines.join('\n')}
     document.querySelector('[data-tab="dictionary"]').innerHTML = `📖 القاموس <span class="tab-count">${p.dictNew + p.dictAdded}</span>`;
     document.querySelector('[data-tab="skipped"]').innerHTML = `⏭️ متجاهَل <span class="tab-count">${p.sentDup + p.dictSame}</span>`;
 
-    // Collisions tab
     if (hasCollisions) {
       const collWrap = $('#previewTabCollisions');
       collWrap.innerHTML = `
@@ -1536,7 +1539,7 @@ ${lines.join('\n')}
       bindCollisionEvents();
     }
 
-    // Sentences tab
+    // ✅ عرض الجمل: الترجمة العربية تُستبدل بوسم "بدون ترجمة" عند غيابها
     $('#previewTabSentences').innerHTML = p._freshSentences.length === 0
       ? '<div class="empty-state">لا توجد جمل جديدة</div>'
       : p._freshSentences.map((s, i) => `
@@ -1544,11 +1547,12 @@ ${lines.join('\n')}
             <div class="preview-item-num">${i + 1}</div>
             <div class="preview-item-body">
               <div class="preview-item-it" dir="ltr">${escapeHtml(s.italian)}</div>
-              <div class="preview-item-ar">${escapeHtml(s.arabic)}</div>
+              ${s.arabic
+                ? `<div class="preview-item-ar">${escapeHtml(s.arabic)}</div>`
+                : `<div class="preview-item-ar empty-ar">بدون ترجمة</div>`}
             </div>
           </div>`).join('');
 
-    // Dictionary tab
     $('#previewTabDictionary').innerHTML = p._dictOps.length === 0
       ? '<div class="empty-state">لا توجد عناصر جديدة</div>'
       : p._dictOps.map(op => {
@@ -1570,7 +1574,6 @@ ${lines.join('\n')}
             </div>`;
         }).join('');
 
-    // Skipped tab
     const allSkipped = [
       ...p._dupSentences.map(d => ({ main: d.sentence.italian, sub: d.sentence.arabic, reason: d.reason })),
       ...p._dictSkipped.map(d => ({ main: d.word, sub: d.oldMeaning, reason: d.reason }))
@@ -1590,7 +1593,6 @@ ${lines.join('\n')}
 
     updateConfirmButton();
 
-    // Default tab
     if (hasCollisions) switchPreviewTab('collisions');
     else if (p.sentNew > 0) switchPreviewTab('sentences');
     else if (p.dictNew + p.dictAdded > 0) switchPreviewTab('dictionary');
@@ -1870,10 +1872,11 @@ ${lines.join('\n')}
       const now = Date.now();
       const ops = [];
 
+      // ✅ arabic قد يكون "" — Firestore يخزنه بشكل طبيعي
       p._freshSentences.forEach(s => {
         ops.push({
           ref: sentencesCol.doc(),
-          data: { italian: s.italian, arabic: s.arabic, next_review: now - 1, easy_streak: 0, medium_streak: 0, in_mistake_bank: false, is_frozen: false, created_at: now, last_reviewed: null },
+          data: { italian: s.italian, arabic: s.arabic || '', next_review: now - 1, easy_streak: 0, medium_streak: 0, in_mistake_bank: false, is_frozen: false, created_at: now, last_reviewed: null },
           merge: false
         });
       });
@@ -1949,7 +1952,6 @@ ${lines.join('\n')}
         toast(`✅ ${parts.join(' · ') || 'تم الرفع'}`, 'ok');
         setSync('online', 'متصل — تم الرفع');
 
-        // ✅ جديد: مسح الحقل المناسب حسب المصدر
         if (p._source === 'verb-ai') {
           $('#verbAiInput').value = '';
           previewVerbAIInput();
@@ -2138,7 +2140,6 @@ ${lines.join('\n')}
 
   /* ============ Events ============ */
   function bindEvents() {
-    // ✅ تبويبات — يشمل tab-drive الجديد
     $$('.tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         $$('.tab-btn').forEach(b => b.classList.toggle('active', b === btn));
@@ -2185,7 +2186,7 @@ ${lines.join('\n')}
       }
     });
 
-    // ✅ Drive tab — ربط الأحداث
+    // Drive tab
     $('#driveInput').addEventListener('input', previewDriveInput);
     $('#btnAnalyzeDrive').addEventListener('click', analyzeDrive);
     $('#btnDriveClear').addEventListener('click', clearDriveInput);
@@ -2241,7 +2242,7 @@ ${lines.join('\n')}
     await initFirebase();
     previewInput();
     previewVerbAIInput();
-    previewDriveInput(); // ✅ جديد
+    previewDriveInput();
     console.info('[Ingester v3.2] Boot. USER_ID =', USER_ID);
   }
   document.addEventListener('DOMContentLoaded', boot);
