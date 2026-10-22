@@ -56,7 +56,6 @@ body { min-height: 100vh; }
 .btn-prompt:active { transform: scale(.96); }
 .btn-prompt.sentences { background: var(--primary); color: #fff; box-shadow: 0 4px 10px rgba(45,122,104,.22); }
 .btn-prompt.verbs { background: var(--purple); color: #fff; box-shadow: 0 4px 10px rgba(124,77,204,.22); }
-/* ✅ جديد: زر برومبت ملف Drive — أزرق معلوماتي */
 .btn-prompt.drive { background: var(--info); color: #fff; box-shadow: 0 4px 10px rgba(74,110,224,.22); }
 .btn-prompt.copied { background: var(--success) !important; box-shadow: 0 4px 10px rgba(76,175,125,.22); }
 
@@ -76,9 +75,11 @@ body { min-height: 100vh; }
   border-radius: 11px;
   transition: background .15s ease, color .15s ease;
   display: flex; align-items: center; justify-content: center; gap: 6px;
+  min-width: 0; white-space: nowrap;
 }
 .tab-btn:hover { background: var(--surface-2); }
 .tab-btn.active { background: var(--primary); color: #fff; box-shadow: 0 3px 10px rgba(45,122,104,.25); }
+.tab-btn[data-tab="drive"].active { background: var(--info); box-shadow: 0 3px 10px rgba(74,110,224,.25); }
 
 .status-bar {
   display: flex; align-items: center; gap: 8px;
@@ -148,6 +149,10 @@ body { min-height: 100vh; }
 .btn-purple { background: var(--purple); color: #fff; box-shadow: 0 6px 16px rgba(124,77,204,.28); }
 .btn-purple:hover:not(:disabled) { background: #6938b8; }
 .btn-purple:disabled { background: #b9c7c3; box-shadow: none; }
+/* ✅ جديد: زر أزرق (info) لتبويب Drive */
+.btn-info { background: var(--info); color: #fff; box-shadow: 0 6px 16px rgba(74,110,224,.28); }
+.btn-info:hover:not(:disabled) { background: #3a5bc7; }
+.btn-info:disabled { background: #b9c7c3; box-shadow: none; }
 
 .btn.loading::after {
   content: ''; width: 14px; height: 14px;
@@ -596,7 +601,7 @@ body { min-height: 100vh; }
   .results-grid, .preview-summary { grid-template-columns: 1fr 1fr; }
   .preview-modal { max-height: 96vh; }
   .preview-modal-body { max-height: 50vh; }
-  .tab-btn { font-size: 12.5px; padding: 9px 10px; }
+  .tab-btn { font-size: 11.5px; padding: 9px 7px; gap: 3px; }
   .form-row-2 { grid-template-columns: 1fr; }
   .verb-prompt-modal { max-height: 94vh; }
   .collision-compare { grid-template-columns: 1fr; }
@@ -621,7 +626,6 @@ body { min-height: 100vh; }
       <button class="btn-prompt verbs" id="btnCopyVerbPrompt" title="برومبت الأفعال">
         🔤 <span class="btn-text-long">برومبت الأفعال</span>
       </button>
-      <!-- ✅ جديد: برومبت ملف Drive -->
       <button class="btn-prompt drive" id="btnCopyDrivePrompt" title="برومبت ملف Drive — تحويل ملف الجمل إلى JSON">
         📄 <span class="btn-text-long">ملف Drive</span>
       </button>
@@ -637,6 +641,7 @@ body { min-height: 100vh; }
     <div class="tab-nav">
       <button class="tab-btn active" data-tab="json">📥 JSON</button>
       <button class="tab-btn" data-tab="verbs">🔤 الأفعال</button>
+      <button class="tab-btn" data-tab="drive">📅 جمل Drive</button>
     </div>
 
     <!-- ============ TAB 1: JSON ============ -->
@@ -646,7 +651,7 @@ body { min-height: 100vh; }
         <ol>
           <li>اضغط <strong>"برومبت الجمل"</strong> أو <strong>"برومبت الأفعال"</strong> أو <strong>"ملف Drive"</strong> أعلى الصفحة.</li>
           <li>الصق البرومبت في ChatGPT/Claude مع بياناتك (أو ارفق ملف Drive).</li>
-          <li>الصق ناتج JSON في المربع أدناه (أو في حقل الأفعال بتبويب "الأفعال").</li>
+          <li>الصق ناتج JSON في المربع أدناه (أو في تبويب "الأفعال" / "جمل Drive").</li>
           <li>اضغط <strong>"تحليل ومعاينة"</strong> → راجع → <strong>"رفع"</strong>.</li>
         </ol>
       </div>
@@ -682,7 +687,6 @@ body { min-height: 100vh; }
     <!-- ============ TAB 2: VERBS ============ -->
     <div id="tab-verbs" hidden>
 
-      <!-- ⭐ حقل أفعال AI -->
       <div class="card" style="background: linear-gradient(135deg, #fff, #faf6ff); border-color: #e0d5f5;">
         <h3 class="section-title" style="color: var(--purple);">🤖 إدخال أفعال من AI</h3>
         <p style="font-size: 12.5px; color: var(--text-soft); margin-bottom: 10px; line-height: 1.6;">
@@ -759,6 +763,37 @@ body { min-height: 100vh; }
         <div id="verbsList"></div>
       </div>
     </div>
+
+    <!-- ============ TAB 3: DRIVE SENTENCES (جديد) ============ -->
+    <div id="tab-drive" hidden>
+
+      <div class="card" style="background: linear-gradient(135deg, #fff, #eef4ff); border-color: #c9d9f5;">
+        <h3 class="section-title" style="color: var(--info);">📄 جمل من ملف Drive</h3>
+        <p style="font-size: 12.5px; color: var(--text-soft); margin-bottom: 10px; line-height: 1.6;">
+          اضغط <strong>"📄 ملف Drive"</strong> أعلى الصفحة → الصق البرومبت في AI مع إرفاق ملف الجمل → انسخ ناتج JSON هنا مباشرة.
+          يقبل هذا الحقل مصفوفة <code style="background: var(--surface-2); padding: 1px 5px; border-radius: 4px; font-family: monospace; font-size: 12px;">sentences</code> فقط (بدون قاموس).
+        </p>
+        <textarea id="driveInput" class="json-input" placeholder='الصق هنا JSON جمل Drive (يحتوي على مفتاح "sentences")…' style="min-height: 160px;" spellcheck="false"></textarea>
+        <div class="input-meta">
+          <span id="driveStatus" class="input-status">بانتظار النص…</span>
+          <div class="input-meta-actions">
+            <button class="mini-btn" id="btnDriveClear">🗑️ مسح</button>
+          </div>
+        </div>
+        <button class="btn btn-info" id="btnAnalyzeDrive" disabled>
+          🔍 معاينة ورفع الجمل
+        </button>
+      </div>
+
+      <div class="card instructions" style="background: linear-gradient(135deg, #fff, #eef4ff); border-color: #c9d9f5;">
+        <h3 style="color: var(--info);">💡 ملاحظات</h3>
+        <ul style="padding-inline-start: 20px; color: var(--text-soft); font-size: 13px; line-height: 1.9;">
+          <li>تُقارن كل جملة مع قاعدة البيانات ويُستبعد المطابق تماماً تلقائياً.</li>
+          <li>سترى في المعاينة: الجمل الجديدة + المكررة (في تبويب "متجاهَل") قبل الرفع.</li>
+          <li>يعتمد هذا التبويب على صيغة JSON البسيطة الناتجة من برومبت "ملف Drive" (مصفوفة <code style="font-family: monospace;">sentences</code> فقط).</li>
+        </ul>
+      </div>
+    </div>
   </main>
 </div>
 
@@ -789,7 +824,7 @@ body { min-height: 100vh; }
   </div>
 </div>
 
-<!-- Prompt Modal (يُستخدم كـ fallback للنسخ اليدوي لكل البرومبتات) -->
+<!-- Prompt Modal -->
 <div class="prompt-overlay" id="promptOverlay">
   <div class="prompt-modal">
     <div class="prompt-modal-header">
@@ -924,9 +959,6 @@ body { min-height: 100vh; }
 إليك الجمل:
 [ضع جملك الإيطالية هنا]`;
 
-  /* =========================================================
-     ✅ برومبت ملف Drive — يُنسخ مباشرة عند الضغط على الزر
-     ========================================================= */
   const DRIVE_PROMPT = `أنا أرسل لك ملفاً يحتوي على جمل إيطالية ومترجمة للعربية (الملف رقم 1). 
 
 المطلوب منك بدقة متناهية:
@@ -989,7 +1021,7 @@ ${lines.join('\n')}
     pendingPreview: null,
     verbs: [],
     verbPromptOptions: { riflessivo: false, passato: false, futuro: false },
-    modalPromptText: '', // ✅ جديد: تتبّع البرومبت الحالي المعروض في المودال
+    modalPromptText: '',
     modalPromptTitle: ''
   };
 
@@ -1013,6 +1045,11 @@ ${lines.join('\n')}
   }
   function setVerbAiStatus(text, type = '') {
     const el = $('#verbAiStatus'); if (!el) return;
+    el.textContent = text; el.className = 'input-status ' + type;
+  }
+  // ✅ جديد: حالة تبويب Drive
+  function setDriveStatus(text, type = '') {
+    const el = $('#driveStatus'); if (!el) return;
     el.textContent = text; el.className = 'input-status ' + type;
   }
   function normalizeKey(word) {
@@ -1040,7 +1077,7 @@ ${lines.join('\n')}
   }
 
   /* =========================================================
-     Tense parsing/merging — لدمج الأزمنة الجديدة فقط
+     Tense parsing/merging
      ========================================================= */
   function parseTenseSections(summary) {
     const sections = {};
@@ -1381,6 +1418,74 @@ ${lines.join('\n')}
     }
   }
 
+  /* =========================================================
+     ✅ جديد: Drive Sentences Input
+     ========================================================= */
+  function parseDriveInput(raw) {
+    const text = stripCodeFences(raw);
+    if (!text) throw new Error('الصق JSON أولاً');
+    let data;
+    try { data = JSON.parse(text); } catch (e) { throw new Error('JSON غير صالح — ' + e.message); }
+
+    let rawSentences = [];
+    if (data && typeof data === 'object' && !Array.isArray(data) && Array.isArray(data.sentences)) {
+      rawSentences = data.sentences;
+    } else if (Array.isArray(data)) {
+      rawSentences = data;
+    } else {
+      throw new Error('الصيغة غير صحيحة — يجب أن يحتوي JSON على مصفوفة "sentences"');
+    }
+
+    const sentences = rawSentences.map(validateSentence).filter(Boolean);
+    if (!sentences.length) throw new Error('لم يُعثر على جمل صالحة (تأكد من وجود italian و arabic)');
+    return { sentences };
+  }
+
+  function previewDriveInput() {
+    const text = $('#driveInput').value.trim();
+    const btn = $('#btnAnalyzeDrive');
+    const ta = $('#driveInput');
+    if (!text) { setDriveStatus('بانتظار النص…'); btn.disabled = true; ta.classList.remove('valid','invalid'); return; }
+    try {
+      const parsed = parseDriveInput(text);
+      setDriveStatus(`✅ ${parsed.sentences.length} جملة جاهزة للمعاينة`, 'ok');
+      btn.disabled = false;
+      ta.classList.add('valid'); ta.classList.remove('invalid');
+    } catch (e) {
+      setDriveStatus('⚠️ ' + e.message, 'err');
+      btn.disabled = true;
+      ta.classList.add('invalid'); ta.classList.remove('valid');
+    }
+  }
+
+  async function analyzeDrive() {
+    if (state.processing) return;
+    if (!state.ready) { toast('القاعدة غير جاهزة', 'err'); return; }
+    const text = $('#driveInput').value.trim();
+    if (!text) { toast('الصق JSON أولاً', 'err'); return; }
+    let parsed;
+    try { parsed = parseDriveInput(text); } catch (e) { toast(e.message, 'err'); return; }
+
+    state.processing = true;
+    setSync('syncing', 'جارٍ تحليل جمل Drive…');
+    const btn = $('#btnAnalyzeDrive');
+    btn.classList.add('loading'); btn.disabled = true; btn.textContent = 'جارٍ التحليل…';
+
+    try {
+      const emptyDictMap = new Map(); // Drive: جمل فقط، لا قاموس
+      await runAnalysis(parsed.sentences, emptyDictMap, 'drive');
+    } catch (err) {
+      console.error(err); toast('فشل التحليل', 'err');
+      setSync('offline', 'خطأ');
+    } finally {
+      state.processing = false;
+      btn.classList.remove('loading'); btn.textContent = '🔍 معاينة ورفع الجمل';
+      previewDriveInput();
+    }
+  }
+
+  function clearDriveInput() { $('#driveInput').value = ''; state.pendingPreview = null; previewDriveInput(); toast('تم المسح'); }
+
   /* ============ Preview Modal ============ */
   function openPreviewModal() { $('#previewOverlay').classList.add('is-open'); document.body.style.overflow = 'hidden'; }
   function closePreviewModal() { $('#previewOverlay').classList.remove('is-open'); document.body.style.overflow = ''; }
@@ -1392,6 +1497,7 @@ ${lines.join('\n')}
   function renderPreviewModal(p) {
     const collisions = p._collisions || [];
     const hasCollisions = collisions.length > 0;
+    const isDriveSource = p._source === 'drive';
 
     // Summary
     $('#previewSummary').innerHTML = `
@@ -1401,8 +1507,8 @@ ${lines.join('\n')}
         <span class="stat-label">⚠️ تعارضات</span>
       </div>` : ''}
       <div class="preview-stat success"><span class="stat-value">${p.sentNew}</span><span class="stat-label">جمل جديدة</span></div>
-      <div class="preview-stat success"><span class="stat-value">${p.dictNew}</span><span class="stat-label">كلمات جديدة</span></div>
-      <div class="preview-stat added"><span class="stat-value">${p.dictAdded}</span><span class="stat-label">معانٍ إضافية</span></div>
+      ${!isDriveSource ? `<div class="preview-stat success"><span class="stat-value">${p.dictNew}</span><span class="stat-label">كلمات جديدة</span></div>` : ''}
+      ${!isDriveSource ? `<div class="preview-stat added"><span class="stat-value">${p.dictAdded}</span><span class="stat-label">معانٍ إضافية</span></div>` : ''}
       <div class="preview-stat skipped"><span class="stat-value">${p.sentDup + p.dictSame}</span><span class="stat-label">سيُتجاهل</span></div>
     `;
 
@@ -1555,11 +1661,9 @@ ${lines.join('\n')}
         const action = btn.dataset.action;
         if (!state.pendingPreview || !state.pendingPreview._collisions) return;
         state.pendingPreview._collisions[idx].action = action;
-        // Update visual
         const card = btn.closest('.collision-card');
         card.querySelectorAll('.collision-action-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        // Update preview
         const preview = card.querySelector('.collision-preview');
         if (preview) preview.classList.toggle('show', action === 'merge-tenses');
         updateConfirmButton();
@@ -1571,7 +1675,6 @@ ${lines.join('\n')}
         const action = btn.dataset.bulk;
         if (!state.pendingPreview || !state.pendingPreview._collisions) return;
         state.pendingPreview._collisions.forEach(c => { c.action = action; });
-        // Re-render collisions tab only
         const collWrap = $('#previewTabCollisions');
         collWrap.innerHTML = `
           <div class="collision-bulk">
@@ -1684,7 +1787,6 @@ ${lines.join('\n')}
         return;
       }
 
-      // If it's a verb collision → add to interactive collisions
       if (entry.type === 'verb' && old.type === 'verb') {
         collisions.push({
           key,
@@ -1707,7 +1809,6 @@ ${lines.join('\n')}
         return;
       }
 
-      // Non-verb collision → old logic
       const oldM = String(old.meaning || '').trim();
       const cmp = compareMeanings(oldM, entry.meaning);
       if (cmp.same) {
@@ -1780,10 +1881,8 @@ ${lines.join('\n')}
         ops.push({ ref: dictCol.doc(op.key), data: op.data, merge: true });
       });
 
-      // Collisions — apply each action
       activeCollisions.forEach(c => {
         if (c.action === 'replace') {
-          // Overwrite fully with incoming
           ops.push({
             ref: dictCol.doc(c.key),
             data: {
@@ -1850,9 +1949,13 @@ ${lines.join('\n')}
         toast(`✅ ${parts.join(' · ') || 'تم الرفع'}`, 'ok');
         setSync('online', 'متصل — تم الرفع');
 
+        // ✅ جديد: مسح الحقل المناسب حسب المصدر
         if (p._source === 'verb-ai') {
           $('#verbAiInput').value = '';
           previewVerbAIInput();
+        } else if (p._source === 'drive') {
+          $('#driveInput').value = '';
+          previewDriveInput();
         } else {
           $('#jsonInput').value = '';
           previewInput();
@@ -1934,9 +2037,7 @@ ${lines.join('\n')}
     }).join('');
   }
 
-  /* =========================================================
-     Copy Prompts — دالة عامة + دالتان لكل زر
-     ========================================================= */
+  /* ============ Copy Prompts ============ */
   async function copyPromptText(text, btnEl, successMsg, modalTitle) {
     try {
       await navigator.clipboard.writeText(text);
@@ -1948,7 +2049,6 @@ ${lines.join('\n')}
         setTimeout(() => { btnEl.classList.remove('copied'); btnEl.innerHTML = old; }, 2000);
       }
     } catch (_) {
-      // fallback: open modal for manual copy
       state.modalPromptText = text;
       state.modalPromptTitle = modalTitle || '📝 برومبت (نسخ يدوي)';
       $('#promptModalTitle').textContent = state.modalPromptTitle;
@@ -2038,18 +2138,19 @@ ${lines.join('\n')}
 
   /* ============ Events ============ */
   function bindEvents() {
+    // ✅ تبويبات — يشمل tab-drive الجديد
     $$('.tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         $$('.tab-btn').forEach(b => b.classList.toggle('active', b === btn));
         $('#tab-json').hidden = btn.dataset.tab !== 'json';
         $('#tab-verbs').hidden = btn.dataset.tab !== 'verbs';
+        $('#tab-drive').hidden = btn.dataset.tab !== 'drive';
         if (btn.dataset.tab === 'verbs') loadVerbs();
       });
     });
 
     $('#btnCopyPrompt').addEventListener('click', copyPrompt);
     $('#btnCopyVerbPrompt').addEventListener('click', openVerbPromptModal);
-    // ✅ جديد: زر برومبت ملف Drive
     $('#btnCopyDrivePrompt').addEventListener('click', copyDrivePrompt);
 
     $('#btnCloseVerbPrompt').addEventListener('click', closeVerbPromptModal);
@@ -2081,6 +2182,17 @@ ${lines.join('\n')}
       if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
         e.preventDefault();
         if (!$('#btnAnalyzeVerbAI').disabled) analyzeVerbAI();
+      }
+    });
+
+    // ✅ Drive tab — ربط الأحداث
+    $('#driveInput').addEventListener('input', previewDriveInput);
+    $('#btnAnalyzeDrive').addEventListener('click', analyzeDrive);
+    $('#btnDriveClear').addEventListener('click', clearDriveInput);
+    $('#driveInput').addEventListener('keydown', e => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        if (!$('#btnAnalyzeDrive').disabled) analyzeDrive();
       }
     });
 
@@ -2129,6 +2241,7 @@ ${lines.join('\n')}
     await initFirebase();
     previewInput();
     previewVerbAIInput();
+    previewDriveInput(); // ✅ جديد
     console.info('[Ingester v3.2] Boot. USER_ID =', USER_ID);
   }
   document.addEventListener('DOMContentLoaded', boot);
