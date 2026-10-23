@@ -389,8 +389,6 @@ body { min-height: 100vh; }
 .preview-tab-btn.active { color: var(--primary-dark); border-bottom-color: var(--primary); background: var(--surface-2); }
 .preview-tab-btn .tab-count { background: var(--primary-soft); color: var(--primary-dark); padding: 1px 7px; border-radius: 999px; font-size: 10.5px; font-weight: 800; }
 .preview-tab-btn.active .tab-count { background: var(--primary); color: #fff; }
-.preview-tab-btn.collision-tab .tab-count { background: var(--warn-soft); color: #a76b0f; }
-.preview-tab-btn.collision-tab.active .tab-count { background: var(--warn); color: #fff; }
 .preview-modal-body { flex: 1; overflow-y: auto; padding: 12px 16px; min-height: 180px; max-height: 55vh; }
 .preview-tab-content { display: flex; flex-direction: column; gap: 8px; }
 .preview-list-item { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; display: flex; gap: 10px; }
@@ -417,173 +415,6 @@ body { min-height: 100vh; }
 .preview-modal-footer .btn-primary { flex: 2; }
 .preview-modal-footer .btn-info { flex: 2; }
 .preview-modal-footer .btn-ghost { flex: 1; }
-
-.collision-card {
-  background: #fffbf2;
-  border: 1.5px solid #f0d8a0;
-  border-radius: 12px;
-  padding: 12px;
-  margin-bottom: 10px;
-}
-.collision-card:last-child { margin-bottom: 0; }
-.collision-header {
-  display: flex; align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-.collision-word {
-  font-family: "Georgia", serif;
-  font-weight: 800; font-size: 16px;
-  color: #a76b0f;
-  direction: ltr;
-  display: flex; align-items: center; gap: 8px;
-}
-.collision-badge {
-  font-size: 10px; font-weight: 800;
-  padding: 2px 8px; border-radius: 5px;
-  background: var(--warn); color: #fff;
-}
-.collision-compare {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-.collision-side {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 8px 10px;
-  min-height: 80px;
-}
-.collision-side.new-side {
-  background: #f0f9f4;
-  border-color: #b8e6d2;
-}
-.collision-side-label {
-  font-size: 10.5px; font-weight: 800;
-  color: var(--text-soft);
-  margin-bottom: 4px;
-  display: flex; align-items: center; gap: 4px;
-}
-.collision-side.new-side .collision-side-label { color: #2c8159; }
-.collision-side-meaning {
-  font-size: 12.5px;
-  color: var(--text);
-  margin-bottom: 4px;
-  word-break: break-word;
-}
-.collision-side-summary {
-  font-size: 10.5px;
-  color: var(--text-soft);
-  line-height: 1.5;
-  padding: 5px 7px;
-  background: var(--surface-2);
-  border-radius: 5px;
-  white-space: pre-wrap;
-  word-break: break-word;
-  max-height: 80px;
-  overflow-y: auto;
-  margin-top: 4px;
-}
-.collision-actions-title {
-  font-size: 11px; font-weight: 800;
-  color: var(--text-soft);
-  margin-bottom: 6px;
-}
-.collision-actions {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
-}
-.collision-action-btn {
-  border: 1.5px solid var(--border);
-  background: var(--surface);
-  border-radius: 8px;
-  padding: 8px 6px;
-  font-family: inherit;
-  font-size: 11.5px; font-weight: 700;
-  color: var(--text-soft);
-  cursor: pointer;
-  transition: all .15s ease;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-}
-.collision-action-btn .icon { font-size: 16px; }
-.collision-action-btn:hover { border-color: var(--primary); color: var(--primary-dark); }
-.collision-action-btn.active {
-  border-color: var(--primary);
-  background: var(--primary-soft);
-  color: var(--primary-dark);
-}
-.collision-action-btn.active[data-action="ignore"] {
-  border-color: var(--text-soft);
-  background: #f0f0f0;
-  color: var(--text);
-}
-.collision-action-btn.active[data-action="replace"] {
-  border-color: var(--danger);
-  background: var(--danger-soft);
-  color: #a94633;
-}
-.collision-action-btn.active[data-action="merge-tenses"] {
-  border-color: var(--info);
-  background: var(--info-soft);
-  color: #2a4cb5;
-}
-.collision-preview {
-  margin-top: 8px;
-  padding: 6px 9px;
-  background: var(--info-soft);
-  border: 1px dashed var(--info);
-  border-radius: 6px;
-  font-size: 11px;
-  color: #2a4cb5;
-  line-height: 1.5;
-  display: none;
-}
-.collision-preview.show { display: block; }
-.collision-preview strong { font-weight: 800; }
-
-.collision-bulk {
-  display: flex; gap: 6px; flex-wrap: wrap;
-  padding: 10px 12px;
-  background: var(--surface-2);
-  border-radius: 10px;
-  margin-bottom: 12px;
-  align-items: center;
-}
-.collision-bulk-label {
-  font-size: 11.5px; font-weight: 800;
-  color: var(--text-soft);
-  margin-inline-end: auto;
-}
-.collision-bulk-btn {
-  border: 1px solid var(--border);
-  background: var(--surface);
-  padding: 5px 10px;
-  border-radius: 6px;
-  font-family: inherit;
-  font-size: 11px; font-weight: 700;
-  color: var(--text-soft);
-  cursor: pointer;
-  transition: all .15s ease;
-}
-.collision-bulk-btn:hover { background: var(--primary-soft); color: var(--primary-dark); border-color: var(--primary); }
-
-.btn-icon {
-  background: transparent; border: none;
-  width: 34px; height: 34px; border-radius: 50%;
-  font-size: 16px; color: var(--text); cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-.btn-icon:hover { background: rgba(0,0,0,.06); }
 
 /* ============ Drive Action Buttons ============ */
 .drive-action-btn {
@@ -612,6 +443,13 @@ body { min-height: 100vh; }
 .drive-action-btn.replace:hover:not(:disabled) { background: var(--info); color: #fff; }
 .drive-action-btn.undo { border-color: var(--danger); color: var(--danger); background: var(--danger-soft); }
 .drive-action-btn.undo:hover { background: var(--danger); color: #fff; }
+.drive-action-btn.edit { border-color: var(--primary); color: var(--primary-dark); background: var(--primary-soft); }
+.drive-action-btn.edit:hover { background: var(--primary); color: #fff; }
+.drive-action-btn.delete { border-color: var(--danger); color: var(--danger); background: var(--danger-soft); }
+.drive-action-btn.delete:hover { background: var(--danger); color: #fff; }
+.drive-action-btn.save { background: var(--success); color: #fff; border-color: var(--success); }
+.drive-action-btn.save:hover { background: #3a9a6a; color: #fff; }
+.drive-action-btn.cancel { background: var(--surface-2); }
 .drive-actions {
   display: flex;
   flex-wrap: wrap;
@@ -619,7 +457,7 @@ body { min-height: 100vh; }
   margin-top: 8px;
 }
 
-/* ============ Drive Audit 3-List UI ============ */
+/* ============ Drive Audit UI ============ */
 .drive-audit-tabs {
   display: flex;
   gap: 4px;
@@ -686,7 +524,12 @@ body { min-height: 100vh; }
 }
 .audit-card:last-child { margin-bottom: 0; }
 .audit-card.bypassed {
-  opacity: .7;
+  opacity: .75;
+  background: var(--surface-2);
+  border-style: dashed;
+}
+.audit-card.skipped-t2 {
+  opacity: .55;
   background: var(--surface-2);
   border-style: dashed;
 }
@@ -702,6 +545,11 @@ body { min-height: 100vh; }
 .audit-card.duplicate-db {
   border-color: var(--warn);
   background: linear-gradient(135deg, #fff, #fff8e6);
+}
+.audit-card.editing {
+  border-color: var(--primary);
+  background: linear-gradient(135deg, #fff, #f1faf6);
+  box-shadow: 0 4px 12px rgba(45,122,104,.12);
 }
 .audit-card-header {
   display: flex;
@@ -731,6 +579,7 @@ body { min-height: 100vh; }
 .audit-badge.pending { background: var(--success-soft); color: var(--success); }
 .audit-badge.exact { background: var(--danger-soft); color: #a94633; }
 .audit-badge.new-item { background: var(--info-soft); color: var(--info); }
+.audit-badge.editing-badge { background: var(--primary-soft); color: var(--primary-dark); }
 
 .audit-sentence {
   font-family: "Georgia", serif;
@@ -816,6 +665,36 @@ body { min-height: 100vh; }
   border-radius: 6px;
 }
 
+/* ============ Audit Edit Form (جديد) ============ */
+.audit-edit-label {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text-soft);
+  margin: 8px 0 4px;
+}
+.audit-edit-input {
+  width: 100%;
+  padding: 8px 10px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--text);
+  outline: none;
+  resize: vertical;
+  transition: border-color .15s ease;
+}
+.audit-edit-input:focus { border-color: var(--primary); }
+.audit-edit-input[dir="ltr"] { font-family: "Georgia", serif; }
+.audit-edit-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+}
+.audit-edit-actions .drive-action-btn { flex: 1; justify-content: center; }
+
 @media (max-width: 480px) {
   .app-header { padding: 10px 12px; }
   .brand h1 { font-size: 15px; }
@@ -828,8 +707,6 @@ body { min-height: 100vh; }
   .tab-btn { font-size: 11.5px; padding: 9px 7px; gap: 3px; }
   .form-row-2 { grid-template-columns: 1fr; }
   .verb-prompt-modal { max-height: 94vh; }
-  .collision-compare { grid-template-columns: 1fr; }
-  .collision-actions { grid-template-columns: 1fr; }
   .drive-actions { gap: 4px; }
   .drive-action-btn { font-size: 11px; padding: 5px 8px; }
   .drive-audit-tab-btn { font-size: 11px; padding: 6px 9px; }
@@ -939,7 +816,7 @@ body { min-height: 100vh; }
           <div><label class="form-label">المصدر *</label><input type="text" id="verbInfinitive" class="form-input" dir="ltr" placeholder="mangiare" /></div>
           <div><label class="form-label">المعنى *</label><input type="text" id="verbMeaning" class="form-input" placeholder="يأكل" /></div>
         </div>
-        <h4 style="font-size: 13px; margin: 6px 0 10px; color: var(--primary-dark); font-weight: 800;">📝 المضارع (Presente)</h4>
+        <h4 style="font-size: 13px; margin: 6px 0 10px; color: var(--primary-dark); font-weight: 800;">📝 المضارع</h4>
         <div class="form-row-2">
           <div><label class="form-label">io</label><input type="text" id="verbPresIo" class="form-input" dir="ltr" /></div>
           <div><label class="form-label">tu</label><input type="text" id="verbPresTu" class="form-input" dir="ltr" /></div>
@@ -985,7 +862,7 @@ body { min-height: 100vh; }
         <h3 class="section-title" style="color: var(--info);">📋 فحص وتدقيق جمل Drive</h3>
         <p style="font-size: 12.5px; color: var(--text-soft); margin-bottom: 10px; line-height: 1.6;">
           <strong>النص 2 (هذا الحقل) هو مرجع تدقيق فقط — لا يُرفع إلى قاعدة البيانات.</strong>
-          الأداة تقارن كل جملة مع المخزنة وتنظّم النتائج في <strong>3 قوائم</strong>، ثم تتيح استبدال الإيطالية في الجمل المخزنة بناءً على المرجع.
+          الأداة تنظم النتائج في <strong>3 قوائم</strong>، وكل جملة لها أزرار: تعديل · تجاوز · استبدال · حذف.
         </p>
         <textarea id="driveInput" class="json-input" placeholder='الصق هنا JSON جمل Drive (مرجع التدقيق)…' style="min-height: 160px;" spellcheck="false"></textarea>
         <div class="input-meta">
@@ -1010,11 +887,11 @@ body { min-height: 100vh; }
       <div class="card instructions" style="background: linear-gradient(135deg, #fff, #eef4ff); border-color: #c9d9f5;">
         <h3 style="color: var(--info);">💡 كيف يعمل التدقيق؟</h3>
         <ul>
-          <li><strong>1️⃣ الجمل النشطة:</strong> جمل DB التي لا تطابق تماماً أي جملة في النص 2 — تظهر عادية في البداية، والمكررة/المشابهة في النهاية.</li>
-          <li><strong>2️⃣ مرجع النص 2:</strong> جمل النص 2 التي لا وجود لها في DB — تُستخدم كمرشحات لاستبدال الإيطالية في الجمل المخزنة.</li>
-          <li><strong>3️⃣ المتجاوزة:</strong> جمل DB التي لها تطابق إيطالي تام في النص 2 — مستبعدة تلقائياً.</li>
-          <li><strong>🔀 الاستبدال:</strong> يبدّل <strong>الإيطالية فقط</strong> في جملة DB، ويحتفظ بترجمتها العربية.</li>
-          <li><strong>الحقل الإلزامي:</strong> <code style="font-family: monospace;">italian</code> فقط (الترجمة اختيارية).</li>
+          <li><strong>1️⃣ الجمل النشطة:</strong> جمل DB بلا تطابق تام — كل جملة لها: ✏️ تعديل · ⏸️ تجاوز · 🔀 استبدال · 🗑️ حذف.</li>
+          <li><strong>2️⃣ مرجع النص 2:</strong> جمل النص 2 غير الموجودة في DB — ✏️ تعديل · 🔀 تطبيق على DB · 📌 حفظ · ⏸️ تجاوز · 🗑️ حذف.</li>
+          <li><strong>3️⃣ المتجاوزة:</strong> جمل DB بتطابق تام — ✏️ تعديل · ✅ تفعيل · 🔀 استبدال · 🗑️ حذف.</li>
+          <li><strong>🔀 قاعدة الاستبدال:</strong> يبدّل الإيطالية فقط، ويحتفظ بالترجمة العربية.</li>
+          <li><strong>🗑️ الحذف:</strong> يزيل الجملة من القائمة الحالية فقط (لا يحذفها من Firebase).</li>
         </ul>
       </div>
     </div>
@@ -1089,14 +966,9 @@ body { min-height: 100vh; }
     </div>
     <div class="verb-prompt-modal-body">
       <div class="tense-options">
-        <div class="tense-options-title">
-          <span>⚙️ اختر الأزمنة:</span>
-        </div>
-        <label class="tense-checkbox locked">
-          <input type="checkbox" checked disabled />
-          <div class="tense-checkbox-content">
-            <div class="tense-checkbox-label"><span>📝 المضارع</span><span class="lock-badge">أساسي</span></div>
-          </div>
+        <div class="tense-options-title"><span>⚙️ اختر الأزمنة:</span></div>
+        <label class="tense-checkbox locked"><input type="checkbox" checked disabled />
+          <div class="tense-checkbox-content"><div class="tense-checkbox-label"><span>📝 المضارع</span><span class="lock-badge">أساسي</span></div></div>
         </label>
         <label class="tense-checkbox"><input type="checkbox" id="chkRiflessivo" />
           <div class="tense-checkbox-content"><div class="tense-checkbox-label">🔄 الانعكاسي</div></div>
@@ -1149,28 +1021,18 @@ body { min-height: 100vh; }
 المطلوب منك بدقة عالية تحليلياً ولغوياً:
 
 1. ترجمة كل جملة كاملة إلى اللغة العربية بدقة.
-2. استخراج **جميع الكلمات بدون استثناء** الموجودة في هذه الجمل (بما فيها الأفعال، الأسماء، الصفات، حروف الجر البسيطة والمدغمة، وأدوات التعريف والتنكير، والضمائر، وأسماء الإشارة).
+2. استخراج **جميع الكلمات بدون استثناء** الموجودة في هذه الجمل.
 3. تصنيف كل كلمة حسب نوعها وتجهيز الملخص الخاص بها وفق القواعد التالية:
-   - الأفعال (type: "verb"): تذكر المصدر (lemma) والمكافئ العربي، وفي حقل summary تذكر تصريفات الفعل في زمن المضارع (Presente).
-   - حروف الجر المدغمة أو البسيطة (type: "preposition"): تذكر معناها الدقيق وفي summary توضح أصلها واستخداماتها الشائعة.
-   - أدوات التعريف والتنكير وأسماء الإشارة (type: "article"): تذكر معناها وفي summary تذكر حالات واستخدامات الأداة.
-   - الأسماء والصفات والكلمات العادية (type: "word"): تذكر معناها والمفرد والمذكر/المؤنث منها إن وجد.
-4. إزالة أي تكرار للكلمات بحيث تذكر كل كلمة مرة واحدة فقط في القاموس.
-5. إخراج النتيجة النهائية حصراً بصيغة JSON بدون أي شرح أو كلام إضافي خارج النص، بالهيكلية التالية تماماً:
+   - الأفعال (type: "verb"): المصدر والمكافئ العربي، وفي summary تصريفات المضارع.
+   - حروف الجر (type: "preposition"): معناها الدقيق وفي summary استخداماتها.
+   - أدوات التعريف والتنكير (type: "article"): معناها وفي summary حالات الاستخدام.
+   - الأسماء والصفات (type: "word"): معناها والمفرد والمذكر/المؤنث.
+4. إزالة التكرار بحيث تذكر كل كلمة مرة واحدة فقط.
+5. إخراج النتيجة حصراً بصيغة JSON بدون أي شرح خارجي:
 
 {
-  "sentences": [
-    { "italian": "الجملة الإيطالية كاملة", "arabic": "الترجمة العربية للجملة" }
-  ],
-  "dictionary": [
-    {
-      "word": "الكلمة كما وردت في الجملة",
-      "lemma": "المصدر أو الصيغة الأصلية",
-      "type": "verb OR preposition OR article OR word",
-      "meaning": "المعنى المباشر المختصر بالعربية",
-      "summary": "التصريفات أو قواعد الاستخدام أو الملخص الشامل"
-    }
-  ]
+  "sentences": [{ "italian": "الجملة الإيطالية كاملة", "arabic": "الترجمة العربية" }],
+  "dictionary": [{ "word": "الكلمة", "lemma": "المصدر", "type": "verb OR preposition OR article OR word", "meaning": "المعنى", "summary": "الملخص" }]
 }
 
 إليك الجمل:
@@ -1209,19 +1071,13 @@ body { min-height: 100vh; }
 2. تصنيف كل فعل بالنوع (type: "verb").
 3. إعداد الملخص الشامل (summary) لكل فعل بحيث يشمل:
 ${lines.join('\n')}
-4. إزالة أي تكرار للأفعال بحيث يُذكر كل فعل مرة واحدة فقط.
-5. إخراج النتيجة النهائية حصراً بصيغة JSON بدون أي شرح أو كلام إضافي خارج النص، بالهيكلية التالية تماماً:
+4. إزالة أي تكرار للأفعال.
+5. إخراج النتيجة النهائية حصراً بصيغة JSON:
 
 {
   "sentences": [],
   "dictionary": [
-    {
-      "word": "الفعل",
-      "lemma": "المصدر",
-      "type": "verb",
-      "meaning": "المعنى العربي المباشر",
-      "summary": "${summaryTemplate}"
-    }
+    { "word": "الفعل", "lemma": "المصدر", "type": "verb", "meaning": "المعنى العربي", "summary": "${summaryTemplate}" }
   ]
 }
 
@@ -1273,7 +1129,6 @@ ${lines.join('\n')}
     return { merged, added: merged !== String(oldM || '').trim(), same: merged === String(oldM || '').trim() };
   }
 
-  /* ============ Similarity Helpers ============ */
   function levenshtein(a, b) {
     if (a === b) return 0;
     if (!a.length) return b.length;
@@ -1285,23 +1140,17 @@ ${lines.join('\n')}
     for (let i = 1; i <= m; i++) {
       curr[0] = i;
       for (let j = 1; j <= n; j++) {
-        curr[j] = Math.min(
-          prev[j] + 1,
-          curr[j - 1] + 1,
-          prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)
-        );
+        curr[j] = Math.min(prev[j] + 1, curr[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
       }
       const t = prev; prev = curr; curr = t;
     }
     return prev[n];
   }
-
   function sentenceSimilarity(a, b) {
     a = String(a || '').toLowerCase().trim();
     b = String(b || '').toLowerCase().trim();
     if (!a || !b) return 0;
     if (a === b) return 1;
-
     const ta = a.split(/\s+/).filter(Boolean);
     const tb = b.split(/\s+/).filter(Boolean);
     const setA = new Set(ta);
@@ -1310,13 +1159,10 @@ ${lines.join('\n')}
     setA.forEach(x => { if (setB.has(x)) inter++; });
     const union = setA.size + setB.size - inter;
     const jaccard = union ? inter / union : 0;
-
-    // Fast reject: no token overlap & very different lengths
     if (jaccard === 0) {
       const maxLen = Math.max(a.length, b.length);
       if (Math.abs(a.length - b.length) > maxLen * 0.5) return jaccard * 0.3;
     }
-
     const lev = levenshtein(a, b);
     const maxLen = Math.max(a.length, b.length);
     const levSim = maxLen ? 1 - lev / maxLen : 0;
@@ -1328,7 +1174,6 @@ ${lines.join('\n')}
   function saveDriveReviewBankList(items) { try { localStorage.setItem(DRIVE_BANK_KEY, JSON.stringify(items.slice(0, 500))); } catch {} }
   function updateDriveBankUI() { const el = $('#driveBankCount'); if (el) el.textContent = state.driveReviewBank.length; }
 
-  /* ============ Tense parsing ============ */
   function parseTenseSections(summary) {
     const sections = {};
     if (!summary) return sections;
@@ -1361,7 +1206,6 @@ ${lines.join('\n')}
     return newKeys;
   }
 
-  /* ============ Firebase Init ============ */
   async function initFirebase() {
     try {
       if (!window.firebase) throw new Error('مكتبات Firebase غير محمّلة');
@@ -1557,7 +1401,6 @@ ${lines.join('\n')}
     return map;
   }
 
-  /* ============ Verb AI Input ============ */
   function parseVerbAIInput(raw) {
     const text = stripCodeFences(raw);
     if (!text) throw new Error('الصق JSON أولاً');
@@ -1674,26 +1517,28 @@ ${lines.join('\n')}
   async function runDriveAudit(rawSentences) {
     const sentSnap = await state.db.collection('users').doc(USER_ID).collection('sentences').get();
 
-    // 1) Load DB sentences
     const dbSentences = [];
     sentSnap.docs.forEach(doc => {
       const d = doc.data() || {};
       const it = String(d.italian || '').trim();
       if (!it) return;
+      const ar = String(d.arabic || '').trim();
       dbSentences.push({
         dbId: doc.id,
         italian: it,
-        arabic: String(d.arabic || '').trim(),
+        arabic: ar,
         _originalItalian: it,
+        _originalArabic: ar,
         _pendingItalian: null,
+        _pendingArabic: null,
         _status: 'active',
-        _matchType: null,          // 'exact' | 'similar' | null
-        _suggestedText2: null,     // {italian, score}
-        _isDuplicateInDb: false
+        _matchType: null,
+        _suggestedText2: null,
+        _isDuplicateInDb: false,
+        _editMode: false
       });
     });
 
-    // 2) Normalize Text 2 sentences + dedupe within text
     const text2Seen = new Set();
     const text2All = [];
     const text2Dup = [];
@@ -1701,36 +1546,27 @@ ${lines.join('\n')}
       const it = String(s.italian || '').trim();
       if (!it) return;
       const k = it.toLowerCase();
-      if (text2Seen.has(k)) {
-        text2Dup.push({ italian: it, arabic: s.arabic || '' });
-        return;
-      }
+      if (text2Seen.has(k)) { text2Dup.push({ italian: it, arabic: s.arabic || '' }); return; }
       text2Seen.add(k);
       text2All.push({ italian: it, arabic: s.arabic || '' });
     });
 
-    // 3) Duplicate detection in DB (same Italian appears >1 time)
     const italianCounts = new Map();
     dbSentences.forEach(s => {
       const k = s.italian.toLowerCase();
       italianCounts.set(k, (italianCounts.get(k) || 0) + 1);
     });
     dbSentences.forEach(s => {
-      if ((italianCounts.get(s.italian.toLowerCase()) || 0) > 1) {
-        s._isDuplicateInDb = true;
-      }
+      if ((italianCounts.get(s.italian.toLowerCase()) || 0) > 1) s._isDuplicateInDb = true;
     });
 
-    // 4) Classify each DB sentence vs Text 2
     dbSentences.forEach(db => {
       const dbKey = db.italian.toLowerCase();
       if (text2Seen.has(dbKey)) {
-        // Exact Italian match → bypassed by default
         db._status = 'bypassed';
         db._matchType = 'exact';
         return;
       }
-      // Look for the most similar Text 2 sentence
       let best = null, bestScore = 0;
       for (let i = 0; i < text2All.length; i++) {
         const t2 = text2All[i];
@@ -1743,13 +1579,11 @@ ${lines.join('\n')}
       }
     });
 
-    // 5) Build Text 2 unmatched list (sentences not present in DB)
     const dbItalianSet = new Set(dbSentences.map(s => s.italian.toLowerCase()));
     const text2Unmatched = [];
     text2All.forEach(t2 => {
       const k = t2.italian.toLowerCase();
-      if (dbItalianSet.has(k)) return; // already exists in DB
-      // Find best DB target for replacement
+      if (dbItalianSet.has(k)) return;
       let best = null, bestScore = 0;
       for (let i = 0; i < dbSentences.length; i++) {
         const db = dbSentences[i];
@@ -1759,32 +1593,27 @@ ${lines.join('\n')}
       text2Unmatched.push({
         italian: t2.italian,
         arabic: t2.arabic,
+        _originalItalian: t2.italian,
+        _originalArabic: t2.arabic,
         _suggestedDbId: (best && bestScore >= SUGGEST_THRESHOLD) ? best.dbId : null,
         _suggestedDbItalian: (best && bestScore >= SUGGEST_THRESHOLD) ? best.italian : null,
         _suggestedScore: bestScore,
-        _applied: false
+        _applied: false,
+        _skipped: false,
+        _editMode: false,
+        _deleted: false
       });
     });
-
-    // 6) Sort active list: normal first, matched/dup/pending last
-    const activeList = dbSentences.filter(s => s._status === 'active');
-    activeList.sort((a, b) => {
-      const aPriority = (a._matchType === 'similar' || a._isDuplicateInDb) ? 1 : 0;
-      const bPriority = (b._matchType === 'similar' || b._isDuplicateInDb) ? 1 : 0;
-      return aPriority - bPriority;
-    });
-    const bypassedList = dbSentences.filter(s => s._status === 'bypassed');
 
     const p = {
       _source: 'drive-audit',
       _dbSentences: dbSentences,
-      _activeList: activeList,
-      _bypassedList: bypassedList,
+      _activeList: [],
+      _bypassedList: [],
       _text2Unmatched: text2Unmatched,
       _text2Dup: text2Dup,
       _auditSubtab: 'active',
       _hasRendered: false,
-      // Legacy fields (not used, kept for safety)
       _freshSentences: [],
       _dictOps: [],
       _dictSkipped: [],
@@ -1793,10 +1622,31 @@ ${lines.join('\n')}
       sentNew: 0, sentDup: 0, dictNew: 0, dictAdded: 0, dictSame: 0
     };
 
+    rebuildLists(p);
     state.pendingPreview = p;
     renderPreviewModal(p);
     openPreviewModal();
     setSync('online', 'متصل — راجع تقرير التدقيق');
+  }
+
+  function rebuildLists(p) {
+    p._activeList = p._dbSentences.filter(s => s._status === 'active');
+    p._activeList.sort((a, b) => {
+      const aPriority = (a._matchType === 'similar' || a._isDuplicateInDb) ? 1 : 0;
+      const bPriority = (b._matchType === 'similar' || b._isDuplicateInDb) ? 1 : 0;
+      return aPriority - bPriority;
+    });
+    p._bypassedList = p._dbSentences.filter(s => s._status === 'bypassed');
+  }
+
+  function getVisibleActiveList(p) {
+    return p._activeList.filter(s => s._status === 'active');
+  }
+  function getVisibleBypassedList(p) {
+    return p._bypassedList.filter(s => s._status === 'bypassed');
+  }
+  function getVisibleText2List(p) {
+    return p._text2Unmatched.filter(t => !t._deleted);
   }
 
   /* ============ Preview Modal ============ */
@@ -1808,10 +1658,8 @@ ${lines.join('\n')}
   }
 
   function renderPreviewModal(p) {
-    if (p._source === 'drive-audit') {
-      renderDriveAuditPreview(p);
-      return;
-    }
+    if (p._source === 'drive-audit') { renderDriveAuditPreview(p); return; }
+
     $('#previewModalTitle').innerHTML = `🔍 معاينة قبل الرفع <span class="user-badge" id="previewUserBadge">${escapeHtml(USER_ID.slice(0, 20) + '…')}</span>`;
     $('#previewTabs').hidden = false;
 
@@ -1911,13 +1759,17 @@ ${lines.join('\n')}
   }
 
   /* =========================================================
-     🎯 Drive Audit Render — 3 Lists
+     🎯 Drive Audit Render — 3 Lists with Full Actions
      ========================================================= */
   function renderDriveAuditPreview(p) {
-    const activeCount = p._activeList.length;
-    const text2Count = p._text2Unmatched.length;
-    const bypassedCount = p._bypassedList.length;
-    const pendingCount = p._dbSentences.filter(s => s._pendingItalian !== null && s._pendingItalian !== undefined).length;
+    const activeCount = getVisibleActiveList(p).length;
+    const text2Count = getVisibleText2List(p).length;
+    const bypassedCount = getVisibleBypassedList(p).length;
+    const pendingCount = p._dbSentences.filter(s => {
+      const itCh = s._pendingItalian !== null && s._pendingItalian !== undefined && s._pendingItalian !== s._originalItalian;
+      const arCh = s._pendingArabic !== null && s._pendingArabic !== undefined && s._pendingArabic !== s._originalArabic;
+      return itCh || arCh;
+    }).length;
 
     $('#previewModalTitle').innerHTML = `🔍 تقرير الفحص والتدقيق <span class="user-badge" id="previewUserBadge">${escapeHtml(USER_ID.slice(0, 20) + '…')}</span>`;
 
@@ -1931,18 +1783,16 @@ ${lines.join('\n')}
     `;
 
     $('#previewTabs').hidden = true;
-    $$('.preview-tab-content').forEach(c => {
-      c.hidden = c.dataset.tabContent !== 'sentences';
-    });
+    $$('.preview-tab-content').forEach(c => { c.hidden = c.dataset.tabContent !== 'sentences'; });
 
     renderDriveAuditBody(p);
     updateConfirmButton();
   }
 
   function renderDriveAuditBody(p) {
-    const activeCount = p._activeList.length;
-    const text2Count = p._text2Unmatched.length;
-    const bypassedCount = p._bypassedList.length;
+    const activeCount = getVisibleActiveList(p).length;
+    const text2Count = getVisibleText2List(p).length;
+    const bypassedCount = getVisibleBypassedList(p).length;
     const subtab = p._auditSubtab || 'active';
     const wrap = $('#previewTabSentences');
     wrap.hidden = false;
@@ -1969,23 +1819,19 @@ ${lines.join('\n')}
   function renderAuditSubtab(p, name) {
     const wrap = $('#driveAuditContent');
     if (!wrap) return;
-
-    if (name === 'active') {
-      renderActiveList(p, wrap);
-    } else if (name === 'text2') {
-      renderText2List(p, wrap);
-    } else if (name === 'bypassed') {
-      renderBypassedList(p, wrap);
-    }
+    if (name === 'active') renderActiveList(p, wrap);
+    else if (name === 'text2') renderText2List(p, wrap);
+    else if (name === 'bypassed') renderBypassedList(p, wrap);
   }
 
+  /* ============ Active List ============ */
   function renderActiveList(p, wrap) {
-    const list = p._activeList;
+    const list = getVisibleActiveList(p);
     if (!list.length) {
       wrap.innerHTML = '<div class="empty-state">لا توجد جمل نشطة</div>';
       return;
     }
-    const normalCount = list.filter(s => s._matchType !== 'similar' && !s._isDuplicateInDb && !s._pendingItalian).length;
+    const normalCount = list.filter(s => s._matchType !== 'similar' && !s._isDuplicateInDb && s._pendingItalian == null && s._pendingArabic == null).length;
     const markedCount = list.length - normalCount;
 
     wrap.innerHTML = `
@@ -1998,11 +1844,20 @@ ${lines.join('\n')}
   }
 
   function renderActiveCard(s, i) {
-    const isPending = s._pendingItalian !== null && s._pendingItalian !== undefined;
+    const isPendingIt = s._pendingItalian !== null && s._pendingItalian !== undefined;
+    const isPendingAr = s._pendingArabic !== null && s._pendingArabic !== undefined;
+    const isPending = isPendingIt || isPendingAr;
+    const isEditing = s._editMode === true;
+
+    if (isEditing) return renderEditCard(s, i, 'active');
+
     const classes = ['audit-card'];
     if (isPending) classes.push('pending-change');
     else if (s._matchType === 'similar') classes.push('has-suggestion');
     else if (s._isDuplicateInDb) classes.push('duplicate-db');
+
+    const dispIt = isPendingIt ? s._pendingItalian : s.italian;
+    const dispAr = isPendingAr ? s._pendingArabic : s.arabic;
 
     return `
       <div class="${classes.join(' ')}" data-audit-idx="${i}">
@@ -2012,13 +1867,14 @@ ${lines.join('\n')}
           ${s._matchType === 'similar' && s._suggestedText2 ? `<span class="audit-badge similar">≈ مشابه ${Math.round(s._suggestedText2.score * 100)}%</span>` : ''}
           ${isPending ? '<span class="audit-badge pending">💾 تعديل معلّق</span>' : ''}
         </div>
-        <div class="audit-sentence" dir="ltr">${escapeHtml(s.italian)}</div>
-        <div class="audit-arabic ${s.arabic ? '' : 'empty'}">${s.arabic ? escapeHtml(s.arabic) : 'بدون ترجمة'}</div>
+        <div class="audit-sentence" dir="ltr">${escapeHtml(dispIt)}</div>
+        <div class="audit-arabic ${dispAr ? '' : 'empty'}">${dispAr ? escapeHtml(dispAr) : 'بدون ترجمة'}</div>
 
         ${isPending ? `
           <div class="audit-pending-change">
-            <div class="audit-pending-label">✨ التعديل المعلّق (سيُطبَّق على Italian فقط)</div>
-            <div class="audit-pending-it" dir="ltr">${escapeHtml(s._pendingItalian)}</div>
+            <div class="audit-pending-label">✨ التعديلات المعلّقة (ستُطبَّق عند الحفظ)</div>
+            ${isPendingIt && s._pendingItalian !== s._originalItalian ? `<div class="audit-pending-it" dir="ltr">🇮🇹 ${escapeHtml(s._pendingItalian)}</div>` : ''}
+            ${isPendingAr && s._pendingArabic !== s._originalArabic ? `<div style="font-size:12px;color:var(--text);margin-top:3px;">🇸🇦 ${escapeHtml(s._pendingArabic)}</div>` : ''}
           </div>
         ` : ''}
 
@@ -2034,9 +1890,32 @@ ${lines.join('\n')}
           ${isPending
             ? `<button class="drive-action-btn undo" data-action="undo-pending" data-idx="${i}">↩️ تراجع</button>`
             : s._suggestedText2
-              ? `<button class="drive-action-btn replace" data-action="apply-suggestion" data-idx="${i}">🔀 استبدال الإيطالية</button>`
+              ? `<button class="drive-action-btn replace" data-action="apply-suggestion" data-idx="${i}">🔀 استبدال</button>`
               : ''}
+          <button class="drive-action-btn edit" data-action="edit" data-idx="${i}">✏️ تعديل</button>
           <button class="drive-action-btn bypass" data-action="bypass" data-idx="${i}">⏸️ تجاوز</button>
+          <button class="drive-action-btn delete" data-action="delete" data-idx="${i}">🗑️ حذف</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderEditCard(s, i, listType) {
+    const dispIt = (s._pendingItalian !== null && s._pendingItalian !== undefined) ? s._pendingItalian : s.italian;
+    const dispAr = (s._pendingArabic !== null && s._pendingArabic !== undefined) ? s._pendingArabic : s.arabic;
+    return `
+      <div class="audit-card editing" data-audit-idx="${i}" data-list-type="${listType}">
+        <div class="audit-card-header">
+          <span class="audit-card-num">${i + 1}</span>
+          <span class="audit-badge editing-badge">✏️ وضع التعديل</span>
+        </div>
+        <label class="audit-edit-label">الجملة الإيطالية *</label>
+        <textarea class="audit-edit-input" data-field="italian" dir="ltr" rows="2">${escapeHtml(dispIt)}</textarea>
+        <label class="audit-edit-label">الترجمة العربية (اختياري)</label>
+        <textarea class="audit-edit-input" data-field="arabic" rows="2">${escapeHtml(dispAr || '')}</textarea>
+        <div class="audit-edit-actions">
+          <button class="drive-action-btn save" data-action="save-edit" data-idx="${i}" data-list-type="${listType}">💾 حفظ</button>
+          <button class="drive-action-btn cancel" data-action="cancel-edit" data-idx="${i}" data-list-type="${listType}">✖️ إلغاء</button>
         </div>
       </div>
     `;
@@ -2046,46 +1925,75 @@ ${lines.join('\n')}
     $$('#driveAuditContent .audit-card .drive-action-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const idx = parseInt(btn.dataset.idx, 10);
-        if (isNaN(idx) || !p._activeList[idx]) return;
-        const s = p._activeList[idx];
         const action = btn.dataset.action;
+        if (isNaN(idx)) return;
+
+        // Handle edit save/cancel (works for any list type)
+        if (action === 'save-edit' || action === 'cancel-edit') {
+          const listType = btn.dataset.listType;
+          const card = btn.closest('.audit-card');
+          handleEditAction(p, idx, action, listType, card);
+          return;
+        }
+
+        const s = getVisibleActiveList(p)[idx];
+        if (!s) return;
 
         switch (action) {
           case 'bypass':
             s._status = 'bypassed';
             s._pendingItalian = null;
+            s._pendingArabic = null;
+            s._editMode = false;
             rebuildLists(p);
             renderDriveAuditBody(p);
             updateConfirmButton();
+            toast('⏸️ تم التجاوز', 'ok');
             break;
           case 'apply-suggestion':
             if (s._suggestedText2) {
               s._pendingItalian = s._suggestedText2.italian;
               renderDriveAuditBody(p);
               updateConfirmButton();
-              toast('🔀 تم تعليق التعديل — راجع ثم اضغط "تطبيق"', 'ok');
+              toast('🔀 تم تعليق تعديل الإيطالية (احتفظنا بالعربية)', 'ok');
             }
             break;
           case 'undo-pending':
             s._pendingItalian = null;
+            s._pendingArabic = null;
             renderDriveAuditBody(p);
             updateConfirmButton();
             toast('↩️ تم التراجع', 'ok');
+            break;
+          case 'edit':
+            p._dbSentences.forEach(x => { x._editMode = false; });
+            p._text2Unmatched.forEach(x => { x._editMode = false; });
+            s._editMode = true;
+            renderDriveAuditBody(p);
+            break;
+          case 'delete':
+            if (!confirm(`🗑️ حذف الجملة من القائمة الحالية؟\n\n"${s.italian.substring(0, 80)}"\n\n(لن تُحذف من Firebase — فقط من هذه الجلسة)`)) return;
+            s._status = 'deleted';
+            rebuildLists(p);
+            renderDriveAuditBody(p);
+            updateConfirmButton();
+            toast('🗑️ تم الحذف من القائمة', 'ok');
             break;
         }
       });
     });
   }
 
+  /* ============ Text 2 Reference List ============ */
   function renderText2List(p, wrap) {
-    const list = p._text2Unmatched;
+    const list = getVisibleText2List(p);
     if (!list.length) {
-      wrap.innerHTML = '<div class="empty-state">🎉 كل جمل النص 2 موجودة في قاعدة البيانات</div>';
+      wrap.innerHTML = '<div class="empty-state">🎉 لا توجد جمل مرجعية متبقية</div>';
       return;
     }
     wrap.innerHTML = `
       <div class="audit-note">
-        📋 ${list.length} جملة في النص 2 غير موجودة في DB. يمكنك استبدال الإيطالية في جملة قريبة، مع الاحتفاظ بترجمتها العربية الأصلية.
+        📋 ${list.length} جملة مرجعية. يمكنك تطبيقها على DB، أو تعديلها، أو حفظها، أو تجاوزها.
       </div>
       ${list.map((t, i) => renderText2Card(p, t, i)).join('')}
     `;
@@ -2093,30 +2001,44 @@ ${lines.join('\n')}
   }
 
   function renderText2Card(p, t, i) {
+    const isEditing = t._editMode === true;
+    if (isEditing) return renderEditCard(t, i, 'text2');
+
     const hasSuggestion = !!t._suggestedDbId;
     const targetDb = hasSuggestion ? p._dbSentences.find(d => d.dbId === t._suggestedDbId) : null;
+    const classes = ['audit-card'];
+    if (t._skipped) classes.push('skipped-t2');
+    else if (hasSuggestion) classes.push('has-suggestion');
+
     return `
-      <div class="audit-card ${hasSuggestion ? 'has-suggestion' : ''}">
+      <div class="${classes.join(' ')}" data-text2-idx="${i}">
         <div class="audit-card-header">
           <span class="audit-card-num">${i + 1}</span>
           <span class="audit-badge new-item">🆕 مرجع</span>
           ${t._applied ? '<span class="audit-badge pending">✅ مُطبّق</span>' : ''}
+          ${t._skipped ? '<span class="audit-badge similar">⏸️ متجاوز</span>' : ''}
         </div>
         <div class="audit-sentence" dir="ltr">${escapeHtml(t.italian)}</div>
         ${t.arabic ? `<div class="audit-arabic">${escapeHtml(t.arabic)}</div>` : '<div class="audit-arabic empty">بدون ترجمة</div>'}
 
-        ${hasSuggestion && targetDb ? `
+        ${hasSuggestion && targetDb && !t._applied ? `
           <div class="audit-suggestion">
             <div class="audit-suggestion-label">🎯 أقرب جملة في DB (${Math.round(t._suggestedScore * 100)}%)</div>
             <div class="audit-suggestion-text" dir="ltr">${escapeHtml(targetDb.italian)}</div>
             <div class="audit-suggestion-score">🕌 ترجمتها الحالية: ${escapeHtml(targetDb.arabic || '—')}</div>
           </div>
-        ` : '<div class="audit-note" style="margin: 8px 0 0;">لا توجد جملة مشابهة بما يكفي للاستبدال</div>'}
+        ` : ''}
 
         <div class="drive-actions">
-          ${hasSuggestion
-            ? `<button class="drive-action-btn replace" data-action="apply-text2" data-idx="${i}" ${t._applied ? 'disabled' : ''}>🔀 استبدال الإيطالية في DB</button>`
-            : `<button class="drive-action-btn" disabled>🚫 لا يوجد هدف مناسب</button>`}
+          ${hasSuggestion && !t._applied && !t._skipped
+            ? `<button class="drive-action-btn replace" data-action="apply-text2" data-idx="${i}">🔀 تطبيق على DB</button>`
+            : ''}
+          <button class="drive-action-btn edit" data-action="edit-t2" data-idx="${i}">✏️ تعديل</button>
+          ${!t._skipped
+            ? `<button class="drive-action-btn bypass" data-action="skip-t2" data-idx="${i}">⏸️ تجاوز</button>`
+            : `<button class="drive-action-btn reactivate" data-action="unskip-t2" data-idx="${i}">✅ تفعيل</button>`}
+          <button class="drive-action-btn save-later" data-action="save-t2" data-idx="${i}">📌 حفظ</button>
+          <button class="drive-action-btn delete" data-action="delete-t2" data-idx="${i}">🗑️ حذف</button>
         </div>
       </div>
     `;
@@ -2125,86 +2047,234 @@ ${lines.join('\n')}
   function bindText2Actions(p) {
     $$('#driveAuditContent .audit-card .drive-action-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        if (btn.disabled) return;
         const idx = parseInt(btn.dataset.idx, 10);
-        if (isNaN(idx) || !p._text2Unmatched[idx]) return;
-        const t = p._text2Unmatched[idx];
         const action = btn.dataset.action;
+        if (isNaN(idx)) return;
 
-        if (action === 'apply-text2') {
-          if (!t._suggestedDbId) return;
-          const target = p._dbSentences.find(d => d.dbId === t._suggestedDbId);
-          if (!target) return;
-          // 🔀 قاعدة الاستبدال: تطبيق Italian فقط على الجملة المستهدفة
-          target._pendingItalian = t.italian;
-          // إعادة التصنيف
-          target._status = 'active'; // ابقها نشطة
-          target._matchType = null;
-          target._suggestedText2 = null;
-          t._applied = true;
-          rebuildLists(p);
-          renderDriveAuditBody(p);
-          updateConfirmButton();
-          toast('🔀 تم تعليق التعديل — احتفظنا بالـ Arabic الأصلي', 'ok');
+        if (action === 'save-edit' || action === 'cancel-edit') {
+          const listType = btn.dataset.listType;
+          const card = btn.closest('.audit-card');
+          handleEditAction(p, idx, action, listType, card);
+          return;
+        }
+
+        const t = getVisibleText2List(p)[idx];
+        if (!t) return;
+
+        switch (action) {
+          case 'apply-text2':
+            if (!t._suggestedDbId) return;
+            const target = p._dbSentences.find(d => d.dbId === t._suggestedDbId);
+            if (!target) return;
+            // قاعدة الاستبدال: Italian فقط، والحفاظ على Arabic
+            target._pendingItalian = t.italian;
+            target._editMode = false;
+            target._suggestedText2 = null;
+            t._applied = true;
+            rebuildLists(p);
+            renderDriveAuditBody(p);
+            updateConfirmButton();
+            toast('🔀 تم تعليق تعديل الإيطالية في الجملة المستهدفة', 'ok');
+            break;
+          case 'edit-t2':
+            p._dbSentences.forEach(x => { x._editMode = false; });
+            p._text2Unmatched.forEach(x => { x._editMode = false; });
+            t._editMode = true;
+            renderDriveAuditBody(p);
+            break;
+          case 'skip-t2':
+            t._skipped = true;
+            renderDriveAuditBody(p);
+            updateConfirmButton();
+            toast('⏸️ تم التجاوز', 'ok');
+            break;
+          case 'unskip-t2':
+            t._skipped = false;
+            renderDriveAuditBody(p);
+            updateConfirmButton();
+            toast('✅ تم التفعيل', 'ok');
+            break;
+          case 'save-t2':
+            state.driveReviewBank.unshift({
+              italian: t.italian,
+              arabic: t.arabic || '',
+              saved_at: Date.now(),
+              source: 'drive-audit-text2'
+            });
+            saveDriveReviewBankList(state.driveReviewBank);
+            updateDriveBankUI();
+            toast('📌 تم الحفظ في البنك', 'ok');
+            break;
+          case 'delete-t2':
+            if (!confirm(`🗑️ حذف الجملة المرجعية من القائمة؟\n\n"${t.italian.substring(0, 80)}"`)) return;
+            t._deleted = true;
+            renderDriveAuditBody(p);
+            updateConfirmButton();
+            toast('🗑️ تم الحذف', 'ok');
+            break;
         }
       });
     });
   }
 
+  /* ============ Bypassed List ============ */
   function renderBypassedList(p, wrap) {
-    const list = p._bypassedList;
+    const list = getVisibleBypassedList(p);
     if (!list.length) {
       wrap.innerHTML = '<div class="empty-state">لا توجد جمل متجاوزة</div>';
       return;
     }
     wrap.innerHTML = `
       <div class="audit-note">
-        ⏸️ ${list.length} جملة لها تطابق إيطالي تام مع النص 2 — مستبعدة من المعالجة. يمكنك تفعيلها يدوياً.
+        ⏸️ ${list.length} جملة لها تطابق إيطالي تام مع النص 2 — مستبعدة. يمكنك تعديلها، تفعيلها، استبدالها، أو حذفها.
       </div>
-      ${list.map((s, i) => `
-        <div class="audit-card bypassed" data-byp-idx="${i}">
-          <div class="audit-card-header">
-            <span class="audit-card-num">${i + 1}</span>
-            <span class="audit-badge exact">🎯 تطابق تام مع النص 2</span>
-            ${s._isDuplicateInDb ? '<span class="audit-badge dup-db">🔁 مكررة</span>' : ''}
-          </div>
-          <div class="audit-sentence" dir="ltr">${escapeHtml(s.italian)}</div>
-          <div class="audit-arabic ${s.arabic ? '' : 'empty'}">${s.arabic ? escapeHtml(s.arabic) : 'بدون ترجمة'}</div>
-          <div class="drive-actions">
-            <button class="drive-action-btn reactivate" data-action="activate" data-byp-idx="${i}">✅ تفعيل</button>
-          </div>
-        </div>
-      `).join('')}
+      ${list.map((s, i) => renderBypassedCard(s, i)).join('')}
     `;
-    $$('#driveAuditContent [data-byp-idx]').forEach(card => {
-      const idx = parseInt(card.dataset.bypIdx, 10);
-      const btn = card.querySelector('[data-action="activate"]');
-      if (!btn) return;
+    bindBypassedActions(p);
+  }
+
+  function renderBypassedCard(s, i) {
+    const isEditing = s._editMode === true;
+    if (isEditing) return renderEditCard(s, i, 'bypassed');
+
+    const isPendingIt = s._pendingItalian !== null && s._pendingItalian !== undefined;
+    const isPendingAr = s._pendingArabic !== null && s._pendingArabic !== undefined;
+    const dispIt = isPendingIt ? s._pendingItalian : s.italian;
+    const dispAr = isPendingAr ? s._pendingArabic : s.arabic;
+
+    return `
+      <div class="audit-card bypassed" data-byp-idx="${i}">
+        <div class="audit-card-header">
+          <span class="audit-card-num">${i + 1}</span>
+          <span class="audit-badge exact">🎯 تطابق تام</span>
+          ${s._isDuplicateInDb ? '<span class="audit-badge dup-db">🔁 مكررة</span>' : ''}
+          ${(isPendingIt || isPendingAr) ? '<span class="audit-badge pending">💾 تعديل معلّق</span>' : ''}
+        </div>
+        <div class="audit-sentence" dir="ltr">${escapeHtml(dispIt)}</div>
+        <div class="audit-arabic ${dispAr ? '' : 'empty'}">${dispAr ? escapeHtml(dispAr) : 'بدون ترجمة'}</div>
+
+        ${(isPendingIt || isPendingAr) ? `
+          <div class="audit-pending-change">
+            <div class="audit-pending-label">✨ التعديلات المعلّقة</div>
+            ${isPendingIt && s._pendingItalian !== s._originalItalian ? `<div class="audit-pending-it" dir="ltr">🇮🇹 ${escapeHtml(s._pendingItalian)}</div>` : ''}
+            ${isPendingAr && s._pendingArabic !== s._originalArabic ? `<div style="font-size:12px;margin-top:3px;">🇸🇦 ${escapeHtml(s._pendingArabic)}</div>` : ''}
+          </div>
+        ` : ''}
+
+        <div class="drive-actions">
+          ${(isPendingIt || isPendingAr) ? `<button class="drive-action-btn undo" data-action="undo-byp" data-idx="${i}">↩️ تراجع</button>` : ''}
+          ${s._suggestedText2 && !(isPendingIt || isPendingAr) ? `<button class="drive-action-btn replace" data-action="replace-byp" data-idx="${i}">🔀 استبدال</button>` : ''}
+          <button class="drive-action-btn edit" data-action="edit-byp" data-idx="${i}">✏️ تعديل</button>
+          <button class="drive-action-btn reactivate" data-action="activate-byp" data-idx="${i}">✅ تفعيل</button>
+          <button class="drive-action-btn delete" data-action="delete-byp" data-idx="${i}">🗑️ حذف</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function bindBypassedActions(p) {
+    $$('#driveAuditContent .audit-card .drive-action-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        const s = p._bypassedList[idx];
+        const idx = parseInt(btn.dataset.idx, 10);
+        const action = btn.dataset.action;
+        if (isNaN(idx)) return;
+
+        if (action === 'save-edit' || action === 'cancel-edit') {
+          const listType = btn.dataset.listType;
+          const card = btn.closest('.audit-card');
+          handleEditAction(p, idx, action, listType, card);
+          return;
+        }
+
+        const s = getVisibleBypassedList(p)[idx];
         if (!s) return;
-        s._status = 'active';
-        s._matchType = null;
-        s._suggestedText2 = null;
-        rebuildLists(p);
-        renderDriveAuditBody(p);
-        updateConfirmButton();
-        toast('✅ تم التفعيل', 'ok');
+
+        switch (action) {
+          case 'activate-byp':
+            s._status = 'active';
+            s._matchType = null;
+            s._suggestedText2 = null;
+            s._editMode = false;
+            rebuildLists(p);
+            renderDriveAuditBody(p);
+            updateConfirmButton();
+            toast('✅ تم التفعيل', 'ok');
+            break;
+          case 'edit-byp':
+            p._dbSentences.forEach(x => { x._editMode = false; });
+            s._editMode = true;
+            renderDriveAuditBody(p);
+            break;
+          case 'replace-byp':
+            if (s._suggestedText2) {
+              s._pendingItalian = s._suggestedText2.italian;
+              renderDriveAuditBody(p);
+              updateConfirmButton();
+              toast('🔀 تم تعليق التعديل', 'ok');
+            }
+            break;
+          case 'undo-byp':
+            s._pendingItalian = null;
+            s._pendingArabic = null;
+            renderDriveAuditBody(p);
+            updateConfirmButton();
+            toast('↩️ تم التراجع', 'ok');
+            break;
+          case 'delete-byp':
+            if (!confirm(`🗑️ حذف الجملة من القائمة؟\n\n"${s.italian.substring(0, 80)}"\n\n(لن تُحذف من Firebase)`)) return;
+            s._status = 'deleted';
+            rebuildLists(p);
+            renderDriveAuditBody(p);
+            updateConfirmButton();
+            toast('🗑️ تم الحذف', 'ok');
+            break;
+        }
       });
     });
   }
 
-  function rebuildLists(p) {
-    p._activeList = p._dbSentences.filter(s => s._status === 'active');
-    p._activeList.sort((a, b) => {
-      const aPriority = (a._matchType === 'similar' || a._isDuplicateInDb) ? 1 : 0;
-      const bPriority = (b._matchType === 'similar' || b._isDuplicateInDb) ? 1 : 0;
-      return aPriority - bPriority;
-    });
-    p._bypassedList = p._dbSentences.filter(s => s._status === 'bypassed');
+  /* ============ Shared Edit Handler ============ */
+  function handleEditAction(p, idx, action, listType, card) {
+    let target = null;
+    if (listType === 'active') target = getVisibleActiveList(p)[idx];
+    else if (listType === 'bypassed') target = getVisibleBypassedList(p)[idx];
+    else if (listType === 'text2') target = getVisibleText2List(p)[idx];
+
+    if (!target) return;
+
+    if (action === 'cancel-edit') {
+      target._editMode = false;
+      renderDriveAuditBody(p);
+      return;
+    }
+
+    // save-edit
+    const itEl = card.querySelector('[data-field="italian"]');
+    const arEl = card.querySelector('[data-field="arabic"]');
+    const newIt = String(itEl ? itEl.value : '').trim();
+    const newAr = String(arEl ? arEl.value : '').trim();
+
+    if (!newIt) { toast('الجملة الإيطالية مطلوبة', 'err'); return; }
+
+    if (listType === 'text2') {
+      target.italian = newIt;
+      target.arabic = newAr;
+      target._originalItalian = newIt;
+      target._originalArabic = newAr;
+    } else {
+      // DB sentence: set pending values
+      if (newIt !== target._originalItalian) target._pendingItalian = newIt;
+      else target._pendingItalian = null;
+      if (newAr !== target._originalArabic) target._pendingArabic = newAr;
+      else target._pendingArabic = null;
+    }
+    target._editMode = false;
+    renderDriveAuditBody(p);
+    updateConfirmButton();
+    toast('✅ تم الحفظ محلياً', 'ok');
   }
 
-  /* ============ Collision UI (non-audit) ============ */
+  /* ============ Collision UI ============ */
   function renderCollisionCard(c, idx) {
     const newTenses = getNewTenseSections(c.existing.summary, c.incoming.summary);
     const newMeaningDifferent = compareMeanings(c.existing.meaning, c.incoming.meaning).added;
@@ -2285,9 +2355,11 @@ ${lines.join('\n')}
     const btn = $('#btnConfirmUpload');
 
     if (p._source === 'drive-audit') {
-      const pendingCount = p._dbSentences.filter(s =>
-        s._pendingItalian !== null && s._pendingItalian !== undefined && s._pendingItalian !== s._originalItalian
-      ).length;
+      const pendingCount = p._dbSentences.filter(s => {
+        const itCh = s._pendingItalian !== null && s._pendingItalian !== undefined && s._pendingItalian !== s._originalItalian;
+        const arCh = s._pendingArabic !== null && s._pendingArabic !== undefined && s._pendingArabic !== s._originalArabic;
+        return itCh || arCh;
+      }).length;
       btn.className = 'btn btn-info';
       btn.disabled = pendingCount === 0;
       btn.innerHTML = pendingCount === 0
@@ -2304,12 +2376,10 @@ ${lines.join('\n')}
     const total = driveActiveCount + p.dictNew + p.dictAdded + collisions.filter(c => c.action !== 'ignore').length;
     btn.className = 'btn btn-primary';
     btn.disabled = total === 0;
-    btn.innerHTML = total === 0
-      ? '🚫 لا يوجد جديد للرفع'
-      : `🚀 رفع ${total} عملية`;
+    btn.innerHTML = total === 0 ? '🚫 لا يوجد جديد للرفع' : `🚀 رفع ${total} عملية`;
   }
 
-  /* ============ Analyze JSON ============ */
+  /* ============ Analyze ============ */
   async function analyze() {
     if (state.processing) return;
     if (!state.ready) { toast('القاعدة غير جاهزة', 'err'); return; }
@@ -2408,12 +2478,14 @@ ${lines.join('\n')}
     return commitStandard(p);
   }
 
-  /* ============ Commit — Drive Audit (تطبيق Italian فقط) ============ */
+  /* ============ Commit — Drive Audit ============ */
   async function commitDriveAudit(p) {
     if (state.processing) return;
-    const toApply = p._dbSentences.filter(s =>
-      s._pendingItalian !== null && s._pendingItalian !== undefined && s._pendingItalian !== s._originalItalian
-    );
+    const toApply = p._dbSentences.filter(s => {
+      const itCh = s._pendingItalian !== null && s._pendingItalian !== undefined && s._pendingItalian !== s._originalItalian;
+      const arCh = s._pendingArabic !== null && s._pendingArabic !== undefined && s._pendingArabic !== s._originalArabic;
+      return itCh || arCh;
+    });
     if (!toApply.length) { toast('لا توجد تعديلات للتطبيق', 'warn'); return; }
 
     state.processing = true;
@@ -2433,17 +2505,23 @@ ${lines.join('\n')}
         try {
           const batch = state.db.batch();
           chunk.forEach(s => {
-            batch.update(col.doc(s.dbId), {
-              italian: s._pendingItalian,
-              updated_at: now
-              // ملاحظة: arabic لا يُلمس — يبقى كما هو
-            });
+            const update = { updated_at: now };
+            if (s._pendingItalian !== null && s._pendingItalian !== undefined) update.italian = s._pendingItalian;
+            if (s._pendingArabic !== null && s._pendingArabic !== undefined) update.arabic = s._pendingArabic;
+            batch.update(col.doc(s.dbId), update);
           });
           await batch.commit();
           chunk.forEach(s => {
-            s.italian = s._pendingItalian;
-            s._originalItalian = s._pendingItalian;
-            s._pendingItalian = null;
+            if (s._pendingItalian !== null && s._pendingItalian !== undefined) {
+              s.italian = s._pendingItalian;
+              s._originalItalian = s._pendingItalian;
+              s._pendingItalian = null;
+            }
+            if (s._pendingArabic !== null && s._pendingArabic !== undefined) {
+              s.arabic = s._pendingArabic;
+              s._originalArabic = s._pendingArabic;
+              s._pendingArabic = null;
+            }
           });
           applied += chunk.length;
         } catch (err) { console.error('Batch apply error:', err); failed += chunk.length; }
