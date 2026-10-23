@@ -604,50 +604,27 @@ body { min-height: 100vh; }
 }
 .drive-action-btn:hover { background: var(--surface-2); border-color: var(--primary); color: var(--primary-dark); }
 .drive-action-btn:active { transform: scale(.96); }
+.drive-action-btn:disabled { opacity: .5; cursor: not-allowed; }
 .drive-action-btn.reactivate { border-color: var(--success); color: var(--success); background: var(--success-soft); }
 .drive-action-btn.reactivate:hover { background: var(--success); color: #fff; }
-.drive-action-btn.edit:hover { border-color: var(--primary); color: var(--primary-dark); background: var(--primary-soft); }
-.drive-action-btn.save-later:hover { border-color: var(--info); color: var(--info); background: var(--info-soft); }
-.drive-action-btn.delete:hover { border-color: var(--danger); color: var(--danger); background: var(--danger-soft); }
-.drive-action-btn.save { background: var(--success); color: #fff; border-color: var(--success); }
-.drive-action-btn.save:hover { background: #3a9a6a; color: #fff; }
-.drive-action-btn.cancel { background: var(--surface-2); }
 .drive-action-btn.bypass:hover { border-color: var(--warn); color: #a76b0f; background: var(--warn-soft); }
-.drive-edit-label {
-  display: block;
-  font-size: 11.5px;
-  font-weight: 700;
-  color: var(--text-soft);
-  margin: 8px 0 4px;
-}
-.drive-edit-input {
-  width: 100%;
-  padding: 8px 10px;
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  border-radius: 8px;
-  font-family: inherit;
-  font-size: 13px;
-  color: var(--text);
-  outline: none;
-  resize: vertical;
-  transition: border-color .15s ease;
-}
-.drive-edit-input:focus { border-color: var(--primary); }
-.drive-edit-input[dir="ltr"] { font-family: "Georgia", serif; }
-.drive-edit-actions {
+.drive-action-btn.replace { border-color: var(--info); color: var(--info); background: var(--info-soft); }
+.drive-action-btn.replace:hover:not(:disabled) { background: var(--info); color: #fff; }
+.drive-action-btn.undo { border-color: var(--danger); color: var(--danger); background: var(--danger-soft); }
+.drive-action-btn.undo:hover { background: var(--danger); color: #fff; }
+.drive-actions {
   display: flex;
-  gap: 6px;
-  margin-top: 10px;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 8px;
 }
-.drive-edit-actions .drive-action-btn { flex: 1; justify-content: center; }
 
-/* ============ Drive Audit (جديد) ============ */
+/* ============ Drive Audit 3-List UI ============ */
 .drive-audit-tabs {
   display: flex;
   gap: 4px;
-  padding-bottom: 8px;
-  margin-bottom: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 12px;
   border-bottom: 1px solid var(--border);
   overflow-x: auto;
   flex-wrap: nowrap;
@@ -700,87 +677,143 @@ body { min-height: 100vh; }
   line-height: 1.6;
 }
 
-.correction-card {
+.audit-card {
   background: var(--surface);
   border: 1.5px solid var(--border);
   border-radius: 12px;
   padding: 12px;
   margin-bottom: 10px;
 }
-.correction-card:last-child { margin-bottom: 0; }
-.correction-card.editing {
-  border-color: var(--primary);
-  background: linear-gradient(135deg, #fff, #f1faf6);
-  box-shadow: 0 4px 12px rgba(45,122,104,.1);
-}
-.correction-card.ignored {
-  opacity: .65;
+.audit-card:last-child { margin-bottom: 0; }
+.audit-card.bypassed {
+  opacity: .7;
+  background: var(--surface-2);
   border-style: dashed;
 }
-.correction-card.matched {
+.audit-card.has-suggestion {
+  border-color: #d4c4a0;
+  background: linear-gradient(135deg, #fff, #fffbf2);
+}
+.audit-card.pending-change {
+  border-color: var(--success);
   background: linear-gradient(135deg, #fff, #f0f9f4);
-  border-color: #b8e6d2;
+  box-shadow: 0 4px 12px rgba(76,175,125,.12);
 }
-.correction-card.new-item {
-  background: linear-gradient(135deg, #fff, #eef4ff);
-  border-color: #c9d9f5;
+.audit-card.duplicate-db {
+  border-color: var(--warn);
+  background: linear-gradient(135deg, #fff, #fff8e6);
 }
-.correction-it {
+.audit-card-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.audit-card-num {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--info-soft);
+  color: var(--info);
+  font-size: 11px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.audit-badge {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 5px;
+  white-space: nowrap;
+}
+.audit-badge.dup-db { background: var(--warn-soft); color: #a76b0f; }
+.audit-badge.similar { background: var(--info-soft); color: var(--info); }
+.audit-badge.pending { background: var(--success-soft); color: var(--success); }
+.audit-badge.exact { background: var(--danger-soft); color: #a94633; }
+.audit-badge.new-item { background: var(--info-soft); color: var(--info); }
+
+.audit-sentence {
   font-family: "Georgia", serif;
   font-size: 14.5px;
   font-weight: 700;
-  color: var(--text);
   direction: ltr;
   text-align: left;
-  margin-bottom: 8px;
+  color: var(--text);
+  margin-bottom: 4px;
   word-break: break-word;
 }
-.correction-compare {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 10px;
+.audit-arabic {
+  font-size: 13px;
+  color: var(--text-soft);
+  margin-bottom: 6px;
+  word-break: break-word;
 }
-.correction-side {
-  background: var(--surface-2);
-  border: 1px solid var(--border);
+.audit-arabic.empty { font-style: italic; opacity: .6; }
+
+.audit-suggestion {
+  background: var(--info-soft);
+  border: 1px dashed var(--info);
   border-radius: 8px;
   padding: 8px 10px;
-  min-height: 50px;
+  font-size: 12px;
+  color: var(--text);
+  margin: 8px 0;
+  line-height: 1.55;
 }
-.correction-side.new-side {
-  background: #f0f9f4;
-  border-color: #b8e6d2;
-}
-.correction-side-label {
-  font-size: 10.5px;
+.audit-suggestion-label {
+  font-size: 11px;
   font-weight: 800;
-  color: var(--text-soft);
+  color: var(--info);
   margin-bottom: 4px;
 }
-.correction-side.new-side .correction-side-label { color: #2c8159; }
-.correction-side-value {
+.audit-suggestion-text {
+  font-family: "Georgia", serif;
+  direction: ltr;
+  text-align: left;
+  font-weight: 700;
   font-size: 13px;
   color: var(--text);
-  line-height: 1.5;
+  margin-bottom: 3px;
   word-break: break-word;
 }
-.correction-side-value.empty {
+.audit-suggestion-score {
+  font-size: 10.5px;
   color: var(--text-soft);
-  font-style: italic;
-  opacity: .7;
+  font-weight: 700;
 }
-.drive-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin-top: 8px;
+
+.audit-pending-change {
+  background: var(--success-soft);
+  border: 1px dashed var(--success);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 12px;
+  margin: 8px 0;
 }
-.audit-meta {
+.audit-pending-label {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--success);
+  margin-bottom: 4px;
+}
+.audit-pending-it {
+  font-family: "Georgia", serif;
+  direction: ltr;
+  text-align: left;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--text);
+  word-break: break-word;
+}
+
+.audit-stats-mini {
   font-size: 11px;
   color: var(--text-soft);
-  margin-top: 6px;
   font-weight: 600;
+  margin-bottom: 8px;
+  padding: 6px 10px;
+  background: var(--surface-2);
+  border-radius: 6px;
 }
 
 @media (max-width: 480px) {
@@ -797,7 +830,6 @@ body { min-height: 100vh; }
   .verb-prompt-modal { max-height: 94vh; }
   .collision-compare { grid-template-columns: 1fr; }
   .collision-actions { grid-template-columns: 1fr; }
-  .correction-compare { grid-template-columns: 1fr; }
   .drive-actions { gap: 4px; }
   .drive-action-btn { font-size: 11px; padding: 5px 8px; }
   .drive-audit-tab-btn { font-size: 11px; padding: 6px 9px; }
@@ -821,7 +853,7 @@ body { min-height: 100vh; }
       <button class="btn-prompt verbs" id="btnCopyVerbPrompt" title="برومبت الأفعال">
         🔤 <span class="btn-text-long">برومبت الأفعال</span>
       </button>
-      <button class="btn-prompt drive" id="btnCopyDrivePrompt" title="برومبت ملف Drive — تحويل ملف الجمل إلى JSON">
+      <button class="btn-prompt drive" id="btnCopyDrivePrompt" title="برومبت ملف Drive">
         📄 <span class="btn-text-long">ملف Drive</span>
       </button>
     </div>
@@ -845,7 +877,7 @@ body { min-height: 100vh; }
         <h3>🎯 كيف يعمل؟</h3>
         <ol>
           <li>اضغط <strong>"برومبت الجمل"</strong> أو <strong>"برومبت الأفعال"</strong> أو <strong>"ملف Drive"</strong> أعلى الصفحة.</li>
-          <li>الصق البرومبت في ChatGPT/Claude مع بياناتك (أو ارفق ملف Drive).</li>
+          <li>الصق البرومبت في ChatGPT/Claude مع بياناتك.</li>
           <li>الصق ناتج JSON في المربع أدناه (لرفع جمل/قاموس جديد).</li>
           <li><strong>تبويب "🔍 تدقيق Drive"</strong> مخصص للفحص فقط — لا يرفع جمل جديدة، بل يقارن ويصحح.</li>
         </ol>
@@ -881,12 +913,10 @@ body { min-height: 100vh; }
 
     <!-- ============ TAB 2: VERBS ============ -->
     <div id="tab-verbs" hidden>
-
       <div class="card" style="background: linear-gradient(135deg, #fff, #faf6ff); border-color: #e0d5f5;">
         <h3 class="section-title" style="color: var(--purple);">🤖 إدخال أفعال من AI</h3>
         <p style="font-size: 12.5px; color: var(--text-soft); margin-bottom: 10px; line-height: 1.6;">
-          اضغط <strong>"🔤 برومبت الأفعال"</strong> أعلى الصفحة → اختر الأزمنة → انسخ → الصق ناتج AI هنا مباشرة.
-          يقبل الأفعال بالمضارع فقط أو مع أي أزمنة إضافية (انعكاسي، ماضي، مستقبل).
+          اضغط <strong>"🔤 برومبت الأفعال"</strong> → اختر الأزمنة → انسخ → الصق ناتج AI هنا.
         </p>
         <textarea id="verbAiInput" class="json-input" placeholder='الصق هنا ناتج AI للأفعال (JSON)…' style="min-height: 140px;" spellcheck="false"></textarea>
         <div class="input-meta">
@@ -895,58 +925,48 @@ body { min-height: 100vh; }
             <button class="mini-btn" id="btnVerbAiClear">🗑️ مسح</button>
           </div>
         </div>
-        <button class="btn btn-purple" id="btnAnalyzeVerbAI" disabled>
-          🔍 معاينة ورفع الأفعال
-        </button>
+        <button class="btn btn-purple" id="btnAnalyzeVerbAI" disabled>🔍 معاينة ورفع الأفعال</button>
       </div>
 
       <div class="card instructions" style="background: linear-gradient(135deg, #fff, #fff8e6); border-color: #f0d8a0;">
         <h3 style="color: #a76b0f;">💡 أو أضف فعلًا يدويًا</h3>
-        <p style="font-size: 13px; color: var(--text-soft); line-height: 1.7;">
-          استخدم النموذج أدناه للتحكم الكامل: الإدخال اليدوي، التعديل، الحذف، والتصريفات المنفصلة للمنعكس.
-        </p>
       </div>
 
       <div class="card">
         <h3 class="section-title" id="verbFormTitle">➕ إضافة فعل جديد</h3>
         <input type="hidden" id="verbEditId" />
-
         <div class="form-row-2">
           <div><label class="form-label">المصدر *</label><input type="text" id="verbInfinitive" class="form-input" dir="ltr" placeholder="mangiare" /></div>
           <div><label class="form-label">المعنى *</label><input type="text" id="verbMeaning" class="form-input" placeholder="يأكل" /></div>
         </div>
-
         <h4 style="font-size: 13px; margin: 6px 0 10px; color: var(--primary-dark); font-weight: 800;">📝 المضارع (Presente)</h4>
         <div class="form-row-2">
-          <div><label class="form-label">io</label><input type="text" id="verbPresIo" class="form-input" dir="ltr" placeholder="mangio" /></div>
-          <div><label class="form-label">tu</label><input type="text" id="verbPresTu" class="form-input" dir="ltr" placeholder="mangi" /></div>
-          <div><label class="form-label">lui/lei</label><input type="text" id="verbPresLui" class="form-input" dir="ltr" placeholder="mangia" /></div>
-          <div><label class="form-label">noi</label><input type="text" id="verbPresNoi" class="form-input" dir="ltr" placeholder="mangiamo" /></div>
-          <div><label class="form-label">voi</label><input type="text" id="verbPresVoi" class="form-input" dir="ltr" placeholder="mangiate" /></div>
-          <div><label class="form-label">loro</label><input type="text" id="verbPresLoro" class="form-input" dir="ltr" placeholder="mangiano" /></div>
+          <div><label class="form-label">io</label><input type="text" id="verbPresIo" class="form-input" dir="ltr" /></div>
+          <div><label class="form-label">tu</label><input type="text" id="verbPresTu" class="form-input" dir="ltr" /></div>
+          <div><label class="form-label">lui/lei</label><input type="text" id="verbPresLui" class="form-input" dir="ltr" /></div>
+          <div><label class="form-label">noi</label><input type="text" id="verbPresNoi" class="form-input" dir="ltr" /></div>
+          <div><label class="form-label">voi</label><input type="text" id="verbPresVoi" class="form-input" dir="ltr" /></div>
+          <div><label class="form-label">loro</label><input type="text" id="verbPresLoro" class="form-input" dir="ltr" /></div>
         </div>
-
         <label class="checkbox-label" style="margin-top: 8px;">
           <input type="checkbox" id="verbHasReflexive" />
-          <span>🔄 له صيغة منعكسة (مثل alzarsi)</span>
+          <span>🔄 له صيغة منعكسة</span>
         </label>
-
         <div id="verbReflexiveSection" class="reflexive-block" hidden>
           <div class="form-row-2">
-            <div><label class="form-label">المصدر المنعكس</label><input type="text" id="verbRefInfinitive" class="form-input" dir="ltr" placeholder="alzarsi" /></div>
-            <div><label class="form-label">المعنى المنعكس</label><input type="text" id="verbRefMeaning" class="form-input" placeholder="ينهض" /></div>
+            <div><label class="form-label">المصدر المنعكس</label><input type="text" id="verbRefInfinitive" class="form-input" dir="ltr" /></div>
+            <div><label class="form-label">المعنى المنعكس</label><input type="text" id="verbRefMeaning" class="form-input" /></div>
           </div>
-          <h4>🔄 التصريفات المنعكسة (Presente)</h4>
+          <h4>🔄 التصريفات المنعكسة</h4>
           <div class="form-row-2">
-            <div><label class="form-label">io</label><input type="text" id="verbRefIo" class="form-input" dir="ltr" placeholder="mi alzo" /></div>
-            <div><label class="form-label">tu</label><input type="text" id="verbRefTu" class="form-input" dir="ltr" placeholder="ti alzi" /></div>
-            <div><label class="form-label">lui/lei</label><input type="text" id="verbRefLui" class="form-input" dir="ltr" placeholder="si alza" /></div>
-            <div><label class="form-label">noi</label><input type="text" id="verbRefNoi" class="form-input" dir="ltr" placeholder="ci alziamo" /></div>
-            <div><label class="form-label">voi</label><input type="text" id="verbRefVoi" class="form-input" dir="ltr" placeholder="vi alzate" /></div>
-            <div><label class="form-label">loro</label><input type="text" id="verbRefLoro" class="form-input" dir="ltr" placeholder="si alzano" /></div>
+            <div><label class="form-label">io</label><input type="text" id="verbRefIo" class="form-input" dir="ltr" /></div>
+            <div><label class="form-label">tu</label><input type="text" id="verbRefTu" class="form-input" dir="ltr" /></div>
+            <div><label class="form-label">lui/lei</label><input type="text" id="verbRefLui" class="form-input" dir="ltr" /></div>
+            <div><label class="form-label">noi</label><input type="text" id="verbRefNoi" class="form-input" dir="ltr" /></div>
+            <div><label class="form-label">voi</label><input type="text" id="verbRefVoi" class="form-input" dir="ltr" /></div>
+            <div><label class="form-label">loro</label><input type="text" id="verbRefLoro" class="form-input" dir="ltr" /></div>
           </div>
         </div>
-
         <div style="display: flex; gap: 8px; margin-top: 14px;">
           <button class="btn btn-ghost" id="btnResetVerb" style="flex: 1;">إفراغ</button>
           <button class="btn btn-primary" id="btnSaveVerb" style="flex: 2;">💾 حفظ الفعل</button>
@@ -959,14 +979,13 @@ body { min-height: 100vh; }
       </div>
     </div>
 
-    <!-- ============ TAB 3: DRIVE AUDIT (فصح وتدقيق) ============ -->
+    <!-- ============ TAB 3: DRIVE AUDIT ============ -->
     <div id="tab-drive" hidden>
-
       <div class="card" style="background: linear-gradient(135deg, #fff, #eef4ff); border-color: #c9d9f5;">
         <h3 class="section-title" style="color: var(--info);">📋 فحص وتدقيق جمل Drive</h3>
         <p style="font-size: 12.5px; color: var(--text-soft); margin-bottom: 10px; line-height: 1.6;">
           <strong>النص 2 (هذا الحقل) هو مرجع تدقيق فقط — لا يُرفع إلى قاعدة البيانات.</strong>
-          الأداة تقارن كل جملة مع الجمل المخزنة وتكشف المطابقات، الاختلافات، التكرارات، والفجوات — ثم تسمح بتطبيق التصحيحات على البيانات المخزنة فعلاً.
+          الأداة تقارن كل جملة مع المخزنة وتنظّم النتائج في <strong>3 قوائم</strong>، ثم تتيح استبدال الإيطالية في الجمل المخزنة بناءً على المرجع.
         </p>
         <textarea id="driveInput" class="json-input" placeholder='الصق هنا JSON جمل Drive (مرجع التدقيق)…' style="min-height: 160px;" spellcheck="false"></textarea>
         <div class="input-meta">
@@ -975,12 +994,9 @@ body { min-height: 100vh; }
             <button class="mini-btn" id="btnDriveClear">🗑️ مسح</button>
           </div>
         </div>
-        <button class="btn btn-info" id="btnAnalyzeDrive" disabled>
-          🔍 فحص ومقارنة
-        </button>
+        <button class="btn btn-info" id="btnAnalyzeDrive" disabled>🔍 فحص ومقارنة</button>
       </div>
 
-      <!-- بنك المراجعة -->
       <div class="card" style="background: linear-gradient(135deg, #fff, #f0f9ff); border-color: #c9d9f5;">
         <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
           <div style="flex: 1; min-width: 0;">
@@ -994,13 +1010,11 @@ body { min-height: 100vh; }
       <div class="card instructions" style="background: linear-gradient(135deg, #fff, #eef4ff); border-color: #c9d9f5;">
         <h3 style="color: var(--info);">💡 كيف يعمل التدقيق؟</h3>
         <ul>
-          <li>يُقارن كل <code style="font-family: monospace;">italian</code> في النص 2 مع الجمل المخزنة (المطابقة غير حساسة لحالة الأحرف).</li>
-          <li><strong>✅ مطابق:</strong> Italian + Arabic متطابقان — لا إجراء مطلوب.</li>
-          <li><strong>⚠️ تصحيح:</strong> Italian متطابق لكن Arabic مختلف — يمكنك تطبيق الترجمة الجديدة على DB.</li>
-          <li><strong>🆕 جديد:</strong> موجود في النص 2 وليس في DB — <strong>لن يُرفع</strong> تلقائياً، لكن يمكن حفظه أو نسخه إلى تبويب JSON.</li>
-          <li><strong>🔁 مكرر:</strong> تكرار داخل النص 2 نفسه (يُستخدم الأول).</li>
-          <li><strong>📋 مفقود:</strong> موجود في DB وغير مذكور في النص 2 (فجوة تدقيق).</li>
-          <li><strong>الترجمة العربية اختيارية</strong> — يكفي وجود <code style="font-family: monospace;">italian</code>.</li>
+          <li><strong>1️⃣ الجمل النشطة:</strong> جمل DB التي لا تطابق تماماً أي جملة في النص 2 — تظهر عادية في البداية، والمكررة/المشابهة في النهاية.</li>
+          <li><strong>2️⃣ مرجع النص 2:</strong> جمل النص 2 التي لا وجود لها في DB — تُستخدم كمرشحات لاستبدال الإيطالية في الجمل المخزنة.</li>
+          <li><strong>3️⃣ المتجاوزة:</strong> جمل DB التي لها تطابق إيطالي تام في النص 2 — مستبعدة تلقائياً.</li>
+          <li><strong>🔀 الاستبدال:</strong> يبدّل <strong>الإيطالية فقط</strong> في جملة DB، ويحتفظ بترجمتها العربية.</li>
+          <li><strong>الحقل الإلزامي:</strong> <code style="font-family: monospace;">italian</code> فقط (الترجمة اختيارية).</li>
         </ul>
       </div>
     </div>
@@ -1011,7 +1025,7 @@ body { min-height: 100vh; }
 <div class="preview-overlay" id="previewOverlay">
   <div class="preview-modal">
     <div class="preview-modal-header">
-      <h3 id="previewModalTitle">🔍 معاينة قبل الرفع <span class="user-badge" id="previewUserBadge">…</span></h3>
+      <h3 id="previewModalTitle">🔍 معاينة <span class="user-badge" id="previewUserBadge">…</span></h3>
       <button class="btn-icon" id="btnClosePreview">✕</button>
     </div>
     <div class="preview-summary" id="previewSummary"></div>
@@ -1076,52 +1090,28 @@ body { min-height: 100vh; }
     <div class="verb-prompt-modal-body">
       <div class="tense-options">
         <div class="tense-options-title">
-          <span>⚙️ اختر الأزمنة التي تريد أن يستخرجها الذكاء الاصطناعي:</span>
+          <span>⚙️ اختر الأزمنة:</span>
         </div>
-
-        <label class="tense-checkbox locked" data-tense="presente">
+        <label class="tense-checkbox locked">
           <input type="checkbox" checked disabled />
           <div class="tense-checkbox-content">
-            <div class="tense-checkbox-label">
-              <span>📝 المضارع (Presente)</span>
-              <span class="lock-badge">أساسي دائمًا</span>
-            </div>
-            <div class="tense-checkbox-desc">io, tu, lui/lei, noi, voi, loro — مضمّن بشكل إلزامي.</div>
+            <div class="tense-checkbox-label"><span>📝 المضارع</span><span class="lock-badge">أساسي</span></div>
           </div>
         </label>
-
-        <label class="tense-checkbox" data-tense="riflessivo">
-          <input type="checkbox" id="chkRiflessivo" />
-          <div class="tense-checkbox-content">
-            <div class="tense-checkbox-label">🔄 الانعكاسي (Forma Riflessiva)</div>
-            <div class="tense-checkbox-desc">mi, ti, si, ci, vi, si — أضفه إذا كان الفعل يقبل الصيغة الانعكاسية.</div>
-          </div>
+        <label class="tense-checkbox"><input type="checkbox" id="chkRiflessivo" />
+          <div class="tense-checkbox-content"><div class="tense-checkbox-label">🔄 الانعكاسي</div></div>
         </label>
-
-        <label class="tense-checkbox" data-tense="passato">
-          <input type="checkbox" id="chkPassato" />
-          <div class="tense-checkbox-content">
-            <div class="tense-checkbox-label">⏳ الماضي القريب (Passato Prossimo)</div>
-            <div class="tense-checkbox-desc">مع تحديد الفعل المساعد essere / avere لكل تصريف.</div>
-          </div>
+        <label class="tense-checkbox"><input type="checkbox" id="chkPassato" />
+          <div class="tense-checkbox-content"><div class="tense-checkbox-label">⏳ الماضي القريب</div></div>
         </label>
-
-        <label class="tense-checkbox" data-tense="futuro">
-          <input type="checkbox" id="chkFuturo" />
-          <div class="tense-checkbox-content">
-            <div class="tense-checkbox-label">⏭️ المستقبل البسيط (Futuro Semplice)</div>
-            <div class="tense-checkbox-desc">io ...erò / ...irò — حسب مجموعة الفعل.</div>
-          </div>
+        <label class="tense-checkbox"><input type="checkbox" id="chkFuturo" />
+          <div class="tense-checkbox-content"><div class="tense-checkbox-label">⏭️ المستقبل</div></div>
         </label>
-      </div>
-
-      <div class="verb-prompt-preview-label">
-        <span>👁️ معاينة البرومبت (يتحدّث تلقائيًا)</span>
       </div>
       <div class="verb-prompt-preview" id="verbPromptPreview"></div>
     </div>
     <div class="verb-prompt-modal-footer">
-      <button class="btn btn-purple" id="btnCopyVerbFromModal">📋 نسخ البرومبت المخصّص</button>
+      <button class="btn btn-purple" id="btnCopyVerbFromModal">📋 نسخ</button>
       <button class="btn btn-ghost" id="btnCloseVerbPromptBottom">إغلاق</button>
     </div>
   </div>
@@ -1145,7 +1135,6 @@ body { min-height: 100vh; }
     appId:             "1:558351996816:web:6698c08e636482e2908515"
   };
   const USER_ID = "ahmed_imparo_53eea_x7k9m2p4q8w3_admin";
-
   const BATCH_LIMIT = 500;
   const HISTORY_KEY = 'imparo_ingester_history_v3';
   const DRIVE_BANK_KEY = 'imparo_drive_review_bank_v1';
@@ -1153,6 +1142,8 @@ body { min-height: 100vh; }
   const VALID_TYPES = ['verb', 'preposition', 'article', 'word'];
   const PRONOUN_KEYS = ['io', 'tu', 'lui', 'noi', 'voi', 'loro'];
   const PRONOUN_INPUTS = ['Io', 'Tu', 'Lui', 'Noi', 'Voi', 'Loro'];
+  const SIMILAR_THRESHOLD = 0.55;
+  const SUGGEST_THRESHOLD = 0.4;
 
   const AI_PROMPT = `أنا أتعلم اللغة الإيطالية. سأعطيك قائمة بالجمل الإيطالية التي دونتها أثناء المذاكرة.
 المطلوب منك بدقة عالية تحليلياً ولغوياً:
@@ -1203,16 +1194,14 @@ body { min-height: 100vh; }
   function buildVerbPrompt(opts) {
     const lines = [];
     lines.push('- تصريفات الفعل في زمن المضارع (Presente) [أساسي دائمًا].');
-    if (opts.riflessivo) lines.push('- تصريفات الفعل الانعكاسي (Forma Riflessiva / Verbi Riflessivi) إن وُجد أو ينطبق.');
-    if (opts.passato) lines.push('- تصريفات زمن الماضي القريب (Passato Prossimo) مع تحديد الفعل المساعد (essere / avere).');
-    if (opts.futuro) lines.push('- تصريفات زمن المستقبل البسيط (Futuro Semplice).');
-
+    if (opts.riflessivo) lines.push('- تصريفات الفعل الانعكاسي (Forma Riflessiva) إن وُجد.');
+    if (opts.passato) lines.push('- تصريفات الماضي القريب (Passato Prossimo) مع الفعل المساعد.');
+    if (opts.futuro) lines.push('- تصريفات المستقبل البسيط (Futuro Semplice).');
     const summaryParts = ['المضارع: (io ..., tu ..., lui/lei ..., noi ..., voi ..., loro ...)'];
     if (opts.riflessivo) summaryParts.push('الانعكاسي: (mi ..., ti ..., si ..., ci ..., vi ..., si ...)');
     if (opts.passato) summaryParts.push('الماضي القريب: (io ho/sono ..., tu hai/sei ..., ...)');
     if (opts.futuro) summaryParts.push('المستقبل: (io ...erò/irò ..., tu ...erai/irai ..., ...)');
     const summaryTemplate = summaryParts.join(' | ');
-
     return `أنا أتعلم اللغة الإيطالية. سأعطيك قائمة بالأفعال الإيطالية التي أدرسها.
 المطلوب منك بدقة عالية تحليلياً ولغوياً:
 
@@ -1221,14 +1210,14 @@ body { min-height: 100vh; }
 3. إعداد الملخص الشامل (summary) لكل فعل بحيث يشمل:
 ${lines.join('\n')}
 4. إزالة أي تكرار للأفعال بحيث يُذكر كل فعل مرة واحدة فقط.
-5. إخراج النتيجة النهائية حصراً بصيغة JSON بدون أي شرح أو كلام إضافي خارج النص، بالهيكلية التالية تماماً ليتوافق مع موقع الإدخال:
+5. إخراج النتيجة النهائية حصراً بصيغة JSON بدون أي شرح أو كلام إضافي خارج النص، بالهيكلية التالية تماماً:
 
 {
   "sentences": [],
   "dictionary": [
     {
-      "word": "الفعل كما أرسلته لك أو بصيغته",
-      "lemma": "المصدر (Infinitive)",
+      "word": "الفعل",
+      "lemma": "المصدر",
       "type": "verb",
       "meaning": "المعنى العربي المباشر",
       "summary": "${summaryTemplate}"
@@ -1266,30 +1255,12 @@ ${lines.join('\n')}
     const d = $('#syncDot'); if (d) d.className = 'sync-dot ' + (s || '');
     if (t) $('#statusText').textContent = t;
   }
-  function setStatus(text, type = '') {
-    const el = $('#inputStatus'); if (!el) return;
-    el.textContent = text; el.className = 'input-status ' + type;
-  }
-  function setVerbAiStatus(text, type = '') {
-    const el = $('#verbAiStatus'); if (!el) return;
-    el.textContent = text; el.className = 'input-status ' + type;
-  }
-  function setDriveStatus(text, type = '') {
-    const el = $('#driveStatus'); if (!el) return;
-    el.textContent = text; el.className = 'input-status ' + type;
-  }
-  function normalizeKey(word) {
-    return String(word || '').toLowerCase()
-      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-      .replace(/[^\p{L}']/gu, '').trim();
-  }
-  function normalizeMeaning(s) {
-    return String(s || '').trim().toLowerCase().replace(/\s+/g, ' ');
-  }
-  function escapeHtml(s) {
-    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-  }
+  function setStatus(text, type = '') { const el = $('#inputStatus'); if (el) { el.textContent = text; el.className = 'input-status ' + type; } }
+  function setVerbAiStatus(text, type = '') { const el = $('#verbAiStatus'); if (el) { el.textContent = text; el.className = 'input-status ' + type; } }
+  function setDriveStatus(text, type = '') { const el = $('#driveStatus'); if (el) { el.textContent = text; el.className = 'input-status ' + type; } }
+  function normalizeKey(word) { return String(word || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^\p{L}']/gu, '').trim(); }
+  function normalizeMeaning(s) { return String(s || '').trim().toLowerCase().replace(/\s+/g, ' '); }
+  function escapeHtml(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
   function mergeMeanings(oldM, newM) {
     oldM = String(oldM || '').trim(); newM = String(newM || '').trim();
     if (!oldM) return newM; if (!newM) return oldM;
@@ -1302,21 +1273,62 @@ ${lines.join('\n')}
     return { merged, added: merged !== String(oldM || '').trim(), same: merged === String(oldM || '').trim() };
   }
 
-  /* ============ Drive Review Bank ============ */
-  function loadDriveReviewBank() {
-    try { return JSON.parse(localStorage.getItem(DRIVE_BANK_KEY) || '[]'); }
-    catch { return []; }
-  }
-  function saveDriveReviewBankList(items) {
-    try { localStorage.setItem(DRIVE_BANK_KEY, JSON.stringify(items.slice(0, 500))); }
-    catch {}
-  }
-  function updateDriveBankUI() {
-    const el = $('#driveBankCount');
-    if (el) el.textContent = state.driveReviewBank.length;
+  /* ============ Similarity Helpers ============ */
+  function levenshtein(a, b) {
+    if (a === b) return 0;
+    if (!a.length) return b.length;
+    if (!b.length) return a.length;
+    const m = a.length, n = b.length;
+    let prev = new Uint16Array(n + 1);
+    let curr = new Uint16Array(n + 1);
+    for (let j = 0; j <= n; j++) prev[j] = j;
+    for (let i = 1; i <= m; i++) {
+      curr[0] = i;
+      for (let j = 1; j <= n; j++) {
+        curr[j] = Math.min(
+          prev[j] + 1,
+          curr[j - 1] + 1,
+          prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)
+        );
+      }
+      const t = prev; prev = curr; curr = t;
+    }
+    return prev[n];
   }
 
-  /* ============ Tense parsing/merging ============ */
+  function sentenceSimilarity(a, b) {
+    a = String(a || '').toLowerCase().trim();
+    b = String(b || '').toLowerCase().trim();
+    if (!a || !b) return 0;
+    if (a === b) return 1;
+
+    const ta = a.split(/\s+/).filter(Boolean);
+    const tb = b.split(/\s+/).filter(Boolean);
+    const setA = new Set(ta);
+    const setB = new Set(tb);
+    let inter = 0;
+    setA.forEach(x => { if (setB.has(x)) inter++; });
+    const union = setA.size + setB.size - inter;
+    const jaccard = union ? inter / union : 0;
+
+    // Fast reject: no token overlap & very different lengths
+    if (jaccard === 0) {
+      const maxLen = Math.max(a.length, b.length);
+      if (Math.abs(a.length - b.length) > maxLen * 0.5) return jaccard * 0.3;
+    }
+
+    const lev = levenshtein(a, b);
+    const maxLen = Math.max(a.length, b.length);
+    const levSim = maxLen ? 1 - lev / maxLen : 0;
+    return jaccard * 0.35 + levSim * 0.65;
+  }
+
+  /* ============ Drive Review Bank ============ */
+  function loadDriveReviewBank() { try { return JSON.parse(localStorage.getItem(DRIVE_BANK_KEY) || '[]'); } catch { return []; } }
+  function saveDriveReviewBankList(items) { try { localStorage.setItem(DRIVE_BANK_KEY, JSON.stringify(items.slice(0, 500))); } catch {} }
+  function updateDriveBankUI() { const el = $('#driveBankCount'); if (el) el.textContent = state.driveReviewBank.length; }
+
+  /* ============ Tense parsing ============ */
   function parseTenseSections(summary) {
     const sections = {};
     if (!summary) return sections;
@@ -1328,10 +1340,7 @@ ${lines.join('\n')}
       else if (/انعكاس|riflessiv/.test(lower)) key = 'riflessivo';
       else if (/ماضي قريب|passato prossimo/.test(lower)) key = 'passato';
       else if (/مستقبل|futuro/.test(lower)) key = 'futuro';
-      else {
-        const m = part.match(/^([^:]+):/);
-        key = m ? m[1].trim().toLowerCase() : 'section_' + part.substring(0, 15).toLowerCase().replace(/\s+/g, '_');
-      }
+      else { const m = part.match(/^([^:]+):/); key = m ? m[1].trim().toLowerCase() : 'section_' + part.substring(0, 15).toLowerCase().replace(/\s+/g, '_'); }
       if (!sections[key]) sections[key] = part;
     });
     return sections;
@@ -1341,18 +1350,14 @@ ${lines.join('\n')}
     const newSections = parseTenseSections(newSummary);
     const merged = {};
     Object.keys(oldSections).forEach(k => { merged[k] = oldSections[k]; });
-    Object.keys(newSections).forEach(k => {
-      if (!merged[k]) merged[k] = newSections[k];
-    });
+    Object.keys(newSections).forEach(k => { if (!merged[k]) merged[k] = newSections[k]; });
     return Object.values(merged).join(' | ');
   }
   function getNewTenseSections(oldSummary, newSummary) {
     const oldSections = parseTenseSections(oldSummary);
     const newSections = parseTenseSections(newSummary);
     const newKeys = [];
-    Object.keys(newSections).forEach(k => {
-      if (!oldSections[k]) newKeys.push({ key: k, text: newSections[k] });
-    });
+    Object.keys(newSections).forEach(k => { if (!oldSections[k]) newKeys.push({ key: k, text: newSections[k] }); });
     return newKeys;
   }
 
@@ -1376,7 +1381,6 @@ ${lines.join('\n')}
 
   /* ============ Verbs CRUD ============ */
   function verbsCol() { return state.db.collection('users').doc(USER_ID).collection('verbs'); }
-
   async function loadVerbs() {
     try {
       const snap = await verbsCol().get();
@@ -1384,22 +1388,16 @@ ${lines.join('\n')}
       renderVerbsList();
     } catch (err) { console.warn('[Verbs] load:', err); }
   }
-
   function buildFormsIndex(v) {
     const forms = new Set();
     const add = (s) => { if (!s) return; const k = normalizeKey(s); if (k) forms.add(k); };
-    const addReflexive = (s) => {
-      if (!s) return; add(s);
-      const parts = String(s).trim().split(/\s+/);
-      add(parts[parts.length - 1]);
-    };
+    const addReflexive = (s) => { if (!s) return; add(s); const parts = String(s).trim().split(/\s+/); add(parts[parts.length - 1]); };
     add(v.infinitive);
     if (v.present) Object.values(v.present).forEach(add);
     add(v.reflexive_infinitive);
     if (v.present_reflexive) Object.values(v.present_reflexive).forEach(addReflexive);
     return Array.from(forms);
   }
-
   function resetVerbForm() {
     $('#verbEditId').value = '';
     $('#verbInfinitive').value = '';
@@ -1414,10 +1412,8 @@ ${lines.join('\n')}
     });
     $('#verbFormTitle').textContent = '➕ إضافة فعل جديد';
   }
-
   function editVerb(id) {
-    const v = state.verbs.find(x => x.id === id);
-    if (!v) return;
+    const v = state.verbs.find(x => x.id === id); if (!v) return;
     $('#verbEditId').value = id;
     $('#verbInfinitive').value = v.infinitive || '';
     $('#verbMeaning').value = v.meaning || '';
@@ -1427,22 +1423,14 @@ ${lines.join('\n')}
     $('#verbRefInfinitive').value = v.reflexive_infinitive || '';
     $('#verbRefMeaning').value = v.reflexive_meaning || '';
     const pres = v.present || {};
-    PRONOUN_KEYS.forEach((k, i) => {
-      const el = document.getElementById('verbPres' + PRONOUN_INPUTS[i]);
-      if (el) el.value = pres[k] || '';
-    });
+    PRONOUN_KEYS.forEach((k, i) => { const el = document.getElementById('verbPres' + PRONOUN_INPUTS[i]); if (el) el.value = pres[k] || ''; });
     const rPres = v.present_reflexive || {};
-    PRONOUN_KEYS.forEach((k, i) => {
-      const el = document.getElementById('verbRef' + PRONOUN_INPUTS[i]);
-      if (el) el.value = rPres[k] || '';
-    });
+    PRONOUN_KEYS.forEach((k, i) => { const el = document.getElementById('verbRef' + PRONOUN_INPUTS[i]); if (el) el.value = rPres[k] || ''; });
     $('#verbFormTitle').textContent = '✏️ تعديل: ' + (v.infinitive || '');
     $('#verbInfinitive').scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
-
   async function deleteVerb(id) {
-    const v = state.verbs.find(x => x.id === id);
-    if (!v) return;
+    const v = state.verbs.find(x => x.id === id); if (!v) return;
     if (!confirm(`حذف الفعل "${v.infinitive}"؟`)) return;
     try {
       setSync('syncing', 'جارٍ الحذف…');
@@ -1451,13 +1439,8 @@ ${lines.join('\n')}
       renderVerbsList();
       setSync('online', 'متصل');
       toast('تم الحذف', 'ok');
-    } catch (err) {
-      console.error(err);
-      setSync('offline', 'فشل الحذف');
-      toast('فشل الحذف', 'err');
-    }
+    } catch (err) { console.error(err); setSync('offline', 'فشل الحذف'); toast('فشل الحذف', 'err'); }
   }
-
   async function saveVerb() {
     const infinitive = $('#verbInfinitive').value.trim();
     const meaning = $('#verbMeaning').value.trim();
@@ -1465,26 +1448,15 @@ ${lines.join('\n')}
     if (!meaning) { toast('أدخل المعنى', 'err'); return; }
     const hasRef = $('#verbHasReflexive').checked;
     const present = {};
-    PRONOUN_KEYS.forEach((k, i) => {
-      present[k] = document.getElementById('verbPres' + PRONOUN_INPUTS[i]).value.trim();
-    });
+    PRONOUN_KEYS.forEach((k, i) => { present[k] = document.getElementById('verbPres' + PRONOUN_INPUTS[i]).value.trim(); });
     if (!Object.values(present).some(Boolean)) { toast('أضف تصريفات المضارع', 'err'); return; }
-
-    const data = {
-      infinitive, meaning,
-      reflexive_infinitive: hasRef ? ($('#verbRefInfinitive').value.trim() || null) : null,
-      reflexive_meaning: hasRef ? ($('#verbRefMeaning').value.trim() || null) : null,
-      present, present_reflexive: null, updated_at: Date.now()
-    };
+    const data = { infinitive, meaning, reflexive_infinitive: hasRef ? ($('#verbRefInfinitive').value.trim() || null) : null, reflexive_meaning: hasRef ? ($('#verbRefMeaning').value.trim() || null) : null, present, present_reflexive: null, updated_at: Date.now() };
     if (hasRef) {
       const rPres = {};
-      PRONOUN_KEYS.forEach((k, i) => {
-        rPres[k] = document.getElementById('verbRef' + PRONOUN_INPUTS[i]).value.trim();
-      });
+      PRONOUN_KEYS.forEach((k, i) => { rPres[k] = document.getElementById('verbRef' + PRONOUN_INPUTS[i]).value.trim(); });
       data.present_reflexive = rPres;
     }
     data.forms_index = buildFormsIndex(data);
-
     try {
       setSync('syncing', 'جارٍ الحفظ…');
       const key = normalizeKey(infinitive);
@@ -1495,21 +1467,13 @@ ${lines.join('\n')}
       renderVerbsList();
       resetVerbForm();
       setSync('online', 'متصل — تم الحفظ');
-      toast(`✅ "${infinitive}" محفوظ بـ ${data.forms_index.length} صيغة`, 'ok');
-    } catch (err) {
-      console.error(err);
-      setSync('offline', 'فشل الحفظ');
-      toast('فشل الحفظ', 'err');
-    }
+      toast(`✅ "${infinitive}" محفوظ`, 'ok');
+    } catch (err) { console.error(err); setSync('offline', 'فشل الحفظ'); toast('فشل الحفظ', 'err'); }
   }
-
   function renderVerbsList() {
     const wrap = $('#verbsList');
     $('#verbsCount').textContent = state.verbs.length;
-    if (!state.verbs.length) {
-      wrap.innerHTML = '<div class="empty-state">لا توجد أفعال محفوظة بعد</div>';
-      return;
-    }
+    if (!state.verbs.length) { wrap.innerHTML = '<div class="empty-state">لا توجد أفعال</div>'; return; }
     wrap.innerHTML = state.verbs.map(v => {
       const conjCount = v.present ? Object.values(v.present).filter(Boolean).length : 0;
       const hasRef = !!v.reflexive_infinitive;
@@ -1535,11 +1499,7 @@ ${lines.join('\n')}
 
   /* ============ Parsing ============ */
   function stripCodeFences(text) {
-    return String(text)
-      .replace(/^\s*```json\s*/i, '')
-      .replace(/^\s*```\s*/i, '')
-      .replace(/\s*```\s*$/i, '')
-      .trim();
+    return String(text).replace(/^\s*```json\s*/i, '').replace(/^\s*```\s*/i, '').replace(/\s*```\s*$/i, '').trim();
   }
   function parseInput(raw) {
     const text = stripCodeFences(raw);
@@ -1614,35 +1574,24 @@ ${lines.join('\n')}
       const word = String(d.word || '').trim();
       const lemma = String(d.lemma || '').trim();
       if (!word && !lemma) return null;
-      return {
-        word: word || lemma,
-        lemma: lemma || word,
-        type: 'verb',
-        meaning: String(d.meaning || '').trim(),
-        summary: String(d.summary || '').trim()
-      };
+      return { word: word || lemma, lemma: lemma || word, type: 'verb', meaning: String(d.meaning || '').trim(), summary: String(d.summary || '').trim() };
     }).filter(Boolean);
-    if (!verbs.length) throw new Error('لم يُعثر على أفعال صالحة (تحقق من word/lemma و meaning)');
+    if (!verbs.length) throw new Error('لم يُعثر على أفعال صالحة');
     return { dictionary: verbs };
   }
-
   function previewVerbAIInput() {
     const text = $('#verbAiInput').value.trim();
-    const btn = $('#btnAnalyzeVerbAI');
-    const ta = $('#verbAiInput');
+    const btn = $('#btnAnalyzeVerbAI'); const ta = $('#verbAiInput');
     if (!text) { setVerbAiStatus('بانتظار النص…'); btn.disabled = true; ta.classList.remove('valid','invalid'); return; }
     try {
       const parsed = parseVerbAIInput(text);
-      setVerbAiStatus(`✅ ${parsed.dictionary.length} فعل جاهز للمعاينة`, 'ok');
-      btn.disabled = false;
-      ta.classList.add('valid'); ta.classList.remove('invalid');
+      setVerbAiStatus(`✅ ${parsed.dictionary.length} فعل جاهز`, 'ok');
+      btn.disabled = false; ta.classList.add('valid'); ta.classList.remove('invalid');
     } catch (e) {
       setVerbAiStatus('⚠️ ' + e.message, 'err');
-      btn.disabled = true;
-      ta.classList.add('invalid'); ta.classList.remove('valid');
+      btn.disabled = true; ta.classList.add('invalid'); ta.classList.remove('valid');
     }
   }
-
   function previewInput() {
     const text = $('#jsonInput').value.trim();
     const btn = $('#btnAnalyze'); const ta = $('#jsonInput');
@@ -1656,8 +1605,7 @@ ${lines.join('\n')}
       ta.classList.add('valid'); ta.classList.remove('invalid');
     } catch (e) {
       setStatus('⚠️ ' + e.message, 'err');
-      btn.disabled = true;
-      ta.classList.add('invalid'); ta.classList.remove('valid');
+      btn.disabled = true; ta.classList.add('invalid'); ta.classList.remove('valid');
     }
   }
 
@@ -1667,7 +1615,6 @@ ${lines.join('\n')}
     if (!text) throw new Error('الصق JSON أولاً');
     let data;
     try { data = JSON.parse(text); } catch (e) { throw new Error('JSON غير صالح — ' + e.message); }
-
     let rawSentences = [];
     if (data && typeof data === 'object' && !Array.isArray(data) && Array.isArray(data.sentences)) {
       rawSentences = data.sentences;
@@ -1676,16 +1623,13 @@ ${lines.join('\n')}
     } else {
       throw new Error('الصيغة غير صحيحة — يجب أن يحتوي JSON على مصفوفة "sentences"');
     }
-
     const sentences = rawSentences.map(validateDriveSentence).filter(Boolean);
-    if (!sentences.length) throw new Error('لم يُعثر على جمل صالحة — تأكد من وجود حقل "italian" غير فارغ');
+    if (!sentences.length) throw new Error('لم يُعثر على جمل صالحة');
     return { sentences };
   }
-
   function previewDriveInput() {
     const text = $('#driveInput').value.trim();
-    const btn = $('#btnAnalyzeDrive');
-    const ta = $('#driveInput');
+    const btn = $('#btnAnalyzeDrive'); const ta = $('#driveInput');
     if (!text) { setDriveStatus('بانتظار النص…'); btn.disabled = true; ta.classList.remove('valid','invalid'); return; }
     try {
       const parsed = parseDriveInput(text);
@@ -1694,15 +1638,12 @@ ${lines.join('\n')}
       let msg = `✅ ${parsed.sentences.length} جملة جاهزة للفحص`;
       if (withoutAr > 0) msg += ` (${withoutAr} بدون ترجمة)`;
       setDriveStatus(msg, 'ok');
-      btn.disabled = false;
-      ta.classList.add('valid'); ta.classList.remove('invalid');
+      btn.disabled = false; ta.classList.add('valid'); ta.classList.remove('invalid');
     } catch (e) {
       setDriveStatus('⚠️ ' + e.message, 'err');
-      btn.disabled = true;
-      ta.classList.add('invalid'); ta.classList.remove('valid');
+      btn.disabled = true; ta.classList.add('invalid'); ta.classList.remove('valid');
     }
   }
-
   async function analyzeDrive() {
     if (state.processing) return;
     if (!state.ready) { toast('القاعدة غير جاهزة', 'err'); return; }
@@ -1710,12 +1651,10 @@ ${lines.join('\n')}
     if (!text) { toast('الصق JSON أولاً', 'err'); return; }
     let parsed;
     try { parsed = parseDriveInput(text); } catch (e) { toast(e.message, 'err'); return; }
-
     state.processing = true;
-    setSync('syncing', 'جارٍ الفحص والمقارنة…');
+    setSync('syncing', 'جارٍ الفحص…');
     const btn = $('#btnAnalyzeDrive');
     btn.classList.add('loading'); btn.disabled = true; btn.textContent = 'جارٍ الفحص…';
-
     try {
       await runDriveAudit(parsed.sentences);
     } catch (err) {
@@ -1727,117 +1666,137 @@ ${lines.join('\n')}
       previewDriveInput();
     }
   }
-
   function clearDriveInput() { $('#driveInput').value = ''; state.pendingPreview = null; previewDriveInput(); toast('تم المسح'); }
 
   /* =========================================================
-     🎯 Drive Audit Engine — مقارنة مع DB (لا رفع)
+     🎯 Drive Audit Engine — 3 قوائم
      ========================================================= */
   async function runDriveAudit(rawSentences) {
     const sentSnap = await state.db.collection('users').doc(USER_ID).collection('sentences').get();
 
-    // Build DB index by italian (lowercase)
-    const dbByItalian = new Map();
+    // 1) Load DB sentences
+    const dbSentences = [];
     sentSnap.docs.forEach(doc => {
       const d = doc.data() || {};
       const it = String(d.italian || '').trim();
       if (!it) return;
-      const key = it.toLowerCase();
-      if (!dbByItalian.has(key)) dbByItalian.set(key, []);
-      dbByItalian.get(key).push({
-        id: doc.id,
+      dbSentences.push({
+        dbId: doc.id,
         italian: it,
         arabic: String(d.arabic || '').trim(),
+        _originalItalian: it,
+        _pendingItalian: null,
+        _status: 'active',
+        _matchType: null,          // 'exact' | 'similar' | null
+        _suggestedText2: null,     // {italian, score}
+        _isDuplicateInDb: false
       });
     });
 
-    const textSeen = new Set();
-    const matched = [];
-    const corrections = [];
-    const newInText = [];
-    const dupInText = [];
-
+    // 2) Normalize Text 2 sentences + dedupe within text
+    const text2Seen = new Set();
+    const text2All = [];
+    const text2Dup = [];
     rawSentences.forEach(s => {
-      const key = s.italian.toLowerCase();
-      if (textSeen.has(key)) {
-        dupInText.push({ italian: s.italian, arabic: s.arabic || '', reason: 'مكرر في النص' });
+      const it = String(s.italian || '').trim();
+      if (!it) return;
+      const k = it.toLowerCase();
+      if (text2Seen.has(k)) {
+        text2Dup.push({ italian: it, arabic: s.arabic || '' });
         return;
       }
-      textSeen.add(key);
+      text2Seen.add(k);
+      text2All.push({ italian: it, arabic: s.arabic || '' });
+    });
 
-      const dbMatches = dbByItalian.get(key);
-      if (!dbMatches || !dbMatches.length) {
-        newInText.push({ italian: s.italian, arabic: s.arabic || '' });
-        return;
-      }
-
-      // Use first DB match (typically unique)
-      const db = dbMatches[0];
-      const dbAr = String(db.arabic || '').trim();
-      const textAr = String(s.arabic || '').trim();
-
-      if (dbAr === textAr) {
-        matched.push({
-          dbId: db.id,
-          italian: s.italian,
-          arabic: textAr,
-          dbArabic: dbAr
-        });
-      } else {
-        corrections.push({
-          dbId: db.id,
-          italian: s.italian,
-          dbArabic: dbAr,
-          newArabic: textAr,
-          action: 'apply',
-          _editMode: false
-        });
+    // 3) Duplicate detection in DB (same Italian appears >1 time)
+    const italianCounts = new Map();
+    dbSentences.forEach(s => {
+      const k = s.italian.toLowerCase();
+      italianCounts.set(k, (italianCounts.get(k) || 0) + 1);
+    });
+    dbSentences.forEach(s => {
+      if ((italianCounts.get(s.italian.toLowerCase()) || 0) > 1) {
+        s._isDuplicateInDb = true;
       }
     });
 
-    // Audit gap: DB items not in text
-    const missingFromText = [];
-    dbByItalian.forEach((items, key) => {
-      if (!textSeen.has(key)) {
-        items.forEach(item => {
-          missingFromText.push({
-            dbId: item.id,
-            italian: item.italian,
-            arabic: item.arabic
-          });
-        });
+    // 4) Classify each DB sentence vs Text 2
+    dbSentences.forEach(db => {
+      const dbKey = db.italian.toLowerCase();
+      if (text2Seen.has(dbKey)) {
+        // Exact Italian match → bypassed by default
+        db._status = 'bypassed';
+        db._matchType = 'exact';
+        return;
+      }
+      // Look for the most similar Text 2 sentence
+      let best = null, bestScore = 0;
+      for (let i = 0; i < text2All.length; i++) {
+        const t2 = text2All[i];
+        const sc = sentenceSimilarity(db.italian, t2.italian);
+        if (sc > bestScore) { bestScore = sc; best = t2; if (sc === 1) break; }
+      }
+      if (best && bestScore >= SIMILAR_THRESHOLD) {
+        db._matchType = 'similar';
+        db._suggestedText2 = { italian: best.italian, score: bestScore };
       }
     });
+
+    // 5) Build Text 2 unmatched list (sentences not present in DB)
+    const dbItalianSet = new Set(dbSentences.map(s => s.italian.toLowerCase()));
+    const text2Unmatched = [];
+    text2All.forEach(t2 => {
+      const k = t2.italian.toLowerCase();
+      if (dbItalianSet.has(k)) return; // already exists in DB
+      // Find best DB target for replacement
+      let best = null, bestScore = 0;
+      for (let i = 0; i < dbSentences.length; i++) {
+        const db = dbSentences[i];
+        const sc = sentenceSimilarity(t2.italian, db.italian);
+        if (sc > bestScore) { bestScore = sc; best = db; if (sc === 1) break; }
+      }
+      text2Unmatched.push({
+        italian: t2.italian,
+        arabic: t2.arabic,
+        _suggestedDbId: (best && bestScore >= SUGGEST_THRESHOLD) ? best.dbId : null,
+        _suggestedDbItalian: (best && bestScore >= SUGGEST_THRESHOLD) ? best.italian : null,
+        _suggestedScore: bestScore,
+        _applied: false
+      });
+    });
+
+    // 6) Sort active list: normal first, matched/dup/pending last
+    const activeList = dbSentences.filter(s => s._status === 'active');
+    activeList.sort((a, b) => {
+      const aPriority = (a._matchType === 'similar' || a._isDuplicateInDb) ? 1 : 0;
+      const bPriority = (b._matchType === 'similar' || b._isDuplicateInDb) ? 1 : 0;
+      return aPriority - bPriority;
+    });
+    const bypassedList = dbSentences.filter(s => s._status === 'bypassed');
 
     const p = {
       _source: 'drive-audit',
+      _dbSentences: dbSentences,
+      _activeList: activeList,
+      _bypassedList: bypassedList,
+      _text2Unmatched: text2Unmatched,
+      _text2Dup: text2Dup,
+      _auditSubtab: 'active',
+      _hasRendered: false,
+      // Legacy fields (not used, kept for safety)
       _freshSentences: [],
       _dictOps: [],
       _dictSkipped: [],
       _collisions: [],
       _dupSentences: [],
-      sentNew: 0,
-      sentDup: dupInText.length,
-      dictNew: 0,
-      dictAdded: 0,
-      dictSame: 0,
-      _audit: {
-        matched,
-        corrections,
-        newInText,
-        dupInText,
-        missingFromText,
-        totalInText: rawSentences.length,
-        dbTotal: sentSnap.size
-      },
-      _auditSubtab: 'corrections',
-      _hasRendered: false
+      sentNew: 0, sentDup: 0, dictNew: 0, dictAdded: 0, dictSame: 0
     };
 
     state.pendingPreview = p;
     renderPreviewModal(p);
     openPreviewModal();
-    setSync('online', 'متصل — راجع تقرير الفحص');
+    setSync('online', 'متصل — راجع تقرير التدقيق');
   }
 
   /* ============ Preview Modal ============ */
@@ -1853,7 +1812,6 @@ ${lines.join('\n')}
       renderDriveAuditPreview(p);
       return;
     }
-    // Non-audit path: ensure standard UI is visible
     $('#previewModalTitle').innerHTML = `🔍 معاينة قبل الرفع <span class="user-badge" id="previewUserBadge">${escapeHtml(USER_ID.slice(0, 20) + '…')}</span>`;
     $('#previewTabs').hidden = false;
 
@@ -1862,11 +1820,7 @@ ${lines.join('\n')}
     const isDriveSource = p._source === 'drive';
 
     $('#previewSummary').innerHTML = `
-      ${hasCollisions ? `
-      <div class="preview-stat collision">
-        <span class="stat-value">${collisions.length}</span>
-        <span class="stat-label">⚠️ تعارضات</span>
-      </div>` : ''}
+      ${hasCollisions ? `<div class="preview-stat collision"><span class="stat-value">${collisions.length}</span><span class="stat-label">⚠️ تعارضات</span></div>` : ''}
       <div class="preview-stat success"><span class="stat-value">${p.sentNew}</span><span class="stat-label">جمل جديدة</span></div>
       ${!isDriveSource ? `<div class="preview-stat success"><span class="stat-value">${p.dictNew}</span><span class="stat-label">كلمات جديدة</span></div>` : ''}
       ${!isDriveSource ? `<div class="preview-stat added"><span class="stat-value">${p.dictAdded}</span><span class="stat-label">معانٍ إضافية</span></div>` : ''}
@@ -1888,45 +1842,28 @@ ${lines.join('\n')}
           <span class="collision-bulk-label">⚡ تطبيق على الكل:</span>
           <button class="collision-bulk-btn" data-bulk="ignore">⏭️ تجاهل</button>
           <button class="collision-bulk-btn" data-bulk="replace">🔄 استبدال</button>
-          <button class="collision-bulk-btn" data-bulk="merge-tenses">➕ إضافة الأزمنة الجديدة</button>
+          <button class="collision-bulk-btn" data-bulk="merge-tenses">➕ الأزمنة الجديدة</button>
         </div>
         ${collisions.map((c, idx) => renderCollisionCard(c, idx)).join('')}
       `;
       bindCollisionEvents();
     }
 
-    if (isDriveSource) {
-      $('#previewTabSentences').innerHTML = p._freshSentences.length === 0
-        ? '<div class="empty-state">لا توجد جمل جديدة</div>'
-        : p._freshSentences.map((s, i) => `
-            <div class="preview-list-item">
-              <div class="preview-item-num">${i + 1}</div>
-              <div class="preview-item-body">
-                <div class="preview-item-it" dir="ltr">${escapeHtml(s.italian)}</div>
-                ${s.arabic
-                  ? `<div class="preview-item-ar">${escapeHtml(s.arabic)}</div>`
-                  : `<div class="preview-item-ar empty-ar">بدون ترجمة</div>`}
-              </div>
-            </div>`).join('');
-    } else {
-      $('#previewTabSentences').innerHTML = p._freshSentences.length === 0
-        ? '<div class="empty-state">لا توجد جمل جديدة</div>'
-        : p._freshSentences.map((s, i) => `
-            <div class="preview-list-item">
-              <div class="preview-item-num">${i + 1}</div>
-              <div class="preview-item-body">
-                <div class="preview-item-it" dir="ltr">${escapeHtml(s.italian)}</div>
-                <div class="preview-item-ar">${escapeHtml(s.arabic)}</div>
-              </div>
-            </div>`).join('');
-    }
+    $('#previewTabSentences').innerHTML = p._freshSentences.length === 0
+      ? '<div class="empty-state">لا توجد جمل جديدة</div>'
+      : p._freshSentences.map((s, i) => `
+          <div class="preview-list-item">
+            <div class="preview-item-num">${i + 1}</div>
+            <div class="preview-item-body">
+              <div class="preview-item-it" dir="ltr">${escapeHtml(s.italian)}</div>
+              <div class="preview-item-ar">${escapeHtml(s.arabic)}</div>
+            </div>
+          </div>`).join('');
 
     $('#previewTabDictionary').innerHTML = p._dictOps.length === 0
       ? '<div class="empty-state">لا توجد عناصر جديدة</div>'
       : p._dictOps.map(op => {
-          const kind = op.kind === 'meaning-added'
-            ? '<span class="preview-badge added">+ معنى</span>'
-            : '<span class="preview-badge new">جديدة</span>';
+          const kind = op.kind === 'meaning-added' ? '<span class="preview-badge added">+ معنى</span>' : '<span class="preview-badge new">جديدة</span>';
           const type = `<span class="preview-badge type-${op.data.type || 'word'}">${op.data.type || 'word'}</span>`;
           return `
             <div class="preview-list-item">
@@ -1935,7 +1872,6 @@ ${lines.join('\n')}
                   <span class="preview-item-word" dir="ltr">${escapeHtml(op.data.word || op.key)}</span>
                   ${type}${kind}
                 </div>
-                ${(op.data.lemma && op.data.lemma !== op.data.word) ? `<div class="preview-item-lemma" dir="ltr">${escapeHtml(op.data.lemma)}</div>` : ''}
                 <div class="preview-item-meaning">${escapeHtml(op.data.meaning || '')}</div>
                 ${op.data.summary ? `<div class="preview-item-summary">${escapeHtml(op.data.summary)}</div>` : ''}
               </div>
@@ -1975,18 +1911,23 @@ ${lines.join('\n')}
   }
 
   /* =========================================================
-     🎯 Drive Audit Render
+     🎯 Drive Audit Render — 3 Lists
      ========================================================= */
   function renderDriveAuditPreview(p) {
-    const a = p._audit;
+    const activeCount = p._activeList.length;
+    const text2Count = p._text2Unmatched.length;
+    const bypassedCount = p._bypassedList.length;
+    const pendingCount = p._dbSentences.filter(s => s._pendingItalian !== null && s._pendingItalian !== undefined).length;
 
     $('#previewModalTitle').innerHTML = `🔍 تقرير الفحص والتدقيق <span class="user-badge" id="previewUserBadge">${escapeHtml(USER_ID.slice(0, 20) + '…')}</span>`;
 
     $('#previewSummary').innerHTML = `
-      <div class="preview-stat success"><span class="stat-value">${a.matched.length}</span><span class="stat-label">✅ مطابق</span></div>
-      <div class="preview-stat collision"><span class="stat-value">${a.corrections.length}</span><span class="stat-label">⚠️ تصحيحات</span></div>
-      <div class="preview-stat added"><span class="stat-value">${a.newInText.length}</span><span class="stat-label">🆕 غير في DB</span></div>
-      <div class="preview-stat skipped"><span class="stat-value">${a.dupInText.length}</span><span class="stat-label">🔁 مكرر</span></div>
+      <div class="preview-stat success"><span class="stat-value">${activeCount}</span><span class="stat-label">✅ نشطة</span></div>
+      <div class="preview-stat added"><span class="stat-value">${text2Count}</span><span class="stat-label">📋 مرجع النص 2</span></div>
+      <div class="preview-stat skipped"><span class="stat-value">${bypassedCount}</span><span class="stat-label">⏸️ متجاوزة</span></div>
+      ${pendingCount > 0
+        ? `<div class="preview-stat collision"><span class="stat-value">${pendingCount}</span><span class="stat-label">💾 تعديلات معلقة</span></div>`
+        : `<div class="preview-stat"><span class="stat-value">0</span><span class="stat-label">💾 تعديلات معلقة</span></div>`}
     `;
 
     $('#previewTabs').hidden = true;
@@ -1999,26 +1940,18 @@ ${lines.join('\n')}
   }
 
   function renderDriveAuditBody(p) {
-    const a = p._audit;
+    const activeCount = p._activeList.length;
+    const text2Count = p._text2Unmatched.length;
+    const bypassedCount = p._bypassedList.length;
+    const subtab = p._auditSubtab || 'active';
     const wrap = $('#previewTabSentences');
     wrap.hidden = false;
 
-    const subtab = p._auditSubtab || 'corrections';
-    const counts = {
-      corrections: a.corrections.length,
-      matched: a.matched.length,
-      newInText: a.newInText.length,
-      dupInText: a.dupInText.length,
-      missing: a.missingFromText.length
-    };
-
     wrap.innerHTML = `
       <div class="drive-audit-tabs">
-        <button class="drive-audit-tab-btn ${subtab === 'corrections' ? 'active' : ''}" data-subtab="corrections">⚠️ تصحيحات <span class="subtab-count">${counts.corrections}</span></button>
-        <button class="drive-audit-tab-btn ${subtab === 'matched' ? 'active' : ''}" data-subtab="matched">✅ مطابق <span class="subtab-count">${counts.matched}</span></button>
-        <button class="drive-audit-tab-btn ${subtab === 'newInText' ? 'active' : ''}" data-subtab="newInText">🆕 جديد <span class="subtab-count">${counts.newInText}</span></button>
-        <button class="drive-audit-tab-btn ${subtab === 'dupInText' ? 'active' : ''}" data-subtab="dupInText">🔁 مكرر <span class="subtab-count">${counts.dupInText}</span></button>
-        <button class="drive-audit-tab-btn ${subtab === 'missing' ? 'active' : ''}" data-subtab="missing">📋 مفقود <span class="subtab-count">${counts.missing}</span></button>
+        <button class="drive-audit-tab-btn ${subtab === 'active' ? 'active' : ''}" data-subtab="active">✅ الجمل النشطة <span class="subtab-count">${activeCount}</span></button>
+        <button class="drive-audit-tab-btn ${subtab === 'text2' ? 'active' : ''}" data-subtab="text2">📋 مرجع النص 2 <span class="subtab-count">${text2Count}</span></button>
+        <button class="drive-audit-tab-btn ${subtab === 'bypassed' ? 'active' : ''}" data-subtab="bypassed">⏸️ المتجاوزة <span class="subtab-count">${bypassedCount}</span></button>
       </div>
       <div id="driveAuditContent"></div>
     `;
@@ -2030,275 +1963,256 @@ ${lines.join('\n')}
       });
     });
 
-    renderDriveAuditSubtab(p, subtab);
+    renderAuditSubtab(p, subtab);
   }
 
-  function renderDriveAuditSubtab(p, name) {
-    const a = p._audit;
+  function renderAuditSubtab(p, name) {
     const wrap = $('#driveAuditContent');
     if (!wrap) return;
 
-    if (name === 'corrections') {
-      if (!a.corrections.length) {
-        wrap.innerHTML = '<div class="empty-state">🎉 لا توجد تصحيحات — كل الجمل متطابقة تماماً مع قاعدة البيانات</div>';
-        return;
-      }
-      wrap.innerHTML = `
-        <div class="audit-note">
-          ℹ️ هذه الجمل موجودة في قاعدة البيانات لكن الترجمة العربية في النص 2 تختلف عن المخزنة. اختر "تطبيق" لتحديث قاعدة البيانات بالترجمة الجديدة.
-        </div>
-        ${a.corrections.map((c, i) => renderCorrectionCard(c, i)).join('')}
-      `;
-      bindCorrectionEvents(p);
-    } else if (name === 'matched') {
-      if (!a.matched.length) {
-        wrap.innerHTML = '<div class="empty-state">لا توجد جمل مطابقة</div>';
-        return;
-      }
-      wrap.innerHTML = a.matched.map((m, i) => `
-        <div class="correction-card matched">
-          <div class="correction-it" dir="ltr">${escapeHtml(m.italian)}</div>
-          <div class="correction-side-value">${escapeHtml(m.arabic || '—')}</div>
-          <div class="audit-meta" style="color: var(--success);">✅ متطابقة تماماً مع المخزنة</div>
-        </div>
-      `).join('');
-    } else if (name === 'newInText') {
-      if (!a.newInText.length) {
-        wrap.innerHTML = '<div class="empty-state">لا توجد جمل جديدة في النص</div>';
-        return;
-      }
-      wrap.innerHTML = `
-        <div class="audit-note">
-          ℹ️ هذه الجمل موجودة في النص 2 لكن <strong>غير موجودة في قاعدة البيانات</strong>. لن تُرفع تلقائياً. يمكنك حفظها للمراجعة، أو نسخها إلى تبويب JSON للرفع اليدوي.
-          <div style="margin-top: 8px;">
-            <button class="drive-action-btn" data-action="copy-all-new-to-json">📋 نسخ الكل إلى تبويب JSON</button>
-          </div>
-        </div>
-        ${a.newInText.map((s, i) => `
-          <div class="correction-card new-item">
-            <div class="correction-it" dir="ltr">${escapeHtml(s.italian)}</div>
-            <div class="correction-side-value ${s.arabic ? '' : 'empty'}">${s.arabic ? escapeHtml(s.arabic) : 'بدون ترجمة'}</div>
-            <div class="drive-actions">
-              <button class="drive-action-btn save-later" data-action="save-new" data-idx="${i}">📌 حفظ في البنك</button>
-              <button class="drive-action-btn" data-action="copy-new-to-json" data-idx="${i}">📋 نسخ إلى JSON</button>
-            </div>
-          </div>
-        `).join('')}
-      `;
-      bindNewItemEvents(p);
-    } else if (name === 'dupInText') {
-      if (!a.dupInText.length) {
-        wrap.innerHTML = '<div class="empty-state">لا توجد تكرارات داخل النص ✅</div>';
-        return;
-      }
-      wrap.innerHTML = `
-        <div class="audit-note">
-          ℹ️ هذه الجمل مكررة داخل النص 2 نفسه — تم استخدام النسخة الأولى في التحليل، والنسخ اللاحقة مستبعدة.
-        </div>
-        ${a.dupInText.map((d, i) => `
-          <div class="correction-card ignored">
-            <div class="correction-it" dir="ltr">${escapeHtml(d.italian)}</div>
-            <div class="correction-side-value ${d.arabic ? '' : 'empty'}">${d.arabic ? escapeHtml(d.arabic) : 'بدون ترجمة'}</div>
-            <div class="audit-meta" style="color: var(--warn);">🔁 ${escapeHtml(d.reason)}</div>
-          </div>
-        `).join('')}
-      `;
-    } else if (name === 'missing') {
-      if (!a.missingFromText.length) {
-        wrap.innerHTML = '<div class="empty-state">لا توجد جمل مفقودة — النص 2 يغطي كل الجمل المخزنة 🎉</div>';
-        return;
-      }
-      wrap.innerHTML = `
-        <div class="audit-note">
-          ℹ️ جمل موجودة في <strong>قاعدة البيانات</strong> لكن <strong>غير مذكورة في النص 2</strong>. قد تكون هذه فجوة في التدقيق أو جمل لم تُدرج بعد في الملف المرجعي.
-        </div>
-        ${a.missingFromText.map((m, i) => `
-          <div class="correction-card">
-            <div class="correction-it" dir="ltr">${escapeHtml(m.italian)}</div>
-            <div class="correction-side-value ${m.arabic ? '' : 'empty'}">${m.arabic ? escapeHtml(m.arabic) : 'بدون ترجمة'}</div>
-          </div>
-        `).join('')}
-      `;
+    if (name === 'active') {
+      renderActiveList(p, wrap);
+    } else if (name === 'text2') {
+      renderText2List(p, wrap);
+    } else if (name === 'bypassed') {
+      renderBypassedList(p, wrap);
     }
   }
 
-  function renderCorrectionCard(c, idx) {
-    if (c._editMode) {
-      return `
-        <div class="correction-card editing" data-corr-idx="${idx}">
-          <div class="correction-it" dir="ltr">${escapeHtml(c.italian)}</div>
-          <label class="drive-edit-label">📌 الترجمة المخزنة حالياً في DB</label>
-          <div class="correction-side-value" style="padding: 8px 10px; background: var(--surface-2); border-radius: 8px; margin-bottom: 8px;">${escapeHtml(c.dbArabic || '—')}</div>
-          <label class="drive-edit-label">✨ الترجمة الجديدة المقترحة</label>
-          <textarea class="drive-edit-input" data-field="newArabic" rows="2">${escapeHtml(c.newArabic || '')}</textarea>
-          <div class="drive-edit-actions">
-            <button class="drive-action-btn save" data-action="save-edit" data-idx="${idx}">💾 حفظ</button>
-            <button class="drive-action-btn cancel" data-action="cancel-edit" data-idx="${idx}">✖️ إلغاء</button>
-          </div>
-        </div>
-      `;
+  function renderActiveList(p, wrap) {
+    const list = p._activeList;
+    if (!list.length) {
+      wrap.innerHTML = '<div class="empty-state">لا توجد جمل نشطة</div>';
+      return;
     }
+    const normalCount = list.filter(s => s._matchType !== 'similar' && !s._isDuplicateInDb && !s._pendingItalian).length;
+    const markedCount = list.length - normalCount;
+
+    wrap.innerHTML = `
+      <div class="audit-stats-mini">
+        📊 ${list.length} جملة نشطة — ${normalCount} عادية · ${markedCount} بها مطابقة/تكرار/تعديل
+      </div>
+      ${list.map((s, i) => renderActiveCard(s, i)).join('')}
+    `;
+    bindActiveActions(p);
+  }
+
+  function renderActiveCard(s, i) {
+    const isPending = s._pendingItalian !== null && s._pendingItalian !== undefined;
+    const classes = ['audit-card'];
+    if (isPending) classes.push('pending-change');
+    else if (s._matchType === 'similar') classes.push('has-suggestion');
+    else if (s._isDuplicateInDb) classes.push('duplicate-db');
 
     return `
-      <div class="correction-card ${c.action === 'ignore' ? 'ignored' : ''}" data-corr-idx="${idx}">
-        <div class="correction-it" dir="ltr">${escapeHtml(c.italian)}</div>
-        <div class="correction-compare">
-          <div class="correction-side">
-            <div class="correction-side-label">📌 المخزنة في DB</div>
-            <div class="correction-side-value ${c.dbArabic ? '' : 'empty'}">${c.dbArabic ? escapeHtml(c.dbArabic) : '—'}</div>
-          </div>
-          <div class="correction-side new-side">
-            <div class="correction-side-label">✨ المقترحة من النص 2</div>
-            <div class="correction-side-value ${c.newArabic ? '' : 'empty'}">${c.newArabic ? escapeHtml(c.newArabic) : '—'}</div>
-          </div>
+      <div class="${classes.join(' ')}" data-audit-idx="${i}">
+        <div class="audit-card-header">
+          <span class="audit-card-num">${i + 1}</span>
+          ${s._isDuplicateInDb ? '<span class="audit-badge dup-db">🔁 مكررة في DB</span>' : ''}
+          ${s._matchType === 'similar' && s._suggestedText2 ? `<span class="audit-badge similar">≈ مشابه ${Math.round(s._suggestedText2.score * 100)}%</span>` : ''}
+          ${isPending ? '<span class="audit-badge pending">💾 تعديل معلّق</span>' : ''}
         </div>
+        <div class="audit-sentence" dir="ltr">${escapeHtml(s.italian)}</div>
+        <div class="audit-arabic ${s.arabic ? '' : 'empty'}">${s.arabic ? escapeHtml(s.arabic) : 'بدون ترجمة'}</div>
+
+        ${isPending ? `
+          <div class="audit-pending-change">
+            <div class="audit-pending-label">✨ التعديل المعلّق (سيُطبَّق على Italian فقط)</div>
+            <div class="audit-pending-it" dir="ltr">${escapeHtml(s._pendingItalian)}</div>
+          </div>
+        ` : ''}
+
+        ${s._suggestedText2 && !isPending ? `
+          <div class="audit-suggestion">
+            <div class="audit-suggestion-label">🔀 جملة مشابهة في النص 2</div>
+            <div class="audit-suggestion-text" dir="ltr">${escapeHtml(s._suggestedText2.italian)}</div>
+            <div class="audit-suggestion-score">درجة التشابه: ${Math.round(s._suggestedText2.score * 100)}%</div>
+          </div>
+        ` : ''}
+
         <div class="drive-actions">
-          <button class="drive-action-btn ${c.action === 'apply' ? 'reactivate' : ''}" data-action="apply" data-idx="${idx}">✅ تطبيق</button>
-          <button class="drive-action-btn ${c.action === 'ignore' ? 'bypass' : ''}" data-action="ignore" data-idx="${idx}">⏭️ تجاهل</button>
-          <button class="drive-action-btn edit" data-action="edit" data-idx="${idx}">✏️ تعديل</button>
-          <button class="drive-action-btn save-later" data-action="save-later" data-idx="${idx}">📌 حفظ لاحقاً</button>
+          ${isPending
+            ? `<button class="drive-action-btn undo" data-action="undo-pending" data-idx="${i}">↩️ تراجع</button>`
+            : s._suggestedText2
+              ? `<button class="drive-action-btn replace" data-action="apply-suggestion" data-idx="${i}">🔀 استبدال الإيطالية</button>`
+              : ''}
+          <button class="drive-action-btn bypass" data-action="bypass" data-idx="${i}">⏸️ تجاوز</button>
         </div>
       </div>
     `;
   }
 
-  function bindCorrectionEvents(p) {
-    const a = p._audit;
-    $$('#driveAuditContent .correction-card .drive-action-btn').forEach(btn => {
+  function bindActiveActions(p) {
+    $$('#driveAuditContent .audit-card .drive-action-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const idx = parseInt(btn.dataset.idx, 10);
-        if (isNaN(idx) || !a.corrections[idx]) return;
-        const c = a.corrections[idx];
-        const card = btn.closest('.correction-card');
+        if (isNaN(idx) || !p._activeList[idx]) return;
+        const s = p._activeList[idx];
         const action = btn.dataset.action;
 
         switch (action) {
-          case 'apply':
-            c.action = 'apply';
+          case 'bypass':
+            s._status = 'bypassed';
+            s._pendingItalian = null;
+            rebuildLists(p);
             renderDriveAuditBody(p);
             updateConfirmButton();
             break;
-          case 'ignore':
-            c.action = 'ignore';
-            renderDriveAuditBody(p);
-            updateConfirmButton();
-            break;
-          case 'edit':
-            a.corrections.forEach((cc, j) => { if (j !== idx) cc._editMode = false; });
-            c._editMode = true;
-            renderDriveAuditBody(p);
-            break;
-          case 'cancel-edit':
-            c._editMode = false;
-            renderDriveAuditBody(p);
-            break;
-          case 'save-edit': {
-            const ta = card.querySelector('[data-field="newArabic"]');
-            c.newArabic = String(ta ? ta.value : '').trim();
-            c._editMode = false;
-            renderDriveAuditBody(p);
-            updateConfirmButton();
-            toast('✅ تم حفظ التعديل محلياً', 'ok');
-            break;
-          }
-          case 'save-later': {
-            state.driveReviewBank.unshift({
-              italian: c.italian,
-              arabic: c.newArabic || '',
-              dbArabic: c.dbArabic || '',
-              saved_at: Date.now(),
-              source: 'drive-audit-correction'
-            });
-            saveDriveReviewBankList(state.driveReviewBank);
-            updateDriveBankUI();
-            toast('📌 تم الحفظ في البنك', 'ok');
-            break;
-          }
-        }
-      });
-    });
-  }
-
-  function bindNewItemEvents(p) {
-    const a = p._audit;
-    $$('#driveAuditContent .correction-card .drive-action-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const action = btn.dataset.action;
-        if (action === 'copy-all-new-to-json') {
-          if (!a.newInText.length) return;
-          const payload = { sentences: a.newInText.map(s => ({ italian: s.italian, arabic: s.arabic || '' })) };
-          // Merge with existing JSON input if valid
-          const existing = $('#jsonInput').value.trim();
-          let finalPayload = payload;
-          if (existing) {
-            try {
-              const parsed = parseInput(existing);
-              const existingIts = new Set(parsed.sentences.map(s => s.italian.toLowerCase()));
-              a.newInText.forEach(s => {
-                if (!existingIts.has(s.italian.toLowerCase())) {
-                  parsed.sentences.push({ italian: s.italian, arabic: s.arabic || '' });
-                }
-              });
-              finalPayload = { sentences: parsed.sentences, dictionary: parsed.dictionary };
-            } catch { /* use payload as-is */ }
-          }
-          $('#jsonInput').value = JSON.stringify(finalPayload, null, 2);
-          previewInput();
-          closePreviewModal();
-          document.querySelector('.tab-btn[data-tab="json"]').click();
-          toast(`📋 نُسخت ${a.newInText.length} جملة إلى تبويب JSON`, 'ok');
-          return;
-        }
-        const idx = parseInt(btn.dataset.idx, 10);
-        if (isNaN(idx) || !a.newInText[idx]) return;
-        const s = a.newInText[idx];
-        if (action === 'save-new') {
-          state.driveReviewBank.unshift({
-            italian: s.italian,
-            arabic: s.arabic || '',
-            saved_at: Date.now(),
-            source: 'drive-audit-new'
-          });
-          saveDriveReviewBankList(state.driveReviewBank);
-          updateDriveBankUI();
-          toast('📌 تم الحفظ في البنك', 'ok');
-        } else if (action === 'copy-new-to-json') {
-          const existing = $('#jsonInput').value.trim();
-          let newJson;
-          if (existing) {
-            try {
-              const parsed = parseInput(existing);
-              parsed.sentences.push({ italian: s.italian, arabic: s.arabic || '' });
-              newJson = JSON.stringify({ sentences: parsed.sentences, dictionary: parsed.dictionary }, null, 2);
-            } catch {
-              newJson = JSON.stringify({ sentences: [{ italian: s.italian, arabic: s.arabic || '' }] }, null, 2);
+          case 'apply-suggestion':
+            if (s._suggestedText2) {
+              s._pendingItalian = s._suggestedText2.italian;
+              renderDriveAuditBody(p);
+              updateConfirmButton();
+              toast('🔀 تم تعليق التعديل — راجع ثم اضغط "تطبيق"', 'ok');
             }
-          } else {
-            newJson = JSON.stringify({ sentences: [{ italian: s.italian, arabic: s.arabic || '' }] }, null, 2);
-          }
-          $('#jsonInput').value = newJson;
-          previewInput();
-          closePreviewModal();
-          document.querySelector('.tab-btn[data-tab="json"]').click();
-          toast('📋 تم نسخ الجملة إلى تبويب JSON', 'ok');
+            break;
+          case 'undo-pending':
+            s._pendingItalian = null;
+            renderDriveAuditBody(p);
+            updateConfirmButton();
+            toast('↩️ تم التراجع', 'ok');
+            break;
         }
       });
     });
   }
 
+  function renderText2List(p, wrap) {
+    const list = p._text2Unmatched;
+    if (!list.length) {
+      wrap.innerHTML = '<div class="empty-state">🎉 كل جمل النص 2 موجودة في قاعدة البيانات</div>';
+      return;
+    }
+    wrap.innerHTML = `
+      <div class="audit-note">
+        📋 ${list.length} جملة في النص 2 غير موجودة في DB. يمكنك استبدال الإيطالية في جملة قريبة، مع الاحتفاظ بترجمتها العربية الأصلية.
+      </div>
+      ${list.map((t, i) => renderText2Card(p, t, i)).join('')}
+    `;
+    bindText2Actions(p);
+  }
+
+  function renderText2Card(p, t, i) {
+    const hasSuggestion = !!t._suggestedDbId;
+    const targetDb = hasSuggestion ? p._dbSentences.find(d => d.dbId === t._suggestedDbId) : null;
+    return `
+      <div class="audit-card ${hasSuggestion ? 'has-suggestion' : ''}">
+        <div class="audit-card-header">
+          <span class="audit-card-num">${i + 1}</span>
+          <span class="audit-badge new-item">🆕 مرجع</span>
+          ${t._applied ? '<span class="audit-badge pending">✅ مُطبّق</span>' : ''}
+        </div>
+        <div class="audit-sentence" dir="ltr">${escapeHtml(t.italian)}</div>
+        ${t.arabic ? `<div class="audit-arabic">${escapeHtml(t.arabic)}</div>` : '<div class="audit-arabic empty">بدون ترجمة</div>'}
+
+        ${hasSuggestion && targetDb ? `
+          <div class="audit-suggestion">
+            <div class="audit-suggestion-label">🎯 أقرب جملة في DB (${Math.round(t._suggestedScore * 100)}%)</div>
+            <div class="audit-suggestion-text" dir="ltr">${escapeHtml(targetDb.italian)}</div>
+            <div class="audit-suggestion-score">🕌 ترجمتها الحالية: ${escapeHtml(targetDb.arabic || '—')}</div>
+          </div>
+        ` : '<div class="audit-note" style="margin: 8px 0 0;">لا توجد جملة مشابهة بما يكفي للاستبدال</div>'}
+
+        <div class="drive-actions">
+          ${hasSuggestion
+            ? `<button class="drive-action-btn replace" data-action="apply-text2" data-idx="${i}" ${t._applied ? 'disabled' : ''}>🔀 استبدال الإيطالية في DB</button>`
+            : `<button class="drive-action-btn" disabled>🚫 لا يوجد هدف مناسب</button>`}
+        </div>
+      </div>
+    `;
+  }
+
+  function bindText2Actions(p) {
+    $$('#driveAuditContent .audit-card .drive-action-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (btn.disabled) return;
+        const idx = parseInt(btn.dataset.idx, 10);
+        if (isNaN(idx) || !p._text2Unmatched[idx]) return;
+        const t = p._text2Unmatched[idx];
+        const action = btn.dataset.action;
+
+        if (action === 'apply-text2') {
+          if (!t._suggestedDbId) return;
+          const target = p._dbSentences.find(d => d.dbId === t._suggestedDbId);
+          if (!target) return;
+          // 🔀 قاعدة الاستبدال: تطبيق Italian فقط على الجملة المستهدفة
+          target._pendingItalian = t.italian;
+          // إعادة التصنيف
+          target._status = 'active'; // ابقها نشطة
+          target._matchType = null;
+          target._suggestedText2 = null;
+          t._applied = true;
+          rebuildLists(p);
+          renderDriveAuditBody(p);
+          updateConfirmButton();
+          toast('🔀 تم تعليق التعديل — احتفظنا بالـ Arabic الأصلي', 'ok');
+        }
+      });
+    });
+  }
+
+  function renderBypassedList(p, wrap) {
+    const list = p._bypassedList;
+    if (!list.length) {
+      wrap.innerHTML = '<div class="empty-state">لا توجد جمل متجاوزة</div>';
+      return;
+    }
+    wrap.innerHTML = `
+      <div class="audit-note">
+        ⏸️ ${list.length} جملة لها تطابق إيطالي تام مع النص 2 — مستبعدة من المعالجة. يمكنك تفعيلها يدوياً.
+      </div>
+      ${list.map((s, i) => `
+        <div class="audit-card bypassed" data-byp-idx="${i}">
+          <div class="audit-card-header">
+            <span class="audit-card-num">${i + 1}</span>
+            <span class="audit-badge exact">🎯 تطابق تام مع النص 2</span>
+            ${s._isDuplicateInDb ? '<span class="audit-badge dup-db">🔁 مكررة</span>' : ''}
+          </div>
+          <div class="audit-sentence" dir="ltr">${escapeHtml(s.italian)}</div>
+          <div class="audit-arabic ${s.arabic ? '' : 'empty'}">${s.arabic ? escapeHtml(s.arabic) : 'بدون ترجمة'}</div>
+          <div class="drive-actions">
+            <button class="drive-action-btn reactivate" data-action="activate" data-byp-idx="${i}">✅ تفعيل</button>
+          </div>
+        </div>
+      `).join('')}
+    `;
+    $$('#driveAuditContent [data-byp-idx]').forEach(card => {
+      const idx = parseInt(card.dataset.bypIdx, 10);
+      const btn = card.querySelector('[data-action="activate"]');
+      if (!btn) return;
+      btn.addEventListener('click', () => {
+        const s = p._bypassedList[idx];
+        if (!s) return;
+        s._status = 'active';
+        s._matchType = null;
+        s._suggestedText2 = null;
+        rebuildLists(p);
+        renderDriveAuditBody(p);
+        updateConfirmButton();
+        toast('✅ تم التفعيل', 'ok');
+      });
+    });
+  }
+
+  function rebuildLists(p) {
+    p._activeList = p._dbSentences.filter(s => s._status === 'active');
+    p._activeList.sort((a, b) => {
+      const aPriority = (a._matchType === 'similar' || a._isDuplicateInDb) ? 1 : 0;
+      const bPriority = (b._matchType === 'similar' || b._isDuplicateInDb) ? 1 : 0;
+      return aPriority - bPriority;
+    });
+    p._bypassedList = p._dbSentences.filter(s => s._status === 'bypassed');
+  }
+
+  /* ============ Collision UI (non-audit) ============ */
   function renderCollisionCard(c, idx) {
     const newTenses = getNewTenseSections(c.existing.summary, c.incoming.summary);
     const newMeaningDifferent = compareMeanings(c.existing.meaning, c.incoming.meaning).added;
-
     return `
       <div class="collision-card" data-collision-idx="${idx}">
         <div class="collision-header">
-          <div class="collision-word" dir="ltr">
-            ${escapeHtml(c.incoming.word || c.key)}
-            <span class="collision-badge">⚠️ موجود مسبقاً</span>
-          </div>
+          <div class="collision-word" dir="ltr">${escapeHtml(c.incoming.word || c.key)}<span class="collision-badge">⚠️ موجود مسبقاً</span></div>
         </div>
-
         <div class="collision-compare">
           <div class="collision-side">
             <div class="collision-side-label">📌 الموجود حالياً</div>
@@ -2306,36 +2220,21 @@ ${lines.join('\n')}
             ${c.existing.summary ? `<div class="collision-side-summary">${escapeHtml(c.existing.summary)}</div>` : ''}
           </div>
           <div class="collision-side new-side">
-            <div class="collision-side-label">✨ الجديد (من AI)</div>
+            <div class="collision-side-label">✨ الجديد</div>
             <div class="collision-side-meaning">${escapeHtml(c.incoming.meaning || '—')}</div>
             ${c.incoming.summary ? `<div class="collision-side-summary">${escapeHtml(c.incoming.summary)}</div>` : ''}
           </div>
         </div>
-
         <div class="collision-actions-title">اختر الإجراء:</div>
         <div class="collision-actions">
-          <button class="collision-action-btn${c.action === 'ignore' ? ' active' : ''}" data-action="ignore" data-idx="${idx}">
-            <span class="icon">⏭️</span>
-            <span>تجاهل</span>
-          </button>
-          <button class="collision-action-btn${c.action === 'replace' ? ' active' : ''}" data-action="replace" data-idx="${idx}">
-            <span class="icon">🔄</span>
-            <span>استبدال</span>
-          </button>
-          <button class="collision-action-btn${c.action === 'merge-tenses' ? ' active' : ''}" data-action="merge-tenses" data-idx="${idx}">
-            <span class="icon">➕</span>
-            <span>الأزمنة الجديدة فقط</span>
-          </button>
+          <button class="collision-action-btn${c.action === 'ignore' ? ' active' : ''}" data-action="ignore" data-idx="${idx}"><span class="icon">⏭️</span><span>تجاهل</span></button>
+          <button class="collision-action-btn${c.action === 'replace' ? ' active' : ''}" data-action="replace" data-idx="${idx}"><span class="icon">🔄</span><span>استبدال</span></button>
+          <button class="collision-action-btn${c.action === 'merge-tenses' ? ' active' : ''}" data-action="merge-tenses" data-idx="${idx}"><span class="icon">➕</span><span>الأزمنة الجديدة</span></button>
         </div>
-
         <div class="collision-preview${c.action === 'merge-tenses' ? ' show' : ''}" data-preview-idx="${idx}">
-          ${newTenses.length === 0 ? `
-            <div style="color: var(--warn); font-weight: 700;">⚠️ لا توجد أزمنة جديدة — لن يتم تحديث الملخص</div>
-            ${newMeaningDifferent ? `<div style="margin-top: 4px; color: #a76b0f;">💡 يوجد معنى إضافي في الجديد (${escapeHtml(c.incoming.meaning)})، لكن هذا الخيار لا يضيف معاني — استخدم "استبدال" أو أضف يدويًا.</div>` : ''}
-          ` : `
-            <div style="margin-bottom: 4px;"><strong>✅ سيتم إضافة ${newTenses.length} قسم جديد:</strong></div>
+          ${newTenses.length === 0 ? `<div style="color: var(--warn); font-weight: 700;">⚠️ لا توجد أزمنة جديدة</div>` : `
+            <div style="margin-bottom: 4px;"><strong>✅ سيتم إضافة ${newTenses.length} قسم:</strong></div>
             ${newTenses.map(t => `<div style="margin-top: 3px;">• ${escapeHtml(t.text.substring(0, 100))}${t.text.length > 100 ? '…' : ''}</div>`).join('')}
-            ${newMeaningDifferent ? `<div style="margin-top: 4px; color: #a76b0f; font-weight: 700;">⚠️ ملاحظة: المعنى في النسخة الجديدة مختلف، لكن هذا الخيار يحافظ على المعنى القديم فقط.</div>` : ''}
           `}
         </div>
       </div>
@@ -2357,7 +2256,6 @@ ${lines.join('\n')}
         updateConfirmButton();
       });
     });
-
     $$('.collision-bulk-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const action = btn.dataset.bulk;
@@ -2369,30 +2267,32 @@ ${lines.join('\n')}
             <span class="collision-bulk-label">⚡ تطبيق على الكل:</span>
             <button class="collision-bulk-btn" data-bulk="ignore">⏭️ تجاهل</button>
             <button class="collision-bulk-btn" data-bulk="replace">🔄 استبدال</button>
-            <button class="collision-bulk-btn" data-bulk="merge-tenses">➕ إضافة الأزمنة الجديدة</button>
+            <button class="collision-bulk-btn" data-bulk="merge-tenses">➕ الأزمنة الجديدة</button>
           </div>
           ${state.pendingPreview._collisions.map((c, idx) => renderCollisionCard(c, idx)).join('')}
         `;
         bindCollisionEvents();
         updateConfirmButton();
-        toast(`تم تطبيق الإجراء على ${state.pendingPreview._collisions.length} تعارض`, 'ok');
+        toast(`تم التطبيق على ${state.pendingPreview._collisions.length} تعارض`, 'ok');
       });
     });
   }
 
+  /* ============ Confirm Button ============ */
   function updateConfirmButton() {
     const p = state.pendingPreview;
     if (!p) return;
     const btn = $('#btnConfirmUpload');
 
     if (p._source === 'drive-audit') {
-      const a = p._audit;
-      const activeCount = a.corrections.filter(c => c.action === 'apply' && c.newArabic !== c.dbArabic).length;
+      const pendingCount = p._dbSentences.filter(s =>
+        s._pendingItalian !== null && s._pendingItalian !== undefined && s._pendingItalian !== s._originalItalian
+      ).length;
       btn.className = 'btn btn-info';
-      btn.disabled = activeCount === 0;
-      btn.innerHTML = activeCount === 0
-        ? '🚫 لا توجد تعديلات للتطبيق'
-        : `💾 تطبيق ${activeCount} تعديل على السحابة`;
+      btn.disabled = pendingCount === 0;
+      btn.innerHTML = pendingCount === 0
+        ? '💾 لا تعديلات لتطبيقها'
+        : `💾 تطبيق ${pendingCount} تعديل على السحابة`;
       return;
     }
 
@@ -2404,16 +2304,12 @@ ${lines.join('\n')}
     const total = driveActiveCount + p.dictNew + p.dictAdded + collisions.filter(c => c.action !== 'ignore').length;
     btn.className = 'btn btn-primary';
     btn.disabled = total === 0;
-    if (total === 0) {
-      btn.innerHTML = (isDrive && p.sentNew > 0)
-        ? '🚫 جميع الجمل متجاوزة/محفوظة — فعّل واحدة'
-        : '🚫 لا يوجد جديد للرفع';
-    } else {
-      btn.innerHTML = `🚀 رفع ${total} عملية`;
-    }
+    btn.innerHTML = total === 0
+      ? '🚫 لا يوجد جديد للرفع'
+      : `🚀 رفع ${total} عملية`;
   }
 
-  /* ============ Analyze — JSON ============ */
+  /* ============ Analyze JSON ============ */
   async function analyze() {
     if (state.processing) return;
     if (!state.ready) { toast('القاعدة غير جاهزة', 'err'); return; }
@@ -2423,60 +2319,47 @@ ${lines.join('\n')}
     const sentences = parsed.sentences.map(validateSentence).filter(Boolean);
     const dictMap = buildDictMap(parsed.dictionary);
     if (!sentences.length && !dictMap.size) { toast('لا توجد بيانات صالحة', 'err'); return; }
-
     state.processing = true;
     setSync('syncing', 'جارٍ التحليل…');
     const btn = $('#btnAnalyze');
     btn.classList.add('loading'); btn.disabled = true; btn.textContent = 'جارٍ التحليل…';
-
-    try {
-      await runAnalysis(sentences, dictMap, 'json');
-    } catch (err) {
-      console.error(err); toast('فشل التحليل', 'err');
-      setSync('offline', 'خطأ');
-    } finally {
+    try { await runAnalysis(sentences, dictMap, 'json'); }
+    catch (err) { console.error(err); toast('فشل التحليل', 'err'); setSync('offline', 'خطأ'); }
+    finally {
       state.processing = false;
       btn.classList.remove('loading'); btn.textContent = '🔍 تحليل ومعاينة قبل الرفع';
       previewInput();
     }
   }
 
-  /* ============ Analyze — Verb AI ============ */
   async function analyzeVerbAI() {
     if (state.processing) return;
     if (!state.ready) { toast('القاعدة غير جاهزة', 'err'); return; }
     const text = $('#verbAiInput').value.trim();
     if (!text) { toast('الصق JSON أولاً', 'err'); return; }
     let parsed; try { parsed = parseVerbAIInput(text); } catch (e) { toast(e.message, 'err'); return; }
-
     state.processing = true;
-    setSync('syncing', 'جارٍ تحليل الأفعال…');
+    setSync('syncing', 'جارٍ التحليل…');
     const btn = $('#btnAnalyzeVerbAI');
     btn.classList.add('loading'); btn.disabled = true; btn.textContent = 'جارٍ التحليل…';
-
     try {
       const dictMap = buildDictMap(parsed.dictionary);
       await runAnalysis([], dictMap, 'verb-ai');
-    } catch (err) {
-      console.error(err); toast('فشل التحليل', 'err');
-      setSync('offline', 'خطأ');
-    } finally {
+    } catch (err) { console.error(err); toast('فشل التحليل', 'err'); setSync('offline', 'خطأ'); }
+    finally {
       state.processing = false;
       btn.classList.remove('loading'); btn.textContent = '🔍 معاينة ورفع الأفعال';
       previewVerbAIInput();
     }
   }
 
-  /* ============ Shared analysis logic (JSON + Verb AI) ============ */
   async function runAnalysis(sentences, dictMap, source) {
     const [sentSnap, dictSnap] = await Promise.all([
       state.db.collection('users').doc(USER_ID).collection('sentences').get(),
       state.db.collection('users').doc(USER_ID).collection('dictionary').get()
     ]);
-
     const existingItalian = new Set();
     sentSnap.docs.forEach(doc => { const d = doc.data() || {}; const it = String(d.italian || '').trim().toLowerCase(); if (it) existingItalian.add(it); });
-
     const freshSentences = [], dupSentences = [], batchSeen = new Set();
     sentences.forEach(s => {
       const key = s.italian.trim().toLowerCase();
@@ -2484,61 +2367,24 @@ ${lines.join('\n')}
       else if (batchSeen.has(key)) dupSentences.push({ sentence: s, reason: 'مكررة في نفس الدفعة' });
       else { freshSentences.push(s); batchSeen.add(key); }
     });
-
     const existingDict = new Map();
     dictSnap.docs.forEach(doc => existingDict.set(doc.id, doc.data() || {}));
-
     const dictOps = [], dictSkipped = [], collisions = [];
-
     dictMap.forEach((entry, key) => {
       const old = existingDict.get(key);
-
       if (!old) {
         dictOps.push({ key, kind: 'new', data: { word: entry.word, lemma: entry.lemma, type: entry.type, meaning: entry.meaning, summary: entry.summary, updated_at: Date.now() } });
         return;
       }
-
       if (entry.type === 'verb' && old.type === 'verb') {
-        collisions.push({
-          key,
-          existing: {
-            word: old.word || key,
-            lemma: old.lemma || key,
-            type: 'verb',
-            meaning: String(old.meaning || '').trim(),
-            summary: String(old.summary || '').trim()
-          },
-          incoming: {
-            word: entry.word,
-            lemma: entry.lemma,
-            type: 'verb',
-            meaning: entry.meaning,
-            summary: entry.summary
-          },
-          action: 'merge-tenses'
-        });
+        collisions.push({ key, existing: { word: old.word || key, lemma: old.lemma || key, type: 'verb', meaning: String(old.meaning || '').trim(), summary: String(old.summary || '').trim() }, incoming: { word: entry.word, lemma: entry.lemma, type: 'verb', meaning: entry.meaning, summary: entry.summary }, action: 'merge-tenses' });
         return;
       }
-
       const oldM = String(old.meaning || '').trim();
       const cmp = compareMeanings(oldM, entry.meaning);
-      if (cmp.same) {
-        dictSkipped.push({ word: entry.word, key, reason: 'نفس المعنى', oldMeaning: oldM });
-        return;
-      }
-      dictOps.push({
-        key, kind: 'meaning-added',
-        data: {
-          word: entry.word || old.word || '',
-          lemma: old.lemma || entry.lemma || entry.word,
-          type: (old.type && old.type !== 'word') ? old.type : (entry.type || 'word'),
-          meaning: cmp.merged,
-          summary: old.summary || entry.summary || '',
-          updated_at: Date.now()
-        }
-      });
+      if (cmp.same) { dictSkipped.push({ word: entry.word, key, reason: 'نفس المعنى', oldMeaning: oldM }); return; }
+      dictOps.push({ key, kind: 'meaning-added', data: { word: entry.word || old.word || '', lemma: old.lemma || entry.lemma || entry.word, type: (old.type && old.type !== 'word') ? old.type : (entry.type || 'word'), meaning: cmp.merged, summary: old.summary || entry.summary || '', updated_at: Date.now() } });
     });
-
     const p = {
       sentNew: freshSentences.length, sentDup: dupSentences.length,
       dictNew: dictOps.filter(o => o.kind === 'new').length,
@@ -2546,38 +2392,34 @@ ${lines.join('\n')}
       dictSame: dictSkipped.length,
       _freshSentences: freshSentences, _dupSentences: dupSentences,
       _dictOps: dictOps, _dictSkipped: dictSkipped,
-      _collisions: collisions,
-      _source: source,
-      _hasRendered: false
+      _collisions: collisions, _source: source, _hasRendered: false
     };
-
     state.pendingPreview = p;
     renderPreviewModal(p);
     openPreviewModal();
     setSync('online', 'متصل — راجع المعاينة');
   }
 
-  /* ============ Commit — Router ============ */
+  /* ============ Commit Router ============ */
   async function commitUpload() {
     const p = state.pendingPreview;
     if (!p) return;
-    if (p._source === 'drive-audit') {
-      return commitDriveAudit(p);
-    }
+    if (p._source === 'drive-audit') return commitDriveAudit(p);
     return commitStandard(p);
   }
 
-  /* ============ Commit — Drive Audit (تطبيق تصحيحات على DB) ============ */
+  /* ============ Commit — Drive Audit (تطبيق Italian فقط) ============ */
   async function commitDriveAudit(p) {
     if (state.processing) return;
-    const a = p._audit;
-    const toApply = a.corrections.filter(c => c.action === 'apply' && c.newArabic !== c.dbArabic);
+    const toApply = p._dbSentences.filter(s =>
+      s._pendingItalian !== null && s._pendingItalian !== undefined && s._pendingItalian !== s._originalItalian
+    );
     if (!toApply.length) { toast('لا توجد تعديلات للتطبيق', 'warn'); return; }
 
     state.processing = true;
     const btn = $('#btnConfirmUpload');
-    btn.classList.add('loading'); btn.disabled = true; btn.textContent = 'جارٍ تطبيق التعديلات…';
-    setSync('syncing', 'جارٍ تطبيق التعديلات على السحابة…');
+    btn.classList.add('loading'); btn.disabled = true; btn.textContent = 'جارٍ التطبيق…';
+    setSync('syncing', 'جارٍ تطبيق التعديلات…');
     const startedAt = Date.now();
     let applied = 0;
     let failed = 0;
@@ -2590,42 +2432,24 @@ ${lines.join('\n')}
         const chunk = toApply.slice(i, i + BATCH_LIMIT);
         try {
           const batch = state.db.batch();
-          chunk.forEach(c => {
-            batch.update(col.doc(c.dbId), {
-              arabic: c.newArabic,
-              updated_at: now,
-              last_reviewed: null
+          chunk.forEach(s => {
+            batch.update(col.doc(s.dbId), {
+              italian: s._pendingItalian,
+              updated_at: now
+              // ملاحظة: arabic لا يُلمس — يبقى كما هو
             });
           });
           await batch.commit();
+          chunk.forEach(s => {
+            s.italian = s._pendingItalian;
+            s._originalItalian = s._pendingItalian;
+            s._pendingItalian = null;
+          });
           applied += chunk.length;
-        } catch (err) {
-          console.error('Batch apply error:', err);
-          failed += chunk.length;
-        }
+        } catch (err) { console.error('Batch apply error:', err); failed += chunk.length; }
       }
 
       const elapsed = ((Date.now() - startedAt) / 1000).toFixed(1);
-
-      // Move successfully-applied corrections → matched
-      if (applied > 0) {
-        const appliedIds = new Set(toApply.slice(0, applied).map(c => c.dbId));
-        const newCorrections = [];
-        a.corrections.forEach(c => {
-          if (appliedIds.has(c.dbId)) {
-            a.matched.push({
-              dbId: c.dbId,
-              italian: c.italian,
-              arabic: c.newArabic,
-              dbArabic: c.newArabic
-            });
-          } else {
-            newCorrections.push(c);
-          }
-        });
-        a.corrections = newCorrections;
-      }
-
       if (failed === 0) {
         toast(`✅ تم تطبيق ${applied} تعديل (${elapsed}s)`, 'ok');
         setSync('online', 'متصل — تم التطبيق');
@@ -2633,16 +2457,8 @@ ${lines.join('\n')}
         toast(`⚠️ ${applied} نجح · ${failed} فشل`, 'warn');
         setSync('online', 'متصل — نجاح جزئي');
       }
-
-      addHistoryEntry({
-        timestamp: now,
-        sentNew: 0, sentDup: 0, dictNew: 0,
-        dictAdded: applied, dictSame: 0,
-        failed,
-        auditMode: true
-      });
-
-      // Re-render with updated state
+      addHistoryEntry({ timestamp: now, sentNew: 0, sentDup: 0, dictNew: 0, dictAdded: applied, dictSame: 0, failed, auditMode: true });
+      rebuildLists(p);
       renderPreviewModal(p);
     } catch (err) {
       console.error(err);
@@ -2655,7 +2471,6 @@ ${lines.join('\n')}
     }
   }
 
-  /* ============ Commit — Standard (JSON / Verb AI / Drive legacy) ============ */
   async function commitStandard(p) {
     if (state.processing) return;
     const collisions = p._collisions || [];
@@ -2665,13 +2480,7 @@ ${lines.join('\n')}
       ? p._freshSentences.filter(s => (s._status || 'active') === 'active')
       : p._freshSentences;
     const total = sentencesToUpload.length + p.dictNew + p.dictAdded + activeCollisions.length;
-    if (total === 0) {
-      const reason = (isDrive && p.sentNew > 0)
-        ? 'جميع الجمل متجاوزة/محفوظة — فعّل واحدة على الأقل للرفع'
-        : 'لا يوجد جديد للرفع';
-      toast(reason, 'warn');
-      return;
-    }
+    if (total === 0) { toast('لا يوجد جديد للرفع', 'warn'); return; }
 
     state.processing = true;
     const btn = $('#btnConfirmUpload');
@@ -2689,46 +2498,17 @@ ${lines.join('\n')}
       const ops = [];
 
       sentencesToUpload.forEach(s => {
-        ops.push({
-          ref: sentencesCol.doc(),
-          data: { italian: s.italian, arabic: s.arabic || '', next_review: now - 1, easy_streak: 0, medium_streak: 0, in_mistake_bank: false, is_frozen: false, created_at: now, last_reviewed: null },
-          merge: false
-        });
+        ops.push({ ref: sentencesCol.doc(), data: { italian: s.italian, arabic: s.arabic || '', next_review: now - 1, easy_streak: 0, medium_streak: 0, in_mistake_bank: false, is_frozen: false, created_at: now, last_reviewed: null }, merge: false });
       });
-      p._dictOps.forEach(op => {
-        ops.push({ ref: dictCol.doc(op.key), data: op.data, merge: true });
-      });
-
+      p._dictOps.forEach(op => { ops.push({ ref: dictCol.doc(op.key), data: op.data, merge: true }); });
       activeCollisions.forEach(c => {
         if (c.action === 'replace') {
-          ops.push({
-            ref: dictCol.doc(c.key),
-            data: {
-              word: c.incoming.word,
-              lemma: c.incoming.lemma,
-              type: 'verb',
-              meaning: c.incoming.meaning,
-              summary: c.incoming.summary,
-              updated_at: now
-            },
-            merge: false
-          });
+          ops.push({ ref: dictCol.doc(c.key), data: { word: c.incoming.word, lemma: c.incoming.lemma, type: 'verb', meaning: c.incoming.meaning, summary: c.incoming.summary, updated_at: now }, merge: false });
           collisionsApplied++;
         } else if (c.action === 'merge-tenses') {
           const merged = mergeTenses(c.existing.summary, c.incoming.summary);
           if (merged !== c.existing.summary) {
-            ops.push({
-              ref: dictCol.doc(c.key),
-              data: {
-                word: c.existing.word,
-                lemma: c.existing.lemma,
-                type: 'verb',
-                meaning: c.existing.meaning,
-                summary: merged,
-                updated_at: now
-              },
-              merge: true
-            });
+            ops.push({ ref: dictCol.doc(c.key), data: { word: c.existing.word, lemma: c.existing.lemma, type: 'verb', meaning: c.existing.meaning, summary: merged, updated_at: now }, merge: true });
             collisionsApplied++;
           }
         }
@@ -2758,28 +2538,18 @@ ${lines.join('\n')}
       });
       addHistoryEntry({ timestamp: now, sentNew: sentencesToUpload.length, sentDup: p.sentDup, dictNew: p.dictNew, dictAdded: p.dictAdded + collisionsApplied, dictSame: p.dictSame, failed });
       closePreviewModal();
-
       if (failed === 0) {
         const parts = [];
         if (sentencesToUpload.length) parts.push(`${sentencesToUpload.length} جملة`);
         if (p.dictNew + p.dictAdded) parts.push(`${p.dictNew + p.dictAdded} كلمة`);
-        if (collisionsApplied) parts.push(`${collisionsApplied} فعل محدَّث`);
         toast(`✅ ${parts.join(' · ') || 'تم الرفع'}`, 'ok');
         setSync('online', 'متصل — تم الرفع');
-
-        if (p._source === 'verb-ai') {
-          $('#verbAiInput').value = '';
-          previewVerbAIInput();
-        } else if (p._source === 'drive') {
-          $('#driveInput').value = '';
-          previewDriveInput();
-        } else {
-          $('#jsonInput').value = '';
-          previewInput();
-        }
+        if (p._source === 'verb-ai') { $('#verbAiInput').value = ''; previewVerbAIInput(); }
+        else if (p._source === 'drive') { $('#driveInput').value = ''; previewDriveInput(); }
+        else { $('#jsonInput').value = ''; previewInput(); }
         state.pendingPreview = null;
       } else {
-        toast(`⚠️ نجاح جزئي (${failed} فشل)`, 'warn');
+        toast(`⚠️ نجاح جزئي`, 'warn');
         setSync('online', 'متصل — نجاح جزئي');
       }
     } catch (err) {
@@ -2799,31 +2569,15 @@ ${lines.join('\n')}
       <div class="result-item success"><span class="v">${r.sentNew}</span><span class="l">جمل جديدة</span></div>
       <div class="result-item skipped"><span class="v">${r.sentDup}</span><span class="l">مكررة</span></div>
       <div class="result-item success"><span class="v">${r.dictNew}</span><span class="l">كلمات جديدة</span></div>
-      <div class="result-item added"><span class="v">${r.dictAdded + (r.collisionsApplied || 0)}</span><span class="l">إضافات/تحديثات</span></div>
-      ${(r.collisionsIgnored || 0) > 0 ? `<div class="result-item skipped"><span class="v">${r.collisionsIgnored}</span><span class="l">تعارضات متجاهَلة</span></div>` : ''}
-      ${r.dictSame > 0 ? `<div class="result-item skipped"><span class="v">${r.dictSame}</span><span class="l">نفس المعنى</span></div>` : ''}
+      <div class="result-item added"><span class="v">${r.dictAdded + (r.collisionsApplied || 0)}</span><span class="l">إضافات</span></div>
       ${r.failed > 0 ? `<div class="result-item error"><span class="v">${r.failed}</span><span class="l">فشل</span></div>` : ''}
       <div class="result-item"><span class="v">${r.elapsed}s</span><span class="l">الوقت</span></div>
     `;
     let html = '';
     if (r.details.duplicateSentences.length) {
-      html += `<div style="margin-bottom:12px;"><h5 style="font-size:12px;font-weight:800;color:var(--text-soft);margin-bottom:6px;border-bottom:1px solid var(--border);padding-bottom:4px;">📅 جمل مكررة</h5>`;
+      html += `<div style="margin-bottom:12px;"><h5 style="font-size:12px;font-weight:800;color:var(--text-soft);margin-bottom:6px;border-bottom:1px solid var(--border);padding-bottom:4px;">📅 مكررة</h5>`;
       r.details.duplicateSentences.forEach(d => {
-        html += `<div style="padding:6px 8px;margin-bottom:4px;background:var(--surface-2);border-radius:8px;display:flex;justify-content:space-between;gap:8px;font-size:12px;"><span dir="ltr" style="font-family:Georgia;font-weight:600;flex:1;">${escapeHtml(d.italian)}</span><span style="font-size:10.5px;padding:1px 6px;border-radius:4px;background:var(--warn-soft);color:var(--warn);white-space:nowrap;">${escapeHtml(d.reason)}</span></div>`;
-      });
-      html += `</div>`;
-    }
-    if (r.details.meaningAddedList.length) {
-      html += `<div style="margin-bottom:12px;"><h5 style="font-size:12px;font-weight:800;color:var(--text-soft);margin-bottom:6px;border-bottom:1px solid var(--border);padding-bottom:4px;">➕ معانٍ أُضيفت</h5>`;
-      r.details.meaningAddedList.forEach(d => {
-        html += `<div style="padding:6px 8px;margin-bottom:4px;background:var(--surface-2);border-radius:8px;display:flex;gap:8px;font-size:12px;"><span dir="ltr" style="font-family:Georgia;font-weight:600;">${escapeHtml(d.word)}</span><span style="color:var(--text-soft);flex:1;">${escapeHtml(d.meaning)}</span></div>`;
-      });
-      html += `</div>`;
-    }
-    if (r.details.skippedDict.length) {
-      html += `<div><h5 style="font-size:12px;font-weight:800;color:var(--text-soft);margin-bottom:6px;border-bottom:1px solid var(--border);padding-bottom:4px;">📖 كلمات بنفس المعنى</h5>`;
-      r.details.skippedDict.forEach(d => {
-        html += `<div style="padding:6px 8px;margin-bottom:4px;background:var(--surface-2);border-radius:8px;display:flex;gap:8px;font-size:12px;"><span dir="ltr" style="font-family:Georgia;font-weight:600;">${escapeHtml(d.word)}</span><span style="color:var(--text-soft);flex:1;">${escapeHtml(d.oldMeaning)}</span></div>`;
+        html += `<div style="padding:6px 8px;margin-bottom:4px;background:var(--surface-2);border-radius:8px;font-size:12px;"><span dir="ltr" style="font-family:Georgia;">${escapeHtml(d.italian)}</span></div>`;
       });
       html += `</div>`;
     }
@@ -2833,9 +2587,7 @@ ${lines.join('\n')}
 
   function loadHistory() { try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch { return []; } }
   function saveHistory(items) { try { localStorage.setItem(HISTORY_KEY, JSON.stringify(items.slice(0, 10))); } catch {} }
-  function addHistoryEntry(entry) {
-    const h = loadHistory(); h.unshift(entry); saveHistory(h); renderHistory();
-  }
+  function addHistoryEntry(entry) { const h = loadHistory(); h.unshift(entry); saveHistory(h); renderHistory(); }
   function renderHistory() {
     const h = loadHistory(); const card = $('#historyCard'); const wrap = $('#historyList');
     if (!h.length) { card.hidden = true; return; }
@@ -2845,7 +2597,7 @@ ${lines.join('\n')}
       const t = d.toLocaleString('ar-EG', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
       const parts = [];
       if (item.auditMode) {
-        parts.push(`🔍 تدقيق`);
+        parts.push('🔍 تدقيق');
         if (item.dictAdded) parts.push(`✓ ${item.dictAdded} تعديل`);
         if (item.failed) parts.push(`${item.failed} فشل`);
       } else {
@@ -2853,77 +2605,58 @@ ${lines.join('\n')}
         if (item.sentDup) parts.push(`${item.sentDup} مكرر`);
         if (item.dictNew) parts.push(`+${item.dictNew} كلمة`);
         if (item.dictAdded) parts.push(`+${item.dictAdded} معنى`);
-        if (item.dictSame) parts.push(`${item.dictSame} نفس المعنى`);
         if (item.failed) parts.push(`${item.failed} فشل`);
       }
       return `<div class="history-item"><div class="history-item-icon">${item.auditMode ? '🔍' : '✓'}</div><div class="history-item-content"><div class="history-item-title">${parts.join(' · ')}</div><div class="history-item-time">${t}</div></div></div>`;
     }).join('');
   }
 
-  /* ============ Drive Review Bank UI ============ */
+  /* ============ Drive Bank ============ */
   function renderDriveBankList() {
     const wrap = $('#driveBankList');
     const items = state.driveReviewBank;
-    if (!items.length) {
-      wrap.innerHTML = '<div class="empty-state">📌 لا توجد جمل محفوظة للمراجعة بعد</div>';
-      return;
-    }
+    if (!items.length) { wrap.innerHTML = '<div class="empty-state">📌 لا توجد جمل محفوظة</div>'; return; }
     wrap.innerHTML = items.map((it, i) => `
       <div class="preview-list-item" style="margin-bottom: 8px;">
         <div class="preview-item-num">${i + 1}</div>
         <div class="preview-item-body">
           <div class="preview-item-it" dir="ltr">${escapeHtml(it.italian)}</div>
-          ${it.arabic
-            ? `<div class="preview-item-ar">${escapeHtml(it.arabic)}</div>`
-            : `<div class="preview-item-ar empty-ar">بدون ترجمة</div>`}
-          <div style="font-size: 10.5px; color: var(--text-soft); margin-top: 4px;">
-            ${new Date(it.saved_at).toLocaleString('ar-EG', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}
-            ${it.source === 'drive-audit-correction' ? ' · تعديل' : it.source === 'drive-audit-new' ? ' · جديد' : ''}
-          </div>
+          ${it.arabic ? `<div class="preview-item-ar">${escapeHtml(it.arabic)}</div>` : `<div class="preview-item-ar empty-ar">بدون ترجمة</div>`}
+          <div style="font-size: 10.5px; color: var(--text-soft); margin-top: 4px;">${new Date(it.saved_at).toLocaleString('ar-EG', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</div>
         </div>
-        <button class="drive-action-btn delete" data-bank-del="${i}" title="حذف من البنك">🗑️</button>
+        <button class="drive-action-btn undo" data-bank-del="${i}">🗑️</button>
       </div>
     `).join('');
-
     wrap.querySelectorAll('[data-bank-del]').forEach(b => {
       b.addEventListener('click', () => {
         const idx = parseInt(b.dataset.bankDel, 10);
-        if (!confirm('حذف هذه الجملة من بنك المراجعة؟')) return;
+        if (!confirm('حذف؟')) return;
         state.driveReviewBank.splice(idx, 1);
         saveDriveReviewBankList(state.driveReviewBank);
         updateDriveBankUI();
         renderDriveBankList();
-        toast('🗑️ تم الحذف من البنك', 'ok');
+        toast('🗑️ تم الحذف', 'ok');
       });
     });
   }
-
-  function openDriveBankModal() {
-    renderDriveBankList();
-    $('#driveBankOverlay').classList.add('is-open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeDriveBankModal() {
-    $('#driveBankOverlay').classList.remove('is-open');
-    document.body.style.overflow = '';
-  }
+  function openDriveBankModal() { renderDriveBankList(); $('#driveBankOverlay').classList.add('is-open'); document.body.style.overflow = 'hidden'; }
+  function closeDriveBankModal() { $('#driveBankOverlay').classList.remove('is-open'); document.body.style.overflow = ''; }
   function clearDriveBank() {
     if (!state.driveReviewBank.length) { toast('البنك فارغ', 'warn'); return; }
-    if (!confirm(`حذف ${state.driveReviewBank.length} جملة من بنك المراجعة؟`)) return;
+    if (!confirm(`حذف ${state.driveReviewBank.length} جملة؟`)) return;
     state.driveReviewBank = [];
     saveDriveReviewBankList(state.driveReviewBank);
     updateDriveBankUI();
     renderDriveBankList();
-    toast('🗑️ تم مسح البنك', 'ok');
+    toast('🗑️ تم المسح', 'ok');
   }
   function restoreDriveBankToEditor() {
     if (!state.driveReviewBank.length) { toast('البنك فارغ', 'warn'); return; }
     const sentences = state.driveReviewBank.map(it => ({ italian: it.italian, arabic: it.arabic || '' }));
-    const json = JSON.stringify({ sentences }, null, 2);
-    $('#driveInput').value = json;
+    $('#driveInput').value = JSON.stringify({ sentences }, null, 2);
     previewDriveInput();
     closeDriveBankModal();
-    toast(`📥 تم استعادة ${sentences.length} جملة إلى المحرر`, 'ok');
+    toast(`📥 استعادة ${sentences.length} جملة`, 'ok');
   }
 
   /* ============ Copy Prompts ============ */
@@ -2939,31 +2672,20 @@ ${lines.join('\n')}
       }
     } catch (_) {
       state.modalPromptText = text;
-      state.modalPromptTitle = modalTitle || '📝 برومبت (نسخ يدوي)';
+      state.modalPromptTitle = modalTitle || '📝 برومبت';
       $('#promptModalTitle').textContent = state.modalPromptTitle;
       $('#promptContent').textContent = text;
       $('#promptOverlay').classList.add('is-open');
       toast('انسخ يدويًا', 'warn');
     }
   }
-
-  function copyPrompt() {
-    copyPromptText(AI_PROMPT, $('#btnCopyPrompt'), 'تم نسخ برومبت الجمل ✓', '📝 برومبت الجمل');
-  }
-  function copyDrivePrompt() {
-    copyPromptText(DRIVE_PROMPT, $('#btnCopyDrivePrompt'), 'تم نسخ برومبت ملف Drive ✓', '📄 برومبت ملف Drive');
-  }
-
+  function copyPrompt() { copyPromptText(AI_PROMPT, $('#btnCopyPrompt'), 'تم نسخ برومبت الجمل ✓', '📝 برومبت الجمل'); }
+  function copyDrivePrompt() { copyPromptText(DRIVE_PROMPT, $('#btnCopyDrivePrompt'), 'تم نسخ برومبت ملف Drive ✓', '📄 برومبت ملف Drive'); }
   function closePromptModal() { $('#promptOverlay').classList.remove('is-open'); }
-
   async function copyFromModal() {
     const text = state.modalPromptText || AI_PROMPT;
     try { await navigator.clipboard.writeText(text); toast('تم النسخ ✓', 'ok'); closePromptModal(); }
-    catch {
-      const r = document.createRange(); r.selectNodeContents($('#promptContent'));
-      const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
-      toast('حدد وانسخ يدويًا', 'warn');
-    }
+    catch { const r = document.createRange(); r.selectNodeContents($('#promptContent')); const s = window.getSelection(); s.removeAllRanges(); s.addRange(r); toast('حدد وانسخ يدويًا', 'warn'); }
   }
 
   function openVerbPromptModal() {
@@ -2977,17 +2699,10 @@ ${lines.join('\n')}
   }
   function closeVerbPromptModal() { $('#verbPromptOverlay').classList.remove('is-open'); }
   function updateTenseCheckboxStyles() {
-    $$('.tense-checkbox').forEach(el => {
-      const input = el.querySelector('input[type="checkbox"]');
-      el.classList.toggle('checked', input.checked);
-    });
+    $$('.tense-checkbox').forEach(el => { const input = el.querySelector('input[type="checkbox"]'); el.classList.toggle('checked', input.checked); });
   }
   function updateVerbPromptPreview() {
-    state.verbPromptOptions = {
-      riflessivo: $('#chkRiflessivo').checked,
-      passato: $('#chkPassato').checked,
-      futuro: $('#chkFuturo').checked
-    };
+    state.verbPromptOptions = { riflessivo: $('#chkRiflessivo').checked, passato: $('#chkPassato').checked, futuro: $('#chkFuturo').checked };
     $('#verbPromptPreview').textContent = buildVerbPrompt(state.verbPromptOptions);
   }
   async function copyVerbPromptFromModal() {
@@ -3005,7 +2720,7 @@ ${lines.join('\n')}
       const el = $('#verbPromptPreview');
       const range = document.createRange(); range.selectNodeContents(el);
       const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
-      toast('حدد النص وانسخه يدويًا (Ctrl+C)', 'warn');
+      toast('حدد النص وانسخه يدويًا', 'warn');
     }
   }
 
@@ -3042,85 +2757,55 @@ ${lines.join('\n')}
 
     $('#btnCloseVerbPrompt').addEventListener('click', closeVerbPromptModal);
     $('#btnCloseVerbPromptBottom').addEventListener('click', closeVerbPromptModal);
-    $('#verbPromptOverlay').addEventListener('click', e => {
-      if (e.target === $('#verbPromptOverlay')) closeVerbPromptModal();
-    });
+    $('#verbPromptOverlay').addEventListener('click', e => { if (e.target === $('#verbPromptOverlay')) closeVerbPromptModal(); });
     $('#btnCopyVerbFromModal').addEventListener('click', copyVerbPromptFromModal);
 
     ['chkRiflessivo', 'chkPassato', 'chkFuturo'].forEach(id => {
-      document.getElementById(id).addEventListener('change', () => {
-        updateTenseCheckboxStyles();
-        updateVerbPromptPreview();
-      });
+      document.getElementById(id).addEventListener('change', () => { updateTenseCheckboxStyles(); updateVerbPromptPreview(); });
     });
 
-    // JSON tab
     $('#btnAnalyze').addEventListener('click', analyze);
     $('#btnConfirmUpload').addEventListener('click', commitUpload);
     $('#btnSample').addEventListener('click', loadSample);
     $('#btnClear').addEventListener('click', clearInput);
     $('#jsonInput').addEventListener('input', previewInput);
 
-    // Verb AI tab
     $('#verbAiInput').addEventListener('input', previewVerbAIInput);
     $('#btnAnalyzeVerbAI').addEventListener('click', analyzeVerbAI);
     $('#btnVerbAiClear').addEventListener('click', clearVerbAiInput);
     $('#verbAiInput').addEventListener('keydown', e => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-        e.preventDefault();
-        if (!$('#btnAnalyzeVerbAI').disabled) analyzeVerbAI();
-      }
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); if (!$('#btnAnalyzeVerbAI').disabled) analyzeVerbAI(); }
     });
 
-    // Drive tab
     $('#driveInput').addEventListener('input', previewDriveInput);
     $('#btnAnalyzeDrive').addEventListener('click', analyzeDrive);
     $('#btnDriveClear').addEventListener('click', clearDriveInput);
     $('#driveInput').addEventListener('keydown', e => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-        e.preventDefault();
-        if (!$('#btnAnalyzeDrive').disabled) analyzeDrive();
-      }
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); if (!$('#btnAnalyzeDrive').disabled) analyzeDrive(); }
     });
 
-    // Drive Review Bank
     $('#btnOpenDriveBank').addEventListener('click', openDriveBankModal);
     $('#btnCloseDriveBank').addEventListener('click', closeDriveBankModal);
     $('#btnClearDriveBank').addEventListener('click', clearDriveBank);
     $('#btnRestoreDriveBank').addEventListener('click', restoreDriveBankToEditor);
-    $('#driveBankOverlay').addEventListener('click', e => {
-      if (e.target === $('#driveBankOverlay')) closeDriveBankModal();
-    });
+    $('#driveBankOverlay').addEventListener('click', e => { if (e.target === $('#driveBankOverlay')) closeDriveBankModal(); });
 
-    // Manual verb form
-    $('#verbHasReflexive').addEventListener('change', e => {
-      $('#verbReflexiveSection').hidden = !e.target.checked;
-    });
+    $('#verbHasReflexive').addEventListener('change', e => { $('#verbReflexiveSection').hidden = !e.target.checked; });
     $('#btnSaveVerb').addEventListener('click', saveVerb);
     $('#btnResetVerb').addEventListener('click', resetVerbForm);
 
-    // Preview modal
     $('#btnClosePreview').addEventListener('click', closePreviewModal);
     $('#btnClosePreviewBottom').addEventListener('click', closePreviewModal);
-    $('#previewOverlay').addEventListener('click', e => {
-      if (e.target === $('#previewOverlay')) closePreviewModal();
-    });
+    $('#previewOverlay').addEventListener('click', e => { if (e.target === $('#previewOverlay')) closePreviewModal(); });
     $$('.preview-tab-btn').forEach(b => b.addEventListener('click', () => switchPreviewTab(b.dataset.tab)));
 
-    // Prompt modal
     $('#btnClosePrompt').addEventListener('click', closePromptModal);
     $('#btnCloseModal').addEventListener('click', closePromptModal);
     $('#btnCopyFromModal').addEventListener('click', copyFromModal);
-    $('#promptOverlay').addEventListener('click', e => {
-      if (e.target === $('#promptOverlay')) closePromptModal();
-    });
+    $('#promptOverlay').addEventListener('click', e => { if (e.target === $('#promptOverlay')) closePromptModal(); });
 
-    // Keyboard
     $('#jsonInput').addEventListener('keydown', e => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-        e.preventDefault();
-        if (!$('#btnAnalyze').disabled) analyze();
-      }
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); if (!$('#btnAnalyze').disabled) analyze(); }
     });
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') {
@@ -3135,7 +2820,6 @@ ${lines.join('\n')}
   async function boot() {
     state.driveReviewBank = loadDriveReviewBank();
     updateDriveBankUI();
-
     bindEvents();
     renderHistory();
     await initFirebase();
