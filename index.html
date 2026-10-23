@@ -98,7 +98,7 @@ body { min-height: 100vh; }
 
 .instructions { background: linear-gradient(135deg, #fff, #f1faf6); border-color: #d5ebe4; }
 .instructions h3 { font-size: 13.5px; color: var(--primary-dark); margin-bottom: 10px; font-weight: 800; }
-.instructions ol { padding-inline-start: 20px; color: var(--text-soft); font-size: 13.5px; line-height: 1.9; }
+.instructions ol, .instructions ul { padding-inline-start: 20px; color: var(--text-soft); font-size: 13.5px; line-height: 1.9; }
 .instructions li::marker { color: var(--primary); font-weight: 800; }
 
 .json-input {
@@ -415,9 +415,9 @@ body { min-height: 100vh; }
 .preview-modal-footer { padding: 12px 16px; border-top: 1px solid var(--border); display: flex; gap: 8px; background: var(--surface); flex-shrink: 0; }
 .preview-modal-footer .btn { padding: 12px 16px; font-size: 14px; }
 .preview-modal-footer .btn-primary { flex: 2; }
+.preview-modal-footer .btn-info { flex: 2; }
 .preview-modal-footer .btn-ghost { flex: 1; }
 
-/* ============ Collision UI ============ */
 .collision-card {
   background: #fffbf2;
   border: 1.5px solid #f0d8a0;
@@ -585,73 +585,7 @@ body { min-height: 100vh; }
 }
 .btn-icon:hover { background: rgba(0,0,0,.06); }
 
-/* ============ Drive Sentence Cards (جديد) ============ */
-.drive-card {
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  border-radius: 12px;
-  padding: 12px;
-  margin-bottom: 10px;
-  transition: all .15s ease;
-}
-.drive-card:last-child { margin-bottom: 0; }
-.drive-card.bypassed, .drive-card.saved {
-  opacity: .6;
-  background: var(--surface-2);
-  border-style: dashed;
-}
-.drive-card.editing, .drive-card.replacing {
-  border-color: var(--primary);
-  background: linear-gradient(135deg, #fff, #f1faf6);
-  box-shadow: 0 4px 12px rgba(45,122,104,.1);
-}
-.drive-card.replacing { border-color: var(--info); background: linear-gradient(135deg, #fff, #eef4ff); }
-.drive-card-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-  flex-wrap: wrap;
-}
-.drive-card-num {
-  width: 26px; height: 26px;
-  border-radius: 50%;
-  background: var(--primary-soft);
-  color: var(--primary-dark);
-  font-size: 11px; font-weight: 800;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-.drive-status-badge {
-  font-size: 10px; font-weight: 800;
-  padding: 2px 8px; border-radius: 5px;
-  white-space: nowrap;
-}
-.drive-status-badge.bypassed { background: var(--warn-soft); color: #a76b0f; }
-.drive-status-badge.saved { background: var(--info-soft); color: var(--info); }
-.drive-status-badge.no-ar { background: #f0f0f0; color: var(--text-soft); }
-.drive-status-badge.editing { background: var(--success-soft); color: var(--success); }
-.drive-status-badge.replacing { background: var(--info-soft); color: var(--info); }
-.drive-sent-it {
-  font-family: "Georgia", serif;
-  font-size: 14.5px;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 4px;
-  word-break: break-word;
-}
-.drive-sent-ar {
-  font-size: 13px;
-  color: var(--text-soft);
-  margin-bottom: 8px;
-  word-break: break-word;
-}
-.drive-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin-top: 8px;
-}
+/* ============ Drive Action Buttons ============ */
 .drive-action-btn {
   border: 1.5px solid var(--border);
   background: var(--surface);
@@ -670,16 +604,15 @@ body { min-height: 100vh; }
 }
 .drive-action-btn:hover { background: var(--surface-2); border-color: var(--primary); color: var(--primary-dark); }
 .drive-action-btn:active { transform: scale(.96); }
-.drive-action-btn.bypass:hover { border-color: var(--warn); color: #a76b0f; background: var(--warn-soft); }
 .drive-action-btn.reactivate { border-color: var(--success); color: var(--success); background: var(--success-soft); }
 .drive-action-btn.reactivate:hover { background: var(--success); color: #fff; }
 .drive-action-btn.edit:hover { border-color: var(--primary); color: var(--primary-dark); background: var(--primary-soft); }
-.drive-action-btn.replace:hover { border-color: var(--info); color: var(--info); background: var(--info-soft); }
 .drive-action-btn.save-later:hover { border-color: var(--info); color: var(--info); background: var(--info-soft); }
 .drive-action-btn.delete:hover { border-color: var(--danger); color: var(--danger); background: var(--danger-soft); }
 .drive-action-btn.save { background: var(--success); color: #fff; border-color: var(--success); }
 .drive-action-btn.save:hover { background: #3a9a6a; color: #fff; }
 .drive-action-btn.cancel { background: var(--surface-2); }
+.drive-action-btn.bypass:hover { border-color: var(--warn); color: #a76b0f; background: var(--warn-soft); }
 .drive-edit-label {
   display: block;
   font-size: 11.5px;
@@ -708,37 +641,146 @@ body { min-height: 100vh; }
   margin-top: 10px;
 }
 .drive-edit-actions .drive-action-btn { flex: 1; justify-content: center; }
-.drive-replace-label {
-  font-size: 11.5px;
-  font-weight: 700;
-  color: var(--info);
-  margin: 8px 0 6px;
-}
-.drive-replace-alts {
+
+/* ============ Drive Audit (جديد) ============ */
+.drive-audit-tabs {
   display: flex;
-  flex-direction: column;
-  gap: 5px;
-  margin-bottom: 8px;
+  gap: 4px;
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  flex-wrap: nowrap;
 }
-.drive-replace-alt {
-  border: 1px solid var(--info);
-  background: var(--info-soft);
-  color: var(--text);
-  padding: 8px 10px;
+.drive-audit-tab-btn {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-soft);
+  padding: 8px 12px;
   border-radius: 8px;
   font-family: inherit;
-  font-size: 12.5px;
+  font-size: 12px;
+  font-weight: 700;
   cursor: pointer;
-  text-align: right;
   transition: all .15s ease;
-  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
 }
-.drive-replace-alt:hover { background: var(--info); color: #fff; }
-.drive-replace-empty {
-  font-size: 11.5px;
+.drive-audit-tab-btn:hover { background: var(--surface-2); }
+.drive-audit-tab-btn.active {
+  background: var(--info);
+  color: #fff;
+  border-color: var(--info);
+}
+.subtab-count {
+  background: var(--surface-2);
+  color: var(--text-soft);
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: 10.5px;
+  font-weight: 800;
+  min-width: 20px;
+  text-align: center;
+}
+.drive-audit-tab-btn.active .subtab-count {
+  background: rgba(255,255,255,.25);
+  color: #fff;
+}
+
+.audit-note {
+  font-size: 12px;
+  color: var(--text-soft);
+  padding: 8px 12px;
+  background: var(--info-soft);
+  border: 1px dashed var(--info);
+  border-radius: 8px;
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.correction-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+.correction-card:last-child { margin-bottom: 0; }
+.correction-card.editing {
+  border-color: var(--primary);
+  background: linear-gradient(135deg, #fff, #f1faf6);
+  box-shadow: 0 4px 12px rgba(45,122,104,.1);
+}
+.correction-card.ignored {
+  opacity: .65;
+  border-style: dashed;
+}
+.correction-card.matched {
+  background: linear-gradient(135deg, #fff, #f0f9f4);
+  border-color: #b8e6d2;
+}
+.correction-card.new-item {
+  background: linear-gradient(135deg, #fff, #eef4ff);
+  border-color: #c9d9f5;
+}
+.correction-it {
+  font-family: "Georgia", serif;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--text);
+  direction: ltr;
+  text-align: left;
+  margin-bottom: 8px;
+  word-break: break-word;
+}
+.correction-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.correction-side {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  min-height: 50px;
+}
+.correction-side.new-side {
+  background: #f0f9f4;
+  border-color: #b8e6d2;
+}
+.correction-side-label {
+  font-size: 10.5px;
+  font-weight: 800;
+  color: var(--text-soft);
+  margin-bottom: 4px;
+}
+.correction-side.new-side .correction-side-label { color: #2c8159; }
+.correction-side-value {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.5;
+  word-break: break-word;
+}
+.correction-side-value.empty {
   color: var(--text-soft);
   font-style: italic;
-  padding: 6px 0;
+  opacity: .7;
+}
+.drive-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 8px;
+}
+.audit-meta {
+  font-size: 11px;
+  color: var(--text-soft);
+  margin-top: 6px;
+  font-weight: 600;
 }
 
 @media (max-width: 480px) {
@@ -755,8 +797,10 @@ body { min-height: 100vh; }
   .verb-prompt-modal { max-height: 94vh; }
   .collision-compare { grid-template-columns: 1fr; }
   .collision-actions { grid-template-columns: 1fr; }
+  .correction-compare { grid-template-columns: 1fr; }
   .drive-actions { gap: 4px; }
   .drive-action-btn { font-size: 11px; padding: 5px 8px; }
+  .drive-audit-tab-btn { font-size: 11px; padding: 6px 9px; }
 }
 </style>
 </head>
@@ -792,7 +836,7 @@ body { min-height: 100vh; }
     <div class="tab-nav">
       <button class="tab-btn active" data-tab="json">📥 JSON</button>
       <button class="tab-btn" data-tab="verbs">🔤 الأفعال</button>
-      <button class="tab-btn" data-tab="drive">📅 جمل Drive</button>
+      <button class="tab-btn" data-tab="drive">🔍 تدقيق Drive</button>
     </div>
 
     <!-- ============ TAB 1: JSON ============ -->
@@ -802,8 +846,8 @@ body { min-height: 100vh; }
         <ol>
           <li>اضغط <strong>"برومبت الجمل"</strong> أو <strong>"برومبت الأفعال"</strong> أو <strong>"ملف Drive"</strong> أعلى الصفحة.</li>
           <li>الصق البرومبت في ChatGPT/Claude مع بياناتك (أو ارفق ملف Drive).</li>
-          <li>الصق ناتج JSON في المربع أدناه (أو في تبويب "الأفعال" / "جمل Drive").</li>
-          <li>اضغط <strong>"تحليل ومعاينة"</strong> → راجع → <strong>"رفع"</strong>.</li>
+          <li>الصق ناتج JSON في المربع أدناه (لرفع جمل/قاموس جديد).</li>
+          <li><strong>تبويب "🔍 تدقيق Drive"</strong> مخصص للفحص فقط — لا يرفع جمل جديدة، بل يقارن ويصحح.</li>
         </ol>
       </div>
 
@@ -915,16 +959,16 @@ body { min-height: 100vh; }
       </div>
     </div>
 
-    <!-- ============ TAB 3: DRIVE SENTENCES ============ -->
+    <!-- ============ TAB 3: DRIVE AUDIT (فصح وتدقيق) ============ -->
     <div id="tab-drive" hidden>
 
       <div class="card" style="background: linear-gradient(135deg, #fff, #eef4ff); border-color: #c9d9f5;">
-        <h3 class="section-title" style="color: var(--info);">📄 جمل من ملف Drive</h3>
+        <h3 class="section-title" style="color: var(--info);">📋 فحص وتدقيق جمل Drive</h3>
         <p style="font-size: 12.5px; color: var(--text-soft); margin-bottom: 10px; line-height: 1.6;">
-          اضغط <strong>"📄 ملف Drive"</strong> أعلى الصفحة → الصق البرومبت في AI مع إرفاق ملف الجمل → انسخ ناتج JSON هنا مباشرة.
-          يقبل هذا الحقل مصفوفة <code style="background: var(--surface-2); padding: 1px 5px; border-radius: 4px; font-family: monospace; font-size: 12px;">sentences</code> فقط (بدون قاموس).
+          <strong>النص 2 (هذا الحقل) هو مرجع تدقيق فقط — لا يُرفع إلى قاعدة البيانات.</strong>
+          الأداة تقارن كل جملة مع الجمل المخزنة وتكشف المطابقات، الاختلافات، التكرارات، والفجوات — ثم تسمح بتطبيق التصحيحات على البيانات المخزنة فعلاً.
         </p>
-        <textarea id="driveInput" class="json-input" placeholder='الصق هنا JSON جمل Drive (يحتوي على مفتاح "sentences")…' style="min-height: 160px;" spellcheck="false"></textarea>
+        <textarea id="driveInput" class="json-input" placeholder='الصق هنا JSON جمل Drive (مرجع التدقيق)…' style="min-height: 160px;" spellcheck="false"></textarea>
         <div class="input-meta">
           <span id="driveStatus" class="input-status">بانتظار النص…</span>
           <div class="input-meta-actions">
@@ -932,11 +976,11 @@ body { min-height: 100vh; }
           </div>
         </div>
         <button class="btn btn-info" id="btnAnalyzeDrive" disabled>
-          🔍 معاينة ورفع الجمل
+          🔍 فحص ومقارنة
         </button>
       </div>
 
-      <!-- ✅ جديد: بنك المراجعة -->
+      <!-- بنك المراجعة -->
       <div class="card" style="background: linear-gradient(135deg, #fff, #f0f9ff); border-color: #c9d9f5;">
         <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
           <div style="flex: 1; min-width: 0;">
@@ -948,12 +992,15 @@ body { min-height: 100vh; }
       </div>
 
       <div class="card instructions" style="background: linear-gradient(135deg, #fff, #eef4ff); border-color: #c9d9f5;">
-        <h3 style="color: var(--info);">💡 ملاحظات</h3>
-        <ul style="padding-inline-start: 20px; color: var(--text-soft); font-size: 13px; line-height: 1.9;">
-          <li><strong>الحقل الإلزامي الوحيد هو <code style="font-family: monospace;">italian</code></strong> — الترجمة العربية <code style="font-family: monospace;">arabic</code> اختيارية تماماً.</li>
-          <li>في المعاينة، كل جملة لها 5 أزرار: <strong>تجاوز / تعديل / استبدال / حفظ لاحقاً / حذف</strong>.</li>
-          <li>الجمل المتجاوزة أو المحفوظة <strong>لن تُرفع</strong> في هذه الدفعة.</li>
-          <li>تُقارن كل جملة مع قاعدة البيانات ويُستبعد المطابق تماماً تلقائياً.</li>
+        <h3 style="color: var(--info);">💡 كيف يعمل التدقيق؟</h3>
+        <ul>
+          <li>يُقارن كل <code style="font-family: monospace;">italian</code> في النص 2 مع الجمل المخزنة (المطابقة غير حساسة لحالة الأحرف).</li>
+          <li><strong>✅ مطابق:</strong> Italian + Arabic متطابقان — لا إجراء مطلوب.</li>
+          <li><strong>⚠️ تصحيح:</strong> Italian متطابق لكن Arabic مختلف — يمكنك تطبيق الترجمة الجديدة على DB.</li>
+          <li><strong>🆕 جديد:</strong> موجود في النص 2 وليس في DB — <strong>لن يُرفع</strong> تلقائياً، لكن يمكن حفظه أو نسخه إلى تبويب JSON.</li>
+          <li><strong>🔁 مكرر:</strong> تكرار داخل النص 2 نفسه (يُستخدم الأول).</li>
+          <li><strong>📋 مفقود:</strong> موجود في DB وغير مذكور في النص 2 (فجوة تدقيق).</li>
+          <li><strong>الترجمة العربية اختيارية</strong> — يكفي وجود <code style="font-family: monospace;">italian</code>.</li>
         </ul>
       </div>
     </div>
@@ -964,7 +1011,7 @@ body { min-height: 100vh; }
 <div class="preview-overlay" id="previewOverlay">
   <div class="preview-modal">
     <div class="preview-modal-header">
-      <h3>🔍 معاينة قبل الرفع <span class="user-badge" id="previewUserBadge">…</span></h3>
+      <h3 id="previewModalTitle">🔍 معاينة قبل الرفع <span class="user-badge" id="previewUserBadge">…</span></h3>
       <button class="btn-icon" id="btnClosePreview">✕</button>
     </div>
     <div class="preview-summary" id="previewSummary"></div>
@@ -981,13 +1028,13 @@ body { min-height: 100vh; }
       <div class="preview-tab-content" data-tab-content="skipped" id="previewTabSkipped" hidden></div>
     </div>
     <div class="preview-modal-footer">
-      <button class="btn btn-ghost" id="btnClosePreviewBottom">إلغاء</button>
+      <button class="btn btn-ghost" id="btnClosePreviewBottom">إغلاق</button>
       <button class="btn btn-primary" id="btnConfirmUpload">🚀 رفع إلى السحابة</button>
     </div>
   </div>
 </div>
 
-<!-- ✅ جديد: Drive Review Bank Modal -->
+<!-- Drive Review Bank Modal -->
 <div class="preview-overlay" id="driveBankOverlay">
   <div class="preview-modal" style="max-width: 620px;">
     <div class="preview-modal-header">
@@ -1101,7 +1148,7 @@ body { min-height: 100vh; }
 
   const BATCH_LIMIT = 500;
   const HISTORY_KEY = 'imparo_ingester_history_v3';
-  const DRIVE_BANK_KEY = 'imparo_drive_review_bank_v1'; // ✅ جديد
+  const DRIVE_BANK_KEY = 'imparo_drive_review_bank_v1';
   const MEANING_SEPARATOR = ' • ';
   const VALID_TYPES = ['verb', 'preposition', 'article', 'word'];
   const PRONOUN_KEYS = ['io', 'tu', 'lui', 'noi', 'voi', 'loro'];
@@ -1202,7 +1249,7 @@ ${lines.join('\n')}
     verbPromptOptions: { riflessivo: false, passato: false, futuro: false },
     modalPromptText: '',
     modalPromptTitle: '',
-    driveReviewBank: [] // ✅ جديد
+    driveReviewBank: []
   };
 
   const $ = sel => document.querySelector(sel);
@@ -1255,9 +1302,7 @@ ${lines.join('\n')}
     return { merged, added: merged !== String(oldM || '').trim(), same: merged === String(oldM || '').trim() };
   }
 
-  /* =========================================================
-     Drive Review Bank (localStorage) — ✅ جديد
-     ========================================================= */
+  /* ============ Drive Review Bank ============ */
   function loadDriveReviewBank() {
     try { return JSON.parse(localStorage.getItem(DRIVE_BANK_KEY) || '[]'); }
     catch { return []; }
@@ -1271,9 +1316,7 @@ ${lines.join('\n')}
     if (el) el.textContent = state.driveReviewBank.length;
   }
 
-  /* =========================================================
-     Tense parsing/merging
-     ========================================================= */
+  /* ============ Tense parsing/merging ============ */
   function parseTenseSections(summary) {
     const sections = {};
     if (!summary) return sections;
@@ -1293,7 +1336,6 @@ ${lines.join('\n')}
     });
     return sections;
   }
-
   function mergeTenses(oldSummary, newSummary) {
     const oldSections = parseTenseSections(oldSummary);
     const newSections = parseTenseSections(newSummary);
@@ -1304,7 +1346,6 @@ ${lines.join('\n')}
     });
     return Object.values(merged).join(' | ');
   }
-
   function getNewTenseSections(oldSummary, newSummary) {
     const oldSections = parseTenseSections(oldSummary);
     const newSections = parseTenseSections(newSummary);
@@ -1620,9 +1661,7 @@ ${lines.join('\n')}
     }
   }
 
-  /* =========================================================
-     Drive Sentences Input
-     ========================================================= */
+  /* ============ Drive Input ============ */
   function parseDriveInput(raw) {
     const text = stripCodeFences(raw);
     if (!text) throw new Error('الصق JSON أولاً');
@@ -1652,7 +1691,7 @@ ${lines.join('\n')}
       const parsed = parseDriveInput(text);
       const withAr = parsed.sentences.filter(s => s.arabic).length;
       const withoutAr = parsed.sentences.length - withAr;
-      let msg = `✅ ${parsed.sentences.length} جملة جاهزة`;
+      let msg = `✅ ${parsed.sentences.length} جملة جاهزة للفحص`;
       if (withoutAr > 0) msg += ` (${withoutAr} بدون ترجمة)`;
       setDriveStatus(msg, 'ok');
       btn.disabled = false;
@@ -1673,24 +1712,133 @@ ${lines.join('\n')}
     try { parsed = parseDriveInput(text); } catch (e) { toast(e.message, 'err'); return; }
 
     state.processing = true;
-    setSync('syncing', 'جارٍ تحليل جمل Drive…');
+    setSync('syncing', 'جارٍ الفحص والمقارنة…');
     const btn = $('#btnAnalyzeDrive');
-    btn.classList.add('loading'); btn.disabled = true; btn.textContent = 'جارٍ التحليل…';
+    btn.classList.add('loading'); btn.disabled = true; btn.textContent = 'جارٍ الفحص…';
 
     try {
-      const emptyDictMap = new Map();
-      await runAnalysis(parsed.sentences, emptyDictMap, 'drive');
+      await runDriveAudit(parsed.sentences);
     } catch (err) {
-      console.error(err); toast('فشل التحليل', 'err');
+      console.error(err); toast('فشل الفحص', 'err');
       setSync('offline', 'خطأ');
     } finally {
       state.processing = false;
-      btn.classList.remove('loading'); btn.textContent = '🔍 معاينة ورفع الجمل';
+      btn.classList.remove('loading'); btn.textContent = '🔍 فحص ومقارنة';
       previewDriveInput();
     }
   }
 
   function clearDriveInput() { $('#driveInput').value = ''; state.pendingPreview = null; previewDriveInput(); toast('تم المسح'); }
+
+  /* =========================================================
+     🎯 Drive Audit Engine — مقارنة مع DB (لا رفع)
+     ========================================================= */
+  async function runDriveAudit(rawSentences) {
+    const sentSnap = await state.db.collection('users').doc(USER_ID).collection('sentences').get();
+
+    // Build DB index by italian (lowercase)
+    const dbByItalian = new Map();
+    sentSnap.docs.forEach(doc => {
+      const d = doc.data() || {};
+      const it = String(d.italian || '').trim();
+      if (!it) return;
+      const key = it.toLowerCase();
+      if (!dbByItalian.has(key)) dbByItalian.set(key, []);
+      dbByItalian.get(key).push({
+        id: doc.id,
+        italian: it,
+        arabic: String(d.arabic || '').trim(),
+      });
+    });
+
+    const textSeen = new Set();
+    const matched = [];
+    const corrections = [];
+    const newInText = [];
+    const dupInText = [];
+
+    rawSentences.forEach(s => {
+      const key = s.italian.toLowerCase();
+      if (textSeen.has(key)) {
+        dupInText.push({ italian: s.italian, arabic: s.arabic || '', reason: 'مكرر في النص' });
+        return;
+      }
+      textSeen.add(key);
+
+      const dbMatches = dbByItalian.get(key);
+      if (!dbMatches || !dbMatches.length) {
+        newInText.push({ italian: s.italian, arabic: s.arabic || '' });
+        return;
+      }
+
+      // Use first DB match (typically unique)
+      const db = dbMatches[0];
+      const dbAr = String(db.arabic || '').trim();
+      const textAr = String(s.arabic || '').trim();
+
+      if (dbAr === textAr) {
+        matched.push({
+          dbId: db.id,
+          italian: s.italian,
+          arabic: textAr,
+          dbArabic: dbAr
+        });
+      } else {
+        corrections.push({
+          dbId: db.id,
+          italian: s.italian,
+          dbArabic: dbAr,
+          newArabic: textAr,
+          action: 'apply',
+          _editMode: false
+        });
+      }
+    });
+
+    // Audit gap: DB items not in text
+    const missingFromText = [];
+    dbByItalian.forEach((items, key) => {
+      if (!textSeen.has(key)) {
+        items.forEach(item => {
+          missingFromText.push({
+            dbId: item.id,
+            italian: item.italian,
+            arabic: item.arabic
+          });
+        });
+      }
+    });
+
+    const p = {
+      _source: 'drive-audit',
+      _freshSentences: [],
+      _dictOps: [],
+      _dictSkipped: [],
+      _collisions: [],
+      _dupSentences: [],
+      sentNew: 0,
+      sentDup: dupInText.length,
+      dictNew: 0,
+      dictAdded: 0,
+      dictSame: 0,
+      _audit: {
+        matched,
+        corrections,
+        newInText,
+        dupInText,
+        missingFromText,
+        totalInText: rawSentences.length,
+        dbTotal: sentSnap.size
+      },
+      _auditSubtab: 'corrections',
+      _hasRendered: false
+    };
+
+    state.pendingPreview = p;
+    renderPreviewModal(p);
+    openPreviewModal();
+    setSync('online', 'متصل — راجع تقرير الفحص');
+  }
 
   /* ============ Preview Modal ============ */
   function openPreviewModal() { $('#previewOverlay').classList.add('is-open'); document.body.style.overflow = 'hidden'; }
@@ -1700,204 +1848,15 @@ ${lines.join('\n')}
     $$('.preview-tab-content').forEach(c => { c.hidden = c.dataset.tabContent !== name; });
   }
 
-  /* =========================================================
-     Drive Card Rendering — ✅ جديد
-     ========================================================= */
-  function getDriveAlternatives(p, current) {
-    const alts = [];
-    const seen = new Set();
-    (p._dupSentences || []).forEach(d => {
-      if (d.reason !== 'مكررة في نفس الدفعة') return;
-      if (!d.sentence || d.sentence.italian !== current.italian) return;
-      const altAr = String(d.sentence.arabic || '').trim();
-      if (!altAr || altAr === current.arabic) return;
-      if (seen.has(altAr)) return;
-      seen.add(altAr);
-      alts.push({ arabic: altAr });
-    });
-    return alts;
-  }
-
-  function renderDriveCard(p, s, i) {
-    const status = s._status || 'active';
-    const isEditing = s._editMode === true;
-    const isReplacing = s._replaceOpen === true;
-
-    if (isEditing) {
-      return `
-        <div class="drive-card editing" data-idx="${i}">
-          <div class="drive-card-header">
-            <span class="drive-card-num">${i + 1}</span>
-            <span class="drive-status-badge editing">✏️ وضع التعديل</span>
-          </div>
-          <label class="drive-edit-label">الجملة الإيطالية *</label>
-          <textarea class="drive-edit-input" data-field="italian" dir="ltr" rows="2">${escapeHtml(s.italian)}</textarea>
-          <label class="drive-edit-label">الترجمة العربية (اختياري)</label>
-          <textarea class="drive-edit-input" data-field="arabic" rows="2">${escapeHtml(s.arabic || '')}</textarea>
-          <div class="drive-edit-actions">
-            <button class="drive-action-btn save" data-action="save-edit" data-idx="${i}">💾 حفظ</button>
-            <button class="drive-action-btn cancel" data-action="cancel-edit" data-idx="${i}">✖️ إلغاء</button>
-          </div>
-        </div>
-      `;
-    }
-
-    if (isReplacing) {
-      const alts = getDriveAlternatives(p, s);
-      return `
-        <div class="drive-card replacing" data-idx="${i}">
-          <div class="drive-card-header">
-            <span class="drive-card-num">${i + 1}</span>
-            <span class="drive-status-badge replacing">🔀 وضع الاستبدال</span>
-          </div>
-          <div class="drive-sent-it" dir="ltr">${escapeHtml(s.italian)}</div>
-          ${alts.length ? `
-            <div class="drive-replace-label">اختر ترجمة بديلة متاحة في الدفعة:</div>
-            <div class="drive-replace-alts">
-              ${alts.map((alt, ai) => `
-                <button class="drive-replace-alt" data-action="apply-alt" data-idx="${i}" data-alt-idx="${ai}">${escapeHtml(alt.arabic)}</button>
-              `).join('')}
-            </div>
-          ` : `<div class="drive-replace-empty">لا توجد بدائل متاحة — يمكنك إدخال الترجمة يدوياً أدناه:</div>`}
-          <label class="drive-edit-label">الترجمة العربية الجديدة</label>
-          <textarea class="drive-edit-input" data-field="arabic" rows="2" placeholder="أدخل الترجمة...">${escapeHtml(s.arabic || '')}</textarea>
-          <div class="drive-edit-actions">
-            <button class="drive-action-btn save" data-action="apply-replace" data-idx="${i}">💾 تطبيق</button>
-            <button class="drive-action-btn cancel" data-action="cancel-replace" data-idx="${i}">✖️ إلغاء</button>
-          </div>
-        </div>
-      `;
-    }
-
-    return `
-      <div class="drive-card ${status}" data-idx="${i}">
-        <div class="drive-card-header">
-          <span class="drive-card-num">${i + 1}</span>
-          ${status === 'bypassed' ? '<span class="drive-status-badge bypassed">⏸️ متجاوزة (لن تُرفع)</span>' : ''}
-          ${status === 'saved' ? '<span class="drive-status-badge saved">📌 محفوظة للمراجعة</span>' : ''}
-          ${status === 'active' && !s.arabic ? '<span class="drive-status-badge no-ar">بدون ترجمة</span>' : ''}
-        </div>
-        <div class="drive-sent-it" dir="ltr">${escapeHtml(s.italian)}</div>
-        ${s.arabic ? `<div class="drive-sent-ar">${escapeHtml(s.arabic)}</div>` : ''}
-        <div class="drive-actions">
-          ${status === 'active'
-            ? `<button class="drive-action-btn bypass" data-action="bypass" data-idx="${i}">⏸️ تجاوز</button>`
-            : `<button class="drive-action-btn reactivate" data-action="reactivate" data-idx="${i}">✅ تفعيل</button>`}
-          <button class="drive-action-btn edit" data-action="edit" data-idx="${i}">✏️ تعديل</button>
-          <button class="drive-action-btn replace" data-action="replace" data-idx="${i}">🔀 استبدال</button>
-          <button class="drive-action-btn save-later" data-action="save-later" data-idx="${i}">📌 حفظ لاحقاً</button>
-          <button class="drive-action-btn delete" data-action="delete" data-idx="${i}">🗑️ حذف</button>
-        </div>
-      </div>
-    `;
-  }
-
-  function renderDriveSentencesTab(p) {
-    const wrap = $('#previewTabSentences');
-    if (!p._freshSentences.length) {
-      wrap.innerHTML = '<div class="empty-state">لا توجد جمل متبقية — جميع الجمل تمت معالجتها ✅</div>';
+  function renderPreviewModal(p) {
+    if (p._source === 'drive-audit') {
+      renderDriveAuditPreview(p);
       return;
     }
-    wrap.innerHTML = p._freshSentences.map((s, i) => renderDriveCard(p, s, i)).join('');
-    bindDriveCardEvents(p);
-  }
+    // Non-audit path: ensure standard UI is visible
+    $('#previewModalTitle').innerHTML = `🔍 معاينة قبل الرفع <span class="user-badge" id="previewUserBadge">${escapeHtml(USER_ID.slice(0, 20) + '…')}</span>`;
+    $('#previewTabs').hidden = false;
 
-  function bindDriveCardEvents(p) {
-    $$('#previewTabSentences .drive-action-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const idx = parseInt(btn.dataset.idx, 10);
-        if (isNaN(idx) || !p._freshSentences[idx]) return;
-        const action = btn.dataset.action;
-        const card = btn.closest('.drive-card');
-
-        switch (action) {
-          case 'bypass':
-            p._freshSentences[idx]._status = 'bypassed';
-            renderPreviewModal(p);
-            break;
-          case 'reactivate':
-            p._freshSentences[idx]._status = 'active';
-            renderPreviewModal(p);
-            break;
-          case 'edit':
-            p._freshSentences.forEach((s, j) => { if (j !== idx) { s._editMode = false; s._replaceOpen = false; } });
-            p._freshSentences[idx]._editMode = true;
-            p._freshSentences[idx]._replaceOpen = false;
-            renderPreviewModal(p);
-            break;
-          case 'cancel-edit':
-            p._freshSentences[idx]._editMode = false;
-            renderPreviewModal(p);
-            break;
-          case 'save-edit': {
-            const itEl = card.querySelector('[data-field="italian"]');
-            const arEl = card.querySelector('[data-field="arabic"]');
-            const newIt = String(itEl ? itEl.value : '').trim();
-            if (!newIt) { toast('الجملة الإيطالية مطلوبة', 'err'); return; }
-            p._freshSentences[idx].italian = newIt;
-            p._freshSentences[idx].arabic = String(arEl ? arEl.value : '').trim();
-            p._freshSentences[idx]._editMode = false;
-            renderPreviewModal(p);
-            toast('✅ تم حفظ التعديل', 'ok');
-            break;
-          }
-          case 'replace':
-            p._freshSentences.forEach((s, j) => { if (j !== idx) { s._editMode = false; s._replaceOpen = false; } });
-            p._freshSentences[idx]._replaceOpen = true;
-            p._freshSentences[idx]._editMode = false;
-            renderPreviewModal(p);
-            break;
-          case 'cancel-replace':
-            p._freshSentences[idx]._replaceOpen = false;
-            renderPreviewModal(p);
-            break;
-          case 'apply-replace': {
-            const arEl = card.querySelector('[data-field="arabic"]');
-            p._freshSentences[idx].arabic = String(arEl ? arEl.value : '').trim();
-            p._freshSentences[idx]._replaceOpen = false;
-            renderPreviewModal(p);
-            toast('✅ تم تطبيق الاستبدال', 'ok');
-            break;
-          }
-          case 'apply-alt': {
-            const altIdx = parseInt(btn.dataset.altIdx, 10);
-            const alts = getDriveAlternatives(p, p._freshSentences[idx]);
-            if (alts[altIdx]) {
-              p._freshSentences[idx].arabic = alts[altIdx].arabic;
-              p._freshSentences[idx]._replaceOpen = false;
-              renderPreviewModal(p);
-              toast('✅ تم تطبيق الترجمة البديلة', 'ok');
-            }
-            break;
-          }
-          case 'save-later': {
-            const s = p._freshSentences[idx];
-            if (s._status === 'saved') { toast('هذه الجملة محفوظة مسبقاً', 'warn'); return; }
-            state.driveReviewBank.unshift({
-              italian: s.italian,
-              arabic: s.arabic || '',
-              saved_at: Date.now()
-            });
-            saveDriveReviewBankList(state.driveReviewBank);
-            updateDriveBankUI();
-            s._status = 'saved';
-            renderPreviewModal(p);
-            toast('📌 تم الحفظ في بنك المراجعة', 'ok');
-            break;
-          }
-          case 'delete': {
-            if (!confirm('حذف هذه الجملة من القائمة؟')) return;
-            p._freshSentences.splice(idx, 1);
-            renderPreviewModal(p);
-            toast('🗑️ تم حذف الجملة', 'ok');
-            break;
-          }
-        }
-      });
-    });
-  }
-
-  function renderPreviewModal(p) {
     const collisions = p._collisions || [];
     const hasCollisions = collisions.length > 0;
     const isDriveSource = p._source === 'drive';
@@ -1936,10 +1895,7 @@ ${lines.join('\n')}
       bindCollisionEvents();
     }
 
-    // ✅ Sentences: عرض مخصص لـ Drive أو العرض العام
     if (isDriveSource) {
-      renderDriveSentencesTab(p);
-    } else {
       $('#previewTabSentences').innerHTML = p._freshSentences.length === 0
         ? '<div class="empty-state">لا توجد جمل جديدة</div>'
         : p._freshSentences.map((s, i) => `
@@ -1950,6 +1906,17 @@ ${lines.join('\n')}
                 ${s.arabic
                   ? `<div class="preview-item-ar">${escapeHtml(s.arabic)}</div>`
                   : `<div class="preview-item-ar empty-ar">بدون ترجمة</div>`}
+              </div>
+            </div>`).join('');
+    } else {
+      $('#previewTabSentences').innerHTML = p._freshSentences.length === 0
+        ? '<div class="empty-state">لا توجد جمل جديدة</div>'
+        : p._freshSentences.map((s, i) => `
+            <div class="preview-list-item">
+              <div class="preview-item-num">${i + 1}</div>
+              <div class="preview-item-body">
+                <div class="preview-item-it" dir="ltr">${escapeHtml(s.italian)}</div>
+                <div class="preview-item-ar">${escapeHtml(s.arabic)}</div>
               </div>
             </div>`).join('');
     }
@@ -1994,7 +1961,6 @@ ${lines.join('\n')}
 
     updateConfirmButton();
 
-    // ✅ الحفاظ على التبويب النشط بين إعادات الرسم
     const currentActiveTab = document.querySelector('.preview-tab-btn.active')?.dataset.tab;
     if (p._hasRendered && currentActiveTab) {
       if (currentActiveTab === 'collisions' && !hasCollisions) switchPreviewTab('sentences');
@@ -2008,9 +1974,320 @@ ${lines.join('\n')}
     }
   }
 
+  /* =========================================================
+     🎯 Drive Audit Render
+     ========================================================= */
+  function renderDriveAuditPreview(p) {
+    const a = p._audit;
+
+    $('#previewModalTitle').innerHTML = `🔍 تقرير الفحص والتدقيق <span class="user-badge" id="previewUserBadge">${escapeHtml(USER_ID.slice(0, 20) + '…')}</span>`;
+
+    $('#previewSummary').innerHTML = `
+      <div class="preview-stat success"><span class="stat-value">${a.matched.length}</span><span class="stat-label">✅ مطابق</span></div>
+      <div class="preview-stat collision"><span class="stat-value">${a.corrections.length}</span><span class="stat-label">⚠️ تصحيحات</span></div>
+      <div class="preview-stat added"><span class="stat-value">${a.newInText.length}</span><span class="stat-label">🆕 غير في DB</span></div>
+      <div class="preview-stat skipped"><span class="stat-value">${a.dupInText.length}</span><span class="stat-label">🔁 مكرر</span></div>
+    `;
+
+    $('#previewTabs').hidden = true;
+    $$('.preview-tab-content').forEach(c => {
+      c.hidden = c.dataset.tabContent !== 'sentences';
+    });
+
+    renderDriveAuditBody(p);
+    updateConfirmButton();
+  }
+
+  function renderDriveAuditBody(p) {
+    const a = p._audit;
+    const wrap = $('#previewTabSentences');
+    wrap.hidden = false;
+
+    const subtab = p._auditSubtab || 'corrections';
+    const counts = {
+      corrections: a.corrections.length,
+      matched: a.matched.length,
+      newInText: a.newInText.length,
+      dupInText: a.dupInText.length,
+      missing: a.missingFromText.length
+    };
+
+    wrap.innerHTML = `
+      <div class="drive-audit-tabs">
+        <button class="drive-audit-tab-btn ${subtab === 'corrections' ? 'active' : ''}" data-subtab="corrections">⚠️ تصحيحات <span class="subtab-count">${counts.corrections}</span></button>
+        <button class="drive-audit-tab-btn ${subtab === 'matched' ? 'active' : ''}" data-subtab="matched">✅ مطابق <span class="subtab-count">${counts.matched}</span></button>
+        <button class="drive-audit-tab-btn ${subtab === 'newInText' ? 'active' : ''}" data-subtab="newInText">🆕 جديد <span class="subtab-count">${counts.newInText}</span></button>
+        <button class="drive-audit-tab-btn ${subtab === 'dupInText' ? 'active' : ''}" data-subtab="dupInText">🔁 مكرر <span class="subtab-count">${counts.dupInText}</span></button>
+        <button class="drive-audit-tab-btn ${subtab === 'missing' ? 'active' : ''}" data-subtab="missing">📋 مفقود <span class="subtab-count">${counts.missing}</span></button>
+      </div>
+      <div id="driveAuditContent"></div>
+    `;
+
+    $$('.drive-audit-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        p._auditSubtab = btn.dataset.subtab;
+        renderDriveAuditBody(p);
+      });
+    });
+
+    renderDriveAuditSubtab(p, subtab);
+  }
+
+  function renderDriveAuditSubtab(p, name) {
+    const a = p._audit;
+    const wrap = $('#driveAuditContent');
+    if (!wrap) return;
+
+    if (name === 'corrections') {
+      if (!a.corrections.length) {
+        wrap.innerHTML = '<div class="empty-state">🎉 لا توجد تصحيحات — كل الجمل متطابقة تماماً مع قاعدة البيانات</div>';
+        return;
+      }
+      wrap.innerHTML = `
+        <div class="audit-note">
+          ℹ️ هذه الجمل موجودة في قاعدة البيانات لكن الترجمة العربية في النص 2 تختلف عن المخزنة. اختر "تطبيق" لتحديث قاعدة البيانات بالترجمة الجديدة.
+        </div>
+        ${a.corrections.map((c, i) => renderCorrectionCard(c, i)).join('')}
+      `;
+      bindCorrectionEvents(p);
+    } else if (name === 'matched') {
+      if (!a.matched.length) {
+        wrap.innerHTML = '<div class="empty-state">لا توجد جمل مطابقة</div>';
+        return;
+      }
+      wrap.innerHTML = a.matched.map((m, i) => `
+        <div class="correction-card matched">
+          <div class="correction-it" dir="ltr">${escapeHtml(m.italian)}</div>
+          <div class="correction-side-value">${escapeHtml(m.arabic || '—')}</div>
+          <div class="audit-meta" style="color: var(--success);">✅ متطابقة تماماً مع المخزنة</div>
+        </div>
+      `).join('');
+    } else if (name === 'newInText') {
+      if (!a.newInText.length) {
+        wrap.innerHTML = '<div class="empty-state">لا توجد جمل جديدة في النص</div>';
+        return;
+      }
+      wrap.innerHTML = `
+        <div class="audit-note">
+          ℹ️ هذه الجمل موجودة في النص 2 لكن <strong>غير موجودة في قاعدة البيانات</strong>. لن تُرفع تلقائياً. يمكنك حفظها للمراجعة، أو نسخها إلى تبويب JSON للرفع اليدوي.
+          <div style="margin-top: 8px;">
+            <button class="drive-action-btn" data-action="copy-all-new-to-json">📋 نسخ الكل إلى تبويب JSON</button>
+          </div>
+        </div>
+        ${a.newInText.map((s, i) => `
+          <div class="correction-card new-item">
+            <div class="correction-it" dir="ltr">${escapeHtml(s.italian)}</div>
+            <div class="correction-side-value ${s.arabic ? '' : 'empty'}">${s.arabic ? escapeHtml(s.arabic) : 'بدون ترجمة'}</div>
+            <div class="drive-actions">
+              <button class="drive-action-btn save-later" data-action="save-new" data-idx="${i}">📌 حفظ في البنك</button>
+              <button class="drive-action-btn" data-action="copy-new-to-json" data-idx="${i}">📋 نسخ إلى JSON</button>
+            </div>
+          </div>
+        `).join('')}
+      `;
+      bindNewItemEvents(p);
+    } else if (name === 'dupInText') {
+      if (!a.dupInText.length) {
+        wrap.innerHTML = '<div class="empty-state">لا توجد تكرارات داخل النص ✅</div>';
+        return;
+      }
+      wrap.innerHTML = `
+        <div class="audit-note">
+          ℹ️ هذه الجمل مكررة داخل النص 2 نفسه — تم استخدام النسخة الأولى في التحليل، والنسخ اللاحقة مستبعدة.
+        </div>
+        ${a.dupInText.map((d, i) => `
+          <div class="correction-card ignored">
+            <div class="correction-it" dir="ltr">${escapeHtml(d.italian)}</div>
+            <div class="correction-side-value ${d.arabic ? '' : 'empty'}">${d.arabic ? escapeHtml(d.arabic) : 'بدون ترجمة'}</div>
+            <div class="audit-meta" style="color: var(--warn);">🔁 ${escapeHtml(d.reason)}</div>
+          </div>
+        `).join('')}
+      `;
+    } else if (name === 'missing') {
+      if (!a.missingFromText.length) {
+        wrap.innerHTML = '<div class="empty-state">لا توجد جمل مفقودة — النص 2 يغطي كل الجمل المخزنة 🎉</div>';
+        return;
+      }
+      wrap.innerHTML = `
+        <div class="audit-note">
+          ℹ️ جمل موجودة في <strong>قاعدة البيانات</strong> لكن <strong>غير مذكورة في النص 2</strong>. قد تكون هذه فجوة في التدقيق أو جمل لم تُدرج بعد في الملف المرجعي.
+        </div>
+        ${a.missingFromText.map((m, i) => `
+          <div class="correction-card">
+            <div class="correction-it" dir="ltr">${escapeHtml(m.italian)}</div>
+            <div class="correction-side-value ${m.arabic ? '' : 'empty'}">${m.arabic ? escapeHtml(m.arabic) : 'بدون ترجمة'}</div>
+          </div>
+        `).join('')}
+      `;
+    }
+  }
+
+  function renderCorrectionCard(c, idx) {
+    if (c._editMode) {
+      return `
+        <div class="correction-card editing" data-corr-idx="${idx}">
+          <div class="correction-it" dir="ltr">${escapeHtml(c.italian)}</div>
+          <label class="drive-edit-label">📌 الترجمة المخزنة حالياً في DB</label>
+          <div class="correction-side-value" style="padding: 8px 10px; background: var(--surface-2); border-radius: 8px; margin-bottom: 8px;">${escapeHtml(c.dbArabic || '—')}</div>
+          <label class="drive-edit-label">✨ الترجمة الجديدة المقترحة</label>
+          <textarea class="drive-edit-input" data-field="newArabic" rows="2">${escapeHtml(c.newArabic || '')}</textarea>
+          <div class="drive-edit-actions">
+            <button class="drive-action-btn save" data-action="save-edit" data-idx="${idx}">💾 حفظ</button>
+            <button class="drive-action-btn cancel" data-action="cancel-edit" data-idx="${idx}">✖️ إلغاء</button>
+          </div>
+        </div>
+      `;
+    }
+
+    return `
+      <div class="correction-card ${c.action === 'ignore' ? 'ignored' : ''}" data-corr-idx="${idx}">
+        <div class="correction-it" dir="ltr">${escapeHtml(c.italian)}</div>
+        <div class="correction-compare">
+          <div class="correction-side">
+            <div class="correction-side-label">📌 المخزنة في DB</div>
+            <div class="correction-side-value ${c.dbArabic ? '' : 'empty'}">${c.dbArabic ? escapeHtml(c.dbArabic) : '—'}</div>
+          </div>
+          <div class="correction-side new-side">
+            <div class="correction-side-label">✨ المقترحة من النص 2</div>
+            <div class="correction-side-value ${c.newArabic ? '' : 'empty'}">${c.newArabic ? escapeHtml(c.newArabic) : '—'}</div>
+          </div>
+        </div>
+        <div class="drive-actions">
+          <button class="drive-action-btn ${c.action === 'apply' ? 'reactivate' : ''}" data-action="apply" data-idx="${idx}">✅ تطبيق</button>
+          <button class="drive-action-btn ${c.action === 'ignore' ? 'bypass' : ''}" data-action="ignore" data-idx="${idx}">⏭️ تجاهل</button>
+          <button class="drive-action-btn edit" data-action="edit" data-idx="${idx}">✏️ تعديل</button>
+          <button class="drive-action-btn save-later" data-action="save-later" data-idx="${idx}">📌 حفظ لاحقاً</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function bindCorrectionEvents(p) {
+    const a = p._audit;
+    $$('#driveAuditContent .correction-card .drive-action-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.idx, 10);
+        if (isNaN(idx) || !a.corrections[idx]) return;
+        const c = a.corrections[idx];
+        const card = btn.closest('.correction-card');
+        const action = btn.dataset.action;
+
+        switch (action) {
+          case 'apply':
+            c.action = 'apply';
+            renderDriveAuditBody(p);
+            updateConfirmButton();
+            break;
+          case 'ignore':
+            c.action = 'ignore';
+            renderDriveAuditBody(p);
+            updateConfirmButton();
+            break;
+          case 'edit':
+            a.corrections.forEach((cc, j) => { if (j !== idx) cc._editMode = false; });
+            c._editMode = true;
+            renderDriveAuditBody(p);
+            break;
+          case 'cancel-edit':
+            c._editMode = false;
+            renderDriveAuditBody(p);
+            break;
+          case 'save-edit': {
+            const ta = card.querySelector('[data-field="newArabic"]');
+            c.newArabic = String(ta ? ta.value : '').trim();
+            c._editMode = false;
+            renderDriveAuditBody(p);
+            updateConfirmButton();
+            toast('✅ تم حفظ التعديل محلياً', 'ok');
+            break;
+          }
+          case 'save-later': {
+            state.driveReviewBank.unshift({
+              italian: c.italian,
+              arabic: c.newArabic || '',
+              dbArabic: c.dbArabic || '',
+              saved_at: Date.now(),
+              source: 'drive-audit-correction'
+            });
+            saveDriveReviewBankList(state.driveReviewBank);
+            updateDriveBankUI();
+            toast('📌 تم الحفظ في البنك', 'ok');
+            break;
+          }
+        }
+      });
+    });
+  }
+
+  function bindNewItemEvents(p) {
+    const a = p._audit;
+    $$('#driveAuditContent .correction-card .drive-action-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const action = btn.dataset.action;
+        if (action === 'copy-all-new-to-json') {
+          if (!a.newInText.length) return;
+          const payload = { sentences: a.newInText.map(s => ({ italian: s.italian, arabic: s.arabic || '' })) };
+          // Merge with existing JSON input if valid
+          const existing = $('#jsonInput').value.trim();
+          let finalPayload = payload;
+          if (existing) {
+            try {
+              const parsed = parseInput(existing);
+              const existingIts = new Set(parsed.sentences.map(s => s.italian.toLowerCase()));
+              a.newInText.forEach(s => {
+                if (!existingIts.has(s.italian.toLowerCase())) {
+                  parsed.sentences.push({ italian: s.italian, arabic: s.arabic || '' });
+                }
+              });
+              finalPayload = { sentences: parsed.sentences, dictionary: parsed.dictionary };
+            } catch { /* use payload as-is */ }
+          }
+          $('#jsonInput').value = JSON.stringify(finalPayload, null, 2);
+          previewInput();
+          closePreviewModal();
+          document.querySelector('.tab-btn[data-tab="json"]').click();
+          toast(`📋 نُسخت ${a.newInText.length} جملة إلى تبويب JSON`, 'ok');
+          return;
+        }
+        const idx = parseInt(btn.dataset.idx, 10);
+        if (isNaN(idx) || !a.newInText[idx]) return;
+        const s = a.newInText[idx];
+        if (action === 'save-new') {
+          state.driveReviewBank.unshift({
+            italian: s.italian,
+            arabic: s.arabic || '',
+            saved_at: Date.now(),
+            source: 'drive-audit-new'
+          });
+          saveDriveReviewBankList(state.driveReviewBank);
+          updateDriveBankUI();
+          toast('📌 تم الحفظ في البنك', 'ok');
+        } else if (action === 'copy-new-to-json') {
+          const existing = $('#jsonInput').value.trim();
+          let newJson;
+          if (existing) {
+            try {
+              const parsed = parseInput(existing);
+              parsed.sentences.push({ italian: s.italian, arabic: s.arabic || '' });
+              newJson = JSON.stringify({ sentences: parsed.sentences, dictionary: parsed.dictionary }, null, 2);
+            } catch {
+              newJson = JSON.stringify({ sentences: [{ italian: s.italian, arabic: s.arabic || '' }] }, null, 2);
+            }
+          } else {
+            newJson = JSON.stringify({ sentences: [{ italian: s.italian, arabic: s.arabic || '' }] }, null, 2);
+          }
+          $('#jsonInput').value = newJson;
+          previewInput();
+          closePreviewModal();
+          document.querySelector('.tab-btn[data-tab="json"]').click();
+          toast('📋 تم نسخ الجملة إلى تبويب JSON', 'ok');
+        }
+      });
+    });
+  }
+
   function renderCollisionCard(c, idx) {
     const newTenses = getNewTenseSections(c.existing.summary, c.incoming.summary);
-    const mergedSummary = mergeTenses(c.existing.summary, c.incoming.summary);
     const newMeaningDifferent = compareMeanings(c.existing.meaning, c.incoming.meaning).added;
 
     return `
@@ -2098,7 +2375,7 @@ ${lines.join('\n')}
         `;
         bindCollisionEvents();
         updateConfirmButton();
-        toast(`تم تطبيق "${action === 'ignore' ? 'تجاهل' : action === 'replace' ? 'استبدال' : 'دمج الأزمنة'}" على ${state.pendingPreview._collisions.length} تعارض`, 'ok');
+        toast(`تم تطبيق الإجراء على ${state.pendingPreview._collisions.length} تعارض`, 'ok');
       });
     });
   }
@@ -2106,13 +2383,26 @@ ${lines.join('\n')}
   function updateConfirmButton() {
     const p = state.pendingPreview;
     if (!p) return;
+    const btn = $('#btnConfirmUpload');
+
+    if (p._source === 'drive-audit') {
+      const a = p._audit;
+      const activeCount = a.corrections.filter(c => c.action === 'apply' && c.newArabic !== c.dbArabic).length;
+      btn.className = 'btn btn-info';
+      btn.disabled = activeCount === 0;
+      btn.innerHTML = activeCount === 0
+        ? '🚫 لا توجد تعديلات للتطبيق'
+        : `💾 تطبيق ${activeCount} تعديل على السحابة`;
+      return;
+    }
+
     const collisions = p._collisions || [];
     const isDrive = p._source === 'drive';
     const driveActiveCount = isDrive
       ? p._freshSentences.filter(s => (s._status || 'active') === 'active').length
       : p.sentNew;
     const total = driveActiveCount + p.dictNew + p.dictAdded + collisions.filter(c => c.action !== 'ignore').length;
-    const btn = $('#btnConfirmUpload');
+    btn.className = 'btn btn-primary';
     btn.disabled = total === 0;
     if (total === 0) {
       btn.innerHTML = (isDrive && p.sentNew > 0)
@@ -2177,7 +2467,7 @@ ${lines.join('\n')}
     }
   }
 
-  /* ============ Shared analysis logic ============ */
+  /* ============ Shared analysis logic (JSON + Verb AI) ============ */
   async function runAnalysis(sentences, dictMap, source) {
     const [sentSnap, dictSnap] = await Promise.all([
       state.db.collection('users').doc(USER_ID).collection('sentences').get(),
@@ -2187,24 +2477,13 @@ ${lines.join('\n')}
     const existingItalian = new Set();
     sentSnap.docs.forEach(doc => { const d = doc.data() || {}; const it = String(d.italian || '').trim().toLowerCase(); if (it) existingItalian.add(it); });
 
-    let freshSentences = [], dupSentences = [], batchSeen = new Set();
+    const freshSentences = [], dupSentences = [], batchSeen = new Set();
     sentences.forEach(s => {
       const key = s.italian.trim().toLowerCase();
       if (existingItalian.has(key)) dupSentences.push({ sentence: s, reason: 'موجودة مسبقًا' });
       else if (batchSeen.has(key)) dupSentences.push({ sentence: s, reason: 'مكررة في نفس الدفعة' });
       else { freshSentences.push(s); batchSeen.add(key); }
     });
-
-    // ✅ إثراء الجمل بحالة للتحكم التفاعلي (Drive فقط)
-    if (source === 'drive') {
-      freshSentences = freshSentences.map(s => ({
-        italian: s.italian,
-        arabic: s.arabic || '',
-        _status: 'active',
-        _editMode: false,
-        _replaceOpen: false
-      }));
-    }
 
     const existingDict = new Map();
     dictSnap.docs.forEach(doc => existingDict.set(doc.id, doc.data() || {}));
@@ -2278,11 +2557,107 @@ ${lines.join('\n')}
     setSync('online', 'متصل — راجع المعاينة');
   }
 
-  /* ============ Commit ============ */
+  /* ============ Commit — Router ============ */
   async function commitUpload() {
-    if (state.processing) return;
     const p = state.pendingPreview;
     if (!p) return;
+    if (p._source === 'drive-audit') {
+      return commitDriveAudit(p);
+    }
+    return commitStandard(p);
+  }
+
+  /* ============ Commit — Drive Audit (تطبيق تصحيحات على DB) ============ */
+  async function commitDriveAudit(p) {
+    if (state.processing) return;
+    const a = p._audit;
+    const toApply = a.corrections.filter(c => c.action === 'apply' && c.newArabic !== c.dbArabic);
+    if (!toApply.length) { toast('لا توجد تعديلات للتطبيق', 'warn'); return; }
+
+    state.processing = true;
+    const btn = $('#btnConfirmUpload');
+    btn.classList.add('loading'); btn.disabled = true; btn.textContent = 'جارٍ تطبيق التعديلات…';
+    setSync('syncing', 'جارٍ تطبيق التعديلات على السحابة…');
+    const startedAt = Date.now();
+    let applied = 0;
+    let failed = 0;
+
+    try {
+      const col = state.db.collection('users').doc(USER_ID).collection('sentences');
+      const now = Date.now();
+
+      for (let i = 0; i < toApply.length; i += BATCH_LIMIT) {
+        const chunk = toApply.slice(i, i + BATCH_LIMIT);
+        try {
+          const batch = state.db.batch();
+          chunk.forEach(c => {
+            batch.update(col.doc(c.dbId), {
+              arabic: c.newArabic,
+              updated_at: now,
+              last_reviewed: null
+            });
+          });
+          await batch.commit();
+          applied += chunk.length;
+        } catch (err) {
+          console.error('Batch apply error:', err);
+          failed += chunk.length;
+        }
+      }
+
+      const elapsed = ((Date.now() - startedAt) / 1000).toFixed(1);
+
+      // Move successfully-applied corrections → matched
+      if (applied > 0) {
+        const appliedIds = new Set(toApply.slice(0, applied).map(c => c.dbId));
+        const newCorrections = [];
+        a.corrections.forEach(c => {
+          if (appliedIds.has(c.dbId)) {
+            a.matched.push({
+              dbId: c.dbId,
+              italian: c.italian,
+              arabic: c.newArabic,
+              dbArabic: c.newArabic
+            });
+          } else {
+            newCorrections.push(c);
+          }
+        });
+        a.corrections = newCorrections;
+      }
+
+      if (failed === 0) {
+        toast(`✅ تم تطبيق ${applied} تعديل (${elapsed}s)`, 'ok');
+        setSync('online', 'متصل — تم التطبيق');
+      } else {
+        toast(`⚠️ ${applied} نجح · ${failed} فشل`, 'warn');
+        setSync('online', 'متصل — نجاح جزئي');
+      }
+
+      addHistoryEntry({
+        timestamp: now,
+        sentNew: 0, sentDup: 0, dictNew: 0,
+        dictAdded: applied, dictSame: 0,
+        failed,
+        auditMode: true
+      });
+
+      // Re-render with updated state
+      renderPreviewModal(p);
+    } catch (err) {
+      console.error(err);
+      toast('فشل التطبيق: ' + (err.message || err), 'err');
+      setSync('offline', 'فشل التطبيق');
+    } finally {
+      state.processing = false;
+      btn.classList.remove('loading');
+      updateConfirmButton();
+    }
+  }
+
+  /* ============ Commit — Standard (JSON / Verb AI / Drive legacy) ============ */
+  async function commitStandard(p) {
+    if (state.processing) return;
     const collisions = p._collisions || [];
     const activeCollisions = collisions.filter(c => c.action !== 'ignore');
     const isDrive = p._source === 'drive';
@@ -2469,17 +2844,23 @@ ${lines.join('\n')}
       const d = new Date(item.timestamp);
       const t = d.toLocaleString('ar-EG', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
       const parts = [];
-      if (item.sentNew) parts.push(`+${item.sentNew} جملة`);
-      if (item.sentDup) parts.push(`${item.sentDup} مكرر`);
-      if (item.dictNew) parts.push(`+${item.dictNew} كلمة`);
-      if (item.dictAdded) parts.push(`+${item.dictAdded} معنى`);
-      if (item.dictSame) parts.push(`${item.dictSame} نفس المعنى`);
-      if (item.failed) parts.push(`${item.failed} فشل`);
-      return `<div class="history-item"><div class="history-item-icon">✓</div><div class="history-item-content"><div class="history-item-title">${parts.join(' · ')}</div><div class="history-item-time">${t}</div></div></div>`;
+      if (item.auditMode) {
+        parts.push(`🔍 تدقيق`);
+        if (item.dictAdded) parts.push(`✓ ${item.dictAdded} تعديل`);
+        if (item.failed) parts.push(`${item.failed} فشل`);
+      } else {
+        if (item.sentNew) parts.push(`+${item.sentNew} جملة`);
+        if (item.sentDup) parts.push(`${item.sentDup} مكرر`);
+        if (item.dictNew) parts.push(`+${item.dictNew} كلمة`);
+        if (item.dictAdded) parts.push(`+${item.dictAdded} معنى`);
+        if (item.dictSame) parts.push(`${item.dictSame} نفس المعنى`);
+        if (item.failed) parts.push(`${item.failed} فشل`);
+      }
+      return `<div class="history-item"><div class="history-item-icon">${item.auditMode ? '🔍' : '✓'}</div><div class="history-item-content"><div class="history-item-title">${parts.join(' · ')}</div><div class="history-item-time">${t}</div></div></div>`;
     }).join('');
   }
 
-  /* ============ Drive Review Bank UI — ✅ جديد ============ */
+  /* ============ Drive Review Bank UI ============ */
   function renderDriveBankList() {
     const wrap = $('#driveBankList');
     const items = state.driveReviewBank;
@@ -2497,6 +2878,7 @@ ${lines.join('\n')}
             : `<div class="preview-item-ar empty-ar">بدون ترجمة</div>`}
           <div style="font-size: 10.5px; color: var(--text-soft); margin-top: 4px;">
             ${new Date(it.saved_at).toLocaleString('ar-EG', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}
+            ${it.source === 'drive-audit-correction' ? ' · تعديل' : it.source === 'drive-audit-new' ? ' · جديد' : ''}
           </div>
         </div>
         <button class="drive-action-btn delete" data-bank-del="${i}" title="حذف من البنك">🗑️</button>
@@ -2568,7 +2950,6 @@ ${lines.join('\n')}
   function copyPrompt() {
     copyPromptText(AI_PROMPT, $('#btnCopyPrompt'), 'تم نسخ برومبت الجمل ✓', '📝 برومبت الجمل');
   }
-
   function copyDrivePrompt() {
     copyPromptText(DRIVE_PROMPT, $('#btnCopyDrivePrompt'), 'تم نسخ برومبت ملف Drive ✓', '📄 برومبت ملف Drive');
   }
@@ -2702,7 +3083,7 @@ ${lines.join('\n')}
       }
     });
 
-    // ✅ Drive Review Bank
+    // Drive Review Bank
     $('#btnOpenDriveBank').addEventListener('click', openDriveBankModal);
     $('#btnCloseDriveBank').addEventListener('click', closeDriveBankModal);
     $('#btnClearDriveBank').addEventListener('click', clearDriveBank);
@@ -2752,7 +3133,6 @@ ${lines.join('\n')}
   }
 
   async function boot() {
-    // ✅ تحميل بنك المراجعة من localStorage
     state.driveReviewBank = loadDriveReviewBank();
     updateDriveBankUI();
 
